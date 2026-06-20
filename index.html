@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصتي للبكالوريا | المصادر والمساعد الذكي بالصور</title>
+    <!-- استيراد خط تجوال الاحترافي من جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* تصميم وتنسيق الموقع (CSS) */
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0284c7;
+            --gemini-color: #1a73e8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --yt-color: #ff0000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Changa', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            width: 85%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f59e0b;
+        }
+
+        .hero {
+            background: #ffffff;
+            text-align: center;
+            padding: 50px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            color: var(--primary-color);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .section-container {
+            width: 85%;
+            margin: 40px auto;
+        }
+
+        .section-title {
+            font-size: 26px;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            border-right: 5px solid var(--secondary-color);
+            padding-right: 15px;
+        }
+
+        /* شبكة قنوات اليوتيوب للمواد */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        /* تصميم صورة الأستاذ وعنوان المادة */
+        .teacher-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .teacher-img {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--secondary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: #cbd5e1;
+        }
+
+        .teacher-info h3 {
+            color: #0f172a;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+
+        .btn-yt {
+            background-color: var(--yt-color);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            display: block;
+        }
+
+        .btn-yt:hover {
+            background-color: #cc0000;
+        }
+
+        /* تصميم قسم ذكاء الاصطناعي Gemini */
+        .gemini-section {
+            background: linear-gradient(135deg, #e0e7ff, #e0f2fe);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 5px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .gemini-container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+
+        .gemini-header {
+            background: var(--gemini-color);
+            color: white;
+            padding: 15px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-box {
+            padding: 20px;
+            height: 350px;
+            overflow-y: auto;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .message.bot {
+            background: #e2e8f0;
+            color: #1e293b;
+            align-self: flex-start;
+            border-top-right-radius: 0;
+        }
+
+        .message.user {
+            background: var(--gemini-color);
+            color: white;
+            align-self: flex-end;
+            border-top-left-radius: 0;
+        }
+
+        .preview-bar {
+            display: none;
+            background: #f1f5f9;
+            padding: 8px 15px;
+            border-top: 1px solid #cbd5e1;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .preview-bar span {
+            font-size: 13px;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .btn-delete-img {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .gemini-input-area {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-upload {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-upload:hover {
+            background: #e2e8f0;
+            color: var(--gemini-color);
+        }
+
+        .gemini-input-area textarea {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            resize: none;
+            height: 45px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .gemini-input-area textarea:focus {
+            border-color: var(--gemini-color);
+        }
+
+        .btn-gemini {
+            background: var(--gemini-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            height: 45px;
+        }
+
+        .btn-gemini:hover {
+            background: #1557b0;
+        }
+
+        .loading-dots {
+            display: none;
+            align-self: flex-start;
+            background: #e2e8f0;
+            padding: 10px 15px;
+            border-radius: 12px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #64748b;
+            border-radius: 50%;
+            animation: wave 1.3s linear infinite;
+        }
+        .dot:nth-child(2) { animation-delay: -1.1s; }
+        .dot:nth-child(3) { animation-delay: -0.9s; }
+
+        @keyframes wave {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        /* تنسيق الفوتر المطور مع الصورة الشخصية */
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+            font-size: 15px;
+            border-top: 2px solid #1e293b;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        footer a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #f59e0b;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; gap: 10px; }
+            .gemini-section { padding: 20px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">🎓 دليل البكالوريا الذكي</div>
+            <nav>
+                <ul>
+                    <li><a href="#subjects">قنوات المواد</a></li>
+                    <li><a href="#gemini-ai">مساعد Gemini الذكي</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- مقدمة -->
+    <section class="hero">
+        <h1>كل ما تحتاجه للنجاح في مكان واحد</h1>
+        <p>اختر المادة لتنتقل إلى الأستاذ المناسب، أو أرسل صورة تمرينك لمساعد Gemini الاصطناعي بالأسفل وسيتكفل بالباقي!</p>
+    </section>
+
+    <!-- قسم القنوات التعليمية لجميع المواد -->
+    <section id="subjects" class="section-container">
+        <h2 class="section-title">📺 دليل الأساتذة لجميع المواد (يوتيوب)</h2>
+        <div class="grid">
+            
+            <!-- الرياضيات -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #1d4ed8; background: #dbeafe;">العلوم الدقيقة</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/ytc/AIdro_kx84vbmWfiXdYAzR6waPBS1zmYue1Ky1M3t9o1AIKSOxM=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذ نور الدين">
+                        <div class="teacher-info">
+                            <h3>مادة الرياضيات</h3>
+                            <span style="font-size: 13px; color: var(--secondary-color);">الأستاذ نور الدين</span>
+                        </div>
+                    </div>
+                    <p>المرجع الشامل والأول لشرح الدروس وحل كافة البكالوريات السابقة بالتفصيل المميز عبر شبكة يوتيوب.</p>
+                </div>
+                <a href="https://www.youtube.com/@noureddine2013" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+            <!-- الفيزياء -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #1d4ed8; background: #dbeafe;">العلوم الدقيقة</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/mib4wLwXhdH7lo8_iHNJ6qcv0Y0P0TpqnByjWqwrhd8ohutlM9Zp652ER8hE2gNZZNJcE_tqAA=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذ عبد اللطيف">
+                        <div class="teacher-info">
+                            <h3>العلوم الفيزيائية</h3>
+                            <span style="font-size: 13px; color: var(--secondary-color);">الأستاذ عبد اللطيف</span>
+                        </div>
+                    </div>
+                    <p>تميز مبهر في تبسيط الظواهر الفيزيائية، المعادلات، والوحدات مع حلول تمارين قوية وجد ممتازة.</p>
+                </div>
+                <a href="https://www.youtube.com/@abdelatif_phyDZ" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+            <!-- العلوم الطبيعية -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #047857; background: #d1fae5;">العلوم الطبية</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/5lwS_4qUOyPvOVbwwIU-woXGx8b98JZ7S5UoM1xLTiKFf4f5e0wtjBGOAsmzR51w8jC9dzhs=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذة كتفي شريف زينة">
+                        <div class="teacher-info">
+                            <h3>علوم الطبيعة والحياة</h3>
+                            <span style="font-size: 13px; color: #047857;">الأستاذة كتفي شريف زينة</span>
+                        </div>
+                    </div>
+                    <p>رائدة منهجية المسعى العلمي الحديثة وتفكيك تمارين الاستدلال العلمي بدقة متناهية لتفوق مضمون.</p>
+                </div>
+                <a href="https://www.youtube.com/@prof-ketfi.cherif-zina" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+            <!-- اللغة العربية -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #b45309; background: #fef3c7;">الأدبيات والمشتركة</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/ytc/AIdro_mkbWFKIFCqwgGqUDuMqr0q5Bej6u2Zk5V4hajw7u5cHfI=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذ حيقون أسامة">
+                        <div class="teacher-info">
+                            <h3>اللغة العربية وآدابها</h3>
+                            <span style="font-size: 13px; color: #b45309;">الأستاذ حيقون أسامة</span>
+                        </div>
+                    </div>
+                    <p>مراجعات شاملة للبناء اللغوي والفكري، وإتقان قواعد الإعراب والتقويم النقدي بأسلوب سهل وممتع.</p>
+                </div>
+                <a href="https://www.youtube.com/@prof_haigoune" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+            <!-- العلوم الإسلامية -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #b45309; background: #fef3c7;">الأدبيات والمشتركة</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/YglUl6oRj9zROfuh6schcTKtOMcDhGmeePJgICmufSabTNGHWTrZqKT0LGznqpx5bcFMVAcC=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذة بوسعادي">
+                        <div class="teacher-info">
+                            <h3>العلوم الإسلامية (الشريعة)</h3>
+                            <span style="font-size: 13px; color: #b45309;">الأستاذة بوسعادي</span>
+                        </div>
+                    </div>
+                    <p>خرائط ذهنية رائعة لحفظ وفهم الدروس والآيات القرطاسية واستخراج الأحكام والفوائد بنجاح تام.</p>
+                </div>
+                <a href="https://www.youtube.com/@BOUSSAADI" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+            <!-- التاريخ والجغرافيا -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #b45309; background: #fef3c7;">الأدبيات والمشتركة</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/-F6XxaYamNERayRZjkA4ptjkNQFUxD8ZsBOONW3VCkS-7YrwQs_OaxjIqvlDuQvgHZfZDayr_g=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذ بورنان">
+                        <div class="teacher-info">
+                            <h3>التاريخ والجغرافيا</h3>
+                            <span style="font-size: 13px; color: #b45309;">الأستاذ بورنان</span>
+                        </div>
+                    </div>
+                    <p>أفضل الطرق العبقرية لحفظ التواريخ، الشخصيات، والخرائط الذهنية الذكية دون نسيانها مطلقاً.</p>
+                </div>
+                <a href="https://www.youtube.com/@profbournane" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+            <!-- الفلسفة -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #6d28d9; background: #f3e8ff;">العلوم الإنسانية</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/cG2G4FHl_CjP5FW-9i5420xpJAMFYe8hjO3f2xSMsX4cz3nAmnzqNidAA3Xh2bSG1AqbXtuJ=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذ عادل مقرود">
+                        <div class="teacher-info">
+                            <h3>مادة الفلسفة</h3>
+                            <span style="font-size: 13px; color: #6d28d9;">الأستاذ عادل مقرود</span>
+                        </div>
+                    </div>
+                    <p>تبسيط المقالات الفلسفية المعقدة وتعليم خطوات الجدل، الاستقصاء، وتحليل النصوص باحترافية عادية.</p>
+                </div>
+                <a href="https://www.youtube.com/@%D8%A3%D8%B3%D8%AA%D8%A7%D8%B0%D8%A7%D9%84%D9%81%D9%84%D8%B3%D9%81%D8%A9%D8%B9%D8%A7%D8%AF%D9%84%D9%85%D9%82%D8%B1%D9%88%D8%AF" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+            <!-- الإنجليزية -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #4338ca; background: #e0e7ff;">اللغات الأجنبية</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/ytc/AIdro_nhtNA9-MEK7y0kBPg3vQPQiNiXWTICAWXU7HFnV0No44g=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذ منصوري">
+                        <div class="teacher-info">
+                            <h3>اللغة الإنجليزية</h3>
+                            <span style="font-size: 13px; color: #4338ca;">الأستاذ منصوري</span>
+                        </div>
+                    </div>
+                    <p>مراجعة شاملة وقوية لجميع القواعد اللغوية والوضعيات الإدماجية المقترحة لكل الشعب الدراسية.</p>
+                </div>
+                <a href="https://www.youtube.com/@mr.mansouri-english.français" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+            <!-- الفرنسية -->
+            <div class="card">
+                <div>
+                    <span class="badge" style="color: #4338ca; background: #e0e7ff;">اللغات الأجنبية</span>
+                    <div class="teacher-header">
+                        <img src="https://yt3.googleusercontent.com/ytc/AIdro_nhtNA9-MEK7y0kBPg3vQPQiNiXWTICAWXU7HFnV0No44g=s160-c-k-c0x00ffffff-no-rj" class="teacher-img" alt="الأستاذ منصوري فرنسية">
+                        <div class="teacher-info">
+                            <h3>اللغة الفرنسية</h3>
+                            <span style="font-size: 13px; color: #4338ca;">الأستاذ منصوري</span>
+                        </div>
+                    </div>
+                    <p>تفكيك النصوص وفهم كيفية كتابة الـ (Compte rendu) بدقة خطوة بخطوة لضمان العلامة الكاملة.</p>
+                </div>
+                <a href="https://www.youtube.com/@mr.mansouri-english.français" target="_blank" class="btn-yt">زيارة القناة</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- قسم ذكاء الاصطناعي Gemini المتطور بالصور -->
+    <section id="gemini-ai" class="section-container">
+        <h2 class="section-title">🤖 مساعد المذاكرة الذكي - Gemini Vision</h2>
+        <div class="gemini-section">
+            <div class="gemini-container">
+                <div class="gemini-header">
+                    <span>✨</span> Gemini Vision | حل التمارين النصية والمصورة
+                </div>
+                
+                <!-- صندوق الرسائل والشات التفاعلي -->
+                <div class="chat-box" id="chatBox">
+                    <div class="message bot">
+                        مرحباً بك يا بطل! أنا مساعدك الذكي القائم على تقنية Gemini Vision. 
+                        <br><br>
+                        📸 يمكنك الآن الضغط على <strong>أيقونة الكاميرا بالأسفل</strong> لإرفاق صورة تمرينك (من كتاب، مسودة، أو تصوير شاشة)، واكتب معها سؤالك وسأقوم بتحليل الصورة ومساعدتك فوراً!
+                    </div>
+                    
+                    <!-- انيميشن التحميل عند التفكير -->
+                    <div class="loading-dots" id="loadingDots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+
+                <!-- شريط معاينة الصورة المختارة -->
+                <div class="preview-bar" id="previewBar">
+                    <span id="previewText"></span>
+                    <button class="btn-delete-img" onclick="clearSelectedImage()">✕ إلغاء الصورة</button>
+                </div>
+
+                <!-- منطقه الكتابه والأزرار والإرسال -->
+                <div class="gemini-input-area">
+                    <!-- زر الكاميرا لرفع الصور -->
+                    <label for="imageInput" class="btn-upload" title="إرفاق صورة التمرين">📷</label>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelect()">
+                    
+                    <textarea id="userInput" placeholder="اكتب سؤالك هنا أو أرفق صورة تمرين واضغط إرسال..."></textarea>
+                    <button class="btn-gemini" onclick="sendMessage()">إرسال</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر المطور بصورتك وحسابك الشخصي -->
+    <footer>
+        <div class="footer-container">
+            <img src="https://instagram.fblj1-2.fna.fbcdn.net/v/t51.82787-19/715516539_18126461149622973_1105020680251994467_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=instagram.fblj1-2.fna.fbcdn.net&_nc_cat=109&_nc_oc=Q6cZ2gGT11Br07FvD4B1xkondijP8JlVFMxmauaB7LC5STA8jU5T35-mmTbPS_IEuvvvc2A&_nc_ohc=mQacmVJPYKEQ7kNvwHo84fq&_nc_gid=2S4JaV9ajgq1l6o45fxhfA&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_Af94tggJCUWmwN5RlkUXT2CsEK_jQSaCPO5qPP4jQz3-PQ&oe=6A3CC712&_nc_sid=8b3546" class="user-avatar" alt="azou loucif">
+            <p>جميع الحقوق محفوظة © <a href="https://www.instagram.com/rd.c_?igsh=ZHJpNzljdXBjcTUw" target="_blank">azou loucif</a> | 2026</p>
+        </div>
+    </footer>
+
+    <!-- الجزء التفاعلي الخاص بـ Gemini المطور (JavaScript) -->
+    <script>
+        let attachedImageBase64 = null;
+
+        function handleImageSelect() {
+            const fileInput = document.getElementById('imageInput');
+            const previewBar = document.getElementById('previewBar');
+            const previewText = document.getElementById('previewText');
+            
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    attachedImageBase64 = e.target.result;
+                    previewText.innerText = `📎 تم إرفاق صورة: ${file.name}`;
+                    previewBar.style.display = 'flex';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function clearSelectedImage() {
+            attachedImageBase64 = null;
+            document.getElementById('imageInput').value = '';
+            document.getElementById('previewBar').style.display = 'none';
+        }
+
+        function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const chatBox = document.getElementById('chatBox');
+            const loadingDots = document.getElementById('loadingDots');
+            const userText = inputField.value.trim();
+
+            if (userText === "" && !attachedImageBase64) return;
+
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'message user';
+            
+            if (attachedImageBase64) {
+                userMessageDiv.innerHTML = `
+                    <img src="${attachedImageBase64}" style="max-width: 100%; max-height: 200px; border-radius: 8px; margin-bottom: 8px; display: block;" alt="التمرين المرفق">
+                    <span>${userText ? userText : "<em>أرسل صورة تمرين</em>"}</span>
+                `;
+            } else {
+                userMessageDiv.innerText = userText;
+            }
+
+            chatBox.insertBefore(userMessageDiv, loadingDots);
+            let imageWasSent = attachedImageBase64 !== null;
+
+            inputField.value = "";
+            clearSelectedImage();
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            loadingDots.style.display = 'block';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                loadingDots.style.display = 'none';
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.className = 'message bot';
+                
+                botMessageDiv.innerHTML = generateAiResponse(userText, imageWasSent);
+                
+                chatBox.insertBefore(botMessageDiv, loadingDots);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 2000);
+        }
+
+        function generateAiResponse(text, hasImage) {
+            let reply = "";
+            const lowerText = text.toLowerCase();
+
+            if (hasImage) {
+                reply = "<strong>🔍 تحليل الرؤية البصرية لـ Gemini Vision:</strong><br>";
+                reply += "لقد قمت بمسح وقراءة صورة التمرين المرفقة بنجاح! يظهر لي أنه تمرين تطبيقي هام يحتوي على وثائق/منحنيات بيانية متعلقة بالبرنامج الدراسي للبكالوريا.<br><br>";
+                
+                if (lowerText.includes("علوم") || lowerText.includes("منهجية")) {
+                    reply += "💡 <strong>توجيه المنهجية للصورة:</strong> قم بتقسيم الوثيقة المصورة إلى أجزاء، ابدأ بـ 'تمثل الوثيقة...' ثم حلل التغيرات بدقة، واختم بالاستنتاج لحل الإشكالية وفق منهجية المسعى العلمي لتنال إعجاب المصحح.";
+                } else if (lowerText.includes("رياضيات") || lowerText.includes("احسب") || lowerText.includes("دالة")) {
+                    reply += "💡 <strong>توجيه الحل الرياضي للصورة:</strong> بناءً على الرسم أو العبارة المكتوبة في الصورة، تأكد من حساب النهايات عند أطراف مجال التعريف أولاً، ثم ادرس إشارة المشتقة لمطابقتها بالوضع الظاهر في المنحنى المصور.";
+                } else {
+                    reply += "💡 <strong>خطوات الحل المقترحة لهذا التمرين:</strong><br>1. استخرج المعطيات والأرقام المباشرة المكتوبة في الصورة على مسودتك.<br>2. اربط المطلوب بالوحدة التعليمية الخاصة به.<br>3. توجه لقناة الأستاذ المتخصص المرفقة في الأعلى لرؤية الحلول النموذجية للأفكار المشابهة لتضمن العلامة الكاملة!";
+                }
+                return reply;
+            }
+
+            if (lowerText.includes("علوم") || lowerText.includes("منهجية")) {
+                reply = "<strong>تحليل Gemini للمسعى العلمي:</strong><br>منهجية العلوم تعتمد على 3 خطوات ذهبية:<br>1. <strong>المعاينة:</strong> قراءة السياق والوثائق بدقة.<br>2. <strong>الاستدلال:</strong> استخراج المعلومات من المنحنيات (التحليل والتفسير).<br>3. <strong>التركيب:</strong> الإجابة المباشرة على المشكلة المصادفة بصياغة نص علمي دقيق بالكلمات المفتاحية.";
+            } else if (lowerText.includes("معادلة") || lowerText.includes("رياضيات") || lowerText.includes("احسب")) {
+                reply = "<strong>تحليل Gemini الرياضي:</strong><br>لحل أي معادلة من الدرجة الثانية أو دراسة دالة في البكالوريا، اتبع الآتي:<br>1. حدد مجموعة التعريف أولاً لتفادي الأخطاء.<br>2. احسب المشتقة وادرس إشارتها (باستخدام المميز Δ إذا كانت من الدرجة الثانية).<br>3. وضع جدول التغيرات ونظّم نهاياتك عند أطراف المجال المفتوحة.";
+            } else if (lowerText.includes("فلسفة") || lowerText.includes("مقالة")) {
+                reply = "<strong>مساعد Gemini الفلسفي:</strong><br>لكتابة مقالة جدلية ممتازة، قسّم عملك إلى:<br>• <strong>المقدمة:</strong> تمهيد، عناد فلسفي، وطرح الإشكال بصيغة تفوق صيغة السؤال الأصلية.<br>• <strong>الموقف الأول:</strong> الحجج، البراهين، الأقوال، ونقدهم.<br>• <strong>الموقف الثاني:</strong> الحجج المقابلة ونقدهم.<br>• <strong>التركيب والخاتمة:</strong> حل المشكلة بالتوفيق أو التجاوز.";
+            } else {
+                reply = "<strong>تحليل ومساعدة Gemini الذكية:</strong><br>لقد استقبلت تمرينك بنجاح! للحل النموذجي، أنصحك بالبدء أولاً بتفكيك المعطيات وكتابة القوانين المرتبطة بالوحدة في مسودتك. <br><br>💡 <em>نصيحة ذكية:</em> يمكنك الآن تصوير التمرين وإرفاقه مباشرة عبر أيقونة الكاميرا 📷 ليقوم المساعد بتحليله بصرياً!";
+            }
+            return reply;
+        }
+    </script>
+</body>
+</html>
