@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1F5D4E">
+    <title>فضاء الرياضيات والمواضيع | منصة azou loucif</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;800&family=Reem+Kufi:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============ المتغيرات الأساسية ============ */
+        :root {
+            --paper: #F3F5EE;
+            --card: #FFFFFF;
+            --ink: #16241D;
+            --ink-soft: #566354;
+            --forest: #1F5D4E;
+            --forest-dark: #143F35;
+            --gold: #C8932F;
+            --gold-soft: #F6E7C6;
+            --line: #DDE3D5;
+            --radius: 14px;
+            --shadow-sm: 0 2px 10px rgba(22,36,29,0.07);
+            --shadow-md: 0 14px 28px rgba(22,36,29,0.12);
+            --btn-back-bg: rgba(255,255,255,0.14);
+            --btn-back-hover-bg: #fff;
+            --btn-back-hover-color: var(--forest-dark);
+            --stub-bg: #FBF6EA;
+            --notes-bg: #FAFAFA;
+            --header-gradient: linear-gradient(135deg, #1F5D4E, #143F35);
+        }
+
+        /* ============ الوضع الليلي ============ */
+        [data-theme="dark"] {
+            --paper: #0F1A14;
+            --card: #1C2A23;
+            --ink: #EBE7DB;
+            --ink-soft: #9BACA4;
+            --forest: #3A8B76;
+            --forest-dark: #22634D;
+            --gold: #D9B554;
+            --gold-soft: #3E3A22;
+            --line: #2B3D34;
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.3);
+            --shadow-md: 0 14px 28px rgba(0,0,0,0.4);
+            --btn-back-bg: rgba(255,255,255,0.08);
+            --btn-back-hover-bg: #2B3D34;
+            --btn-back-hover-color: #EBE7DB;
+            --stub-bg: #1C2A1E;
+            --notes-bg: #111C15;
+            --header-gradient: linear-gradient(135deg, #1B4332, #0D211A);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.7;
+            transition: background-color 0.35s, color 0.35s;
+        }
+        h1, h2, h3 {
+            font-family: 'Amiri', serif;
+            font-weight: 700;
+        }
+        .kufi {
+            font-family: 'Reem Kufi', sans-serif;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ============ الهيدر ============ */
+        header {
+            background: var(--header-gradient);
+            color: #fff;
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+        .nav-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-back {
+            background: var(--btn-back-bg);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background .25s, color .25s;
+        }
+        .btn-back:hover {
+            background: var(--btn-back-hover-bg);
+            color: var(--btn-back-hover-color);
+        }
+        .theme-toggle {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .25s;
+        }
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.24);
+            transform: rotate(15deg);
+        }
+
+        /* ============ البطل (Hero) ============ */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: clamp(26px, 5vw, 40px);
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+        .hero p {
+            color: var(--ink-soft);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 16px;
+        }
+
+        /* ============ الحاوية الرئيسية ============ */
+        .workspace {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto 60px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 992px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section-block {
+            margin-bottom: 40px;
+        }
+        .topics-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--ink);
+            border-bottom: 2px solid var(--line);
+            padding-bottom: 10px;
+        }
+        .grid-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .ticket-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            transition: transform .25s, box-shadow .25s, background-color 0.35s;
+        }
+        .ticket-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        .ticket-main {
+            padding: 20px 20px 5px;
+            flex: 1;
+        }
+        .ticket-tag {
+            display: inline-block;
+            font-size: 11.5px;
+            color: var(--forest-dark);
+            background: var(--gold-soft);
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .ticket-main h3 {
+            font-size: 18px;
+            color: var(--ink);
+            margin-bottom: 8px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+        }
+        .ticket-main p {
+            color: var(--ink-soft);
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+        .ticket-perf {
+            position: relative;
+            border-top: 2px dashed var(--line);
+            height: 0;
+            margin: 10px 0;
+        }
+        .ticket-perf::before, .ticket-perf::after {
+            content: "";
+            position: absolute;
+            top: -9px;
+            width: 18px;
+            height: 18px;
+            background: var(--paper);
+            border-radius: 50%;
+        }
+        .ticket-perf::before {
+            inset-inline-start: -9px;
+        }
+        .ticket-perf::after {
+            inset-inline-end: -9px;
+        }
+        .ticket-stub {
+            padding: 15px 20px;
+            background: var(--stub-bg);
+            transition: background 0.35s;
+        }
+        .btn-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--forest);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13.5px;
+            transition: background .2s;
+        }
+        .btn-action:hover {
+            background: var(--forest-dark);
+        }
+
+        /* ============ لوحة الملاحظات ============ */
+        .notes-panel {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            transition: background 0.35s;
+        }
+        .notes-panel h2 {
+            font-size: 20px;
+            color: var(--ink);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .notes-subtitle {
+            font-size: 13px;
+            color: var(--ink-soft);
+            margin-bottom: 16px;
+        }
+        .notes-panel textarea {
+            width: 100%;
+            height: 280px;
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            resize: none;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--ink);
+            background: var(--notes-bg);
+            outline: none;
+            line-height: 1.6;
+            transition: border-color .2s, background 0.35s, color 0.35s;
+        }
+        .notes-panel textarea:focus {
+            border-color: var(--forest);
+            background: var(--card);
+        }
+        .notes-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--ink-soft);
+        }
+        .save-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #10B981;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        .save-indicator.visible {
+            opacity: 1;
+        }
+
+        /* ============ الفوتر ============ */
+        footer {
+            background: linear-gradient(160deg, var(--forest-dark), #0E1B16);
+            color: #CFE0D6;
+            padding: 30px 0;
+            text-align: center;
+            border-top: 3px solid var(--gold);
+            margin-top: auto;
+            transition: background 0.35s;
+        }
+        footer p {
+            font-size: 13px;
+        }
+        footer .brand {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .footer-social {
+            transition: background .25s;
+        }
+        .footer-social:hover {
+            background: rgba(255,255,255,0.16) !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <span class="kufi">منصة azou loucif | فضاء الرياضيات</span>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html" class="btn-back">⟵ العودة للمنصة الرئيسية</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="تغيير الوضع الليلي">🌙</button>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <span class="kufi" style="color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 1px; display: inline-block; margin-bottom: 10px;">شعبة علوم تجريبية | رياضيات | تقني رياضي</span>
+        <h1>الورقة الرسمية لمواضيع ومحاور الرياضيات</h1>
+        <p class="lead">تجميعة مركزة ومقسمة حسب الوحدات الأساسية لتسهيل المراجعة وحل مواضيع بكالوريا التحليل والجبر.</p>
+    </section>
+    
+    <main class="workspace">
+        <!-- المحتوى دون تغيير -->
+        <section>
+            <div class="section-block">
+                <h2 class="topics-title kufi">📌 الوحدات الأساسية والمحاور</h2>
+                <div class="grid-topics">
+                    <div class="ticket-card">
+                        <div class="ticket-main">
+                            <span class="ticket-tag">التحليل الأساسي</span>
+                            <h3>الدوال العددية</h3>
+                            <p>مراجعة عميقة للاشتقاقية، الاستمرارية، مبرهنة القيم المتوسطة، وحساب النهايات مع دراسة الفروع اللانهائية والرسومات البيانية.</p>
+                        </div>
+                        <div class="ticket-perf"></div>
+                        <div class="ticket-stub">
+                            <a href="https://www.dzexams.com/editor/document/ckZqeE9MKzR0MG1OY0RYZWtrK0xaUT09" target="_blank" class="btn-action">📝 تمارين الدوال العددية</a>
+                        </div>
+                    </div>
+                    <div class="ticket-card">
+                        <div class="ticket-main">
+                            <span class="ticket-tag">التحليل الأسي</span>
+                            <h3>الدوال الأسية</h3>
+                            <p>خواص الدالة الأسية، حل المعادلات والمتراجحات الأسية، النهايات الشهيرة، ودراسة المسائل الشاملة المقترحة للبكالوريا.</p>
+                        </div>
+                        <div class="ticket-perf"></div>
+                        <div class="ticket-stub">
+                            <a href="https://drive.google.com/file/d/1nfbgb9gefqYayy2xpDCuG0v-fZnqvQgf/view?usp=drive_link" target="_blank" class="btn-action">⚡ سلاسل الدوال الأسية</a>
+                        </div>
+                    </div>
+                    <div class="ticket-card">
+                        <div class="ticket-main">
+                            <span class="ticket-tag">التحليل اللوغاريتمي</span>
+                            <h3>الدوال اللوغاريتمية</h3>
+                            <p>مجموعة التعريف، خواص الحساب لوغاريتم، تزايد المقارن، وحل المسائل المدمجة التي تجمع الأسية واللوغاريتمية.</p>
+                        </div>
+                        <div class="ticket-perf"></div>
+                        <div class="ticket-stub">
+                            <a href="https://drive.google.com/file/d/13kVf3yrezXkhsDFzmQ8fGJDixsez6Xbl/view?usp=drive_link" target="_blank" class="btn-action">🪵 تمارين اللوغاريتمية</a>
+                        </div>
+                    </div>
+                    <div class="ticket-card">
+                        <div class="ticket-main">
+                            <span class="ticket-tag"> المتتاليات العددية</span>
+                            <h3>المتتاليات العددية</h3>
+                            <p>البرهان بالتراجع، دراسة التقارب، اتجاه التغير، وحساب المجموع للمتتاليات الحسابية والهندسية بدقة.</p>
+                        </div>
+                        <div class="ticket-perf"></div>
+                        <div class="ticket-stub">
+                            <a href="https://drive.google.com/file/d/1MVU_wfSMo6Bs3CiQPVwa-oAyCThZ2u-y/view?usp=drive_link" target="_blank" class="btn-action">📊 تمارين المتتاليات</a>
+                        </div>
+                    </div>
+                    <div class="ticket-card">
+                        <div class="ticket-main">
+                            <span class="ticket-tag">الإحصاء والاحتمالات</span>
+                            <h3>الاحتمالات الشرطية وحساب الاحتمالات</h3>
+                            <p>شجرة الاحتمالات المعقدة، التوفيقية والترتيبية، حساب الأمل الرياضياتي، والتباين للمتغير العشوائي.</p>
+                        </div>
+                        <div class="ticket-perf"></div>
+                        <div class="ticket-stub">
+                            <a href="https://drive.google.com/file/d/1su-vXjca9A0b5n7w_-uPkp_cQ0PmpnxN/view?usp=sharing" target="_blank" class="btn-action">🎲 مواضيع الاحتمالات</a>
+                        </div>
+                    </div>
+                    <div class="ticket-card">
+                        <div class="ticket-main">
+                            <span class="ticket-tag">الهندسة التحليلية</span>
+                            <h3>الأعداد المركبة والتحويلات النقطية</h3>
+                            <p>الشكل الجبري، المثلثي والأسي، دستور دي موافر، تعيين المجموعات النقطية، وطبيعة التحويلات الهندسة التحليلية.</p>
+                        </div>
+                        <div class="ticket-perf"></div>
+                        <div class="ticket-stub">
+                            <a href="https://fikradz.com/download2/math_3lcs_math_exercices_3lcs_6611728d2193e2_547576.pdf" target="_blank" class="btn-action">🌀 تمارين الأعداد المركبة</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-block">
+                <h2 class="topics-title kufi">📥 بنك المواضيع والامتحانات النموذجية</h2>
+                <div class="grid-topics" style="grid-template-columns: 1fr;">
+                    <div class="ticket-card">
+                        <div class="ticket-main">
+                            <span class="ticket-tag" style="background: #E2EFA0; color: #4D5E03;">الحزمة الرسمية الكاملة</span>
+                            <h3>باقة المواضيع والامتحانات النموذجية</h3>
+                            <p>حقيبة تعليمية موحدة تضم كافة المقترحات، الاختبارات الشاملة، ومواضيع البكالوريا التجريبية المرفقة بالتصحيح والحلول النموذجية المفصلة للتحضير المتكامل.</p>
+                        </div>
+                        <div class="ticket-perf"></div>
+                        <div class="ticket-stub">
+                            <a href="https://drive.google.com/file/d/1sSLKT12Cu2kYASQeLTTwzNAE0rjnfX_c/view?fbclid=IwdGRjcAR1OIpleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeVpveus0UjG2pivPT2oeknOGJ_ZGo8v3KQYuBxc_YiyQJBqbpXQudBSsfRMg_aem_KXNTln401D9u27pPrwb4aA" target="_blank" class="btn-action" style="background: var(--gold); max-width: 320px; margin: 0 auto;">📄 تحميل باقة المواضيع والحلول كاملة</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aside>
+            <div class="notes-panel">
+                <h2>📝 تدوين القوانين التقنية</h2>
+                <p class="notes-subtitle">اكتب هنا القوانين الذهبية ودساتير المشتقات؛ يتم حفظها تلقائياً على جهازك دون حاجة للإنترنت.</p>
+                <textarea id="mathNotesArea" placeholder="مثال: - مشتقة ln(u) هي: u' / u - مشتقة e^u هي: u' * e^u"></textarea>
+                <div class="notes-status">
+                    <span id="charCount">0 حرف</span>
+                    <span class="save-indicator" id="saveIndicator">✓ تم الحفظ محلياً</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+    
+    <footer>
+        <div class="footer-container" style="display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center;">
+            <div class="brand kufi" style="font-size: 15px; display: flex; align-items: center; gap: 8px;">
+                منصة azou loucif
+            </div>
+            <img src="https://instagram.fblj1-2.fna.fbcdn.net/v/t51.82787-19/715516539_18126461149622973_1105020680251994467_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=instagram.fblj1-2.fna.fbcdn.net&_nc_cat=109&_nc_oc=Q6cZ2gGT11Br07FvD4B1xkondijP8JlVFMxmauaB7LC5STA8jU5T35-mmTbPS_IEuvvvc2A&_nc_ohc=mQacmVJPYKEQ7kNvwHo84fq&_nc_gid=2S4JaV9ajgq1l6o45fxhfA&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_Af94tggJCUWmwN5RlkUXT2CsEK_jQSaCPO5qPP4jQz3-PQ&oe=6A3CC712&_nc_sid=8b3546" 
+                 alt="azou loucif" 
+                 style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); box-shadow: 0 0 12px rgba(200, 147, 47, 0.35); transition: transform 0.3s ease;">
+            <a href="https://www.instagram.com/rd.c_?igsh=ZHJpNzljdXBjcTUw" target="_blank" class="footer-social" style="display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,0.08); padding: 8px 18px; border-radius: 999px; text-decoration: none; color: var(--gold-soft); font-weight: 600; font-size: 13.5px; transition: background .25s ease;">
+                📷 تابعني على Instagram — azou loucif
+            </a>
+            <p>جميع الحقوق محفوظة لصالح azou loucif © 2026</p>
+        </div>
+    </footer>
+    
+    <script>
+        // ========== إدارة الوضع الليلي ==========
+        const THEME_KEY = 'azou-loucif-theme';
+        const htmlEl = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+
+        function getSavedTheme() {
+            return localStorage.getItem(THEME_KEY) || 'light';
+        }
+
+        function applyTheme(theme) {
+            htmlEl.setAttribute('data-theme', theme);
+            if (themeToggle) {
+                themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+            localStorage.setItem(THEME_KEY, theme);
+        }
+
+        // تطبيق الثيم المحفوظ عند التحميل
+        applyTheme(getSavedTheme());
+
+        // حدث النقر على زر التبديل
+        themeToggle.addEventListener('click', () => {
+            const current = htmlEl.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+        });
+
+        // مزامنة الثيم بين التبويبات (عند تغييره في الصفحة الرئيسية مثلاً)
+        window.addEventListener('storage', (e) => {
+            if (e.key === THEME_KEY) {
+                applyTheme(e.newValue || 'light');
+            }
+        });
+
+        // ========== إدارة الملاحظات (بدون تغيير) ==========
+        const notesArea = document.getElementById('mathNotesArea');
+        const charCount = document.getElementById('charCount');
+        const saveIndicator = document.getElementById('saveIndicator');
+        const LOCAL_STORAGE_KEY = 'azou_loucif_platform_math_notes';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedNotes = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (savedNotes !== null) {
+                notesArea.value = savedNotes;
+            }
+            updateStats();
+        });
+
+        let timeoutId = null;
+        notesArea.addEventListener('input', () => {
+            updateStats();
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                localStorage.setItem(LOCAL_STORAGE_KEY, notesArea.value);
+                saveIndicator.classList.add('visible');
+                setTimeout(() => {
+                    saveIndicator.classList.remove('visible');
+                }, 1500);
+            }, 500);
+        });
+
+        function updateStats() {
+            const textLength = notesArea.value.length;
+            charCount.textContent = `${textLength} حرف`;
+        }
+    </script>
+</body>
+</html>
