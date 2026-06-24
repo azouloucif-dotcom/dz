@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#1F5D4E">
+    <title>المؤقت والتاريخ - منصة azou loucif</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;800&family=Reem+Kufi:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #E6F0EC; --card: #ffffff; --ink: #16241D; --ink-soft: #566354;
+            --forest: #1F5D4E; --forest-dark: #143F35; --gold: #C8932F; --gold-soft: #F6E7C6;
+            --line: #DDE3D5; --shadow-sm: 0 2px 10px rgba(22,36,29,0.07); --shadow-md: 0 8px 24px rgba(22,36,29,0.12);
+            --header-gradient: linear-gradient(135deg, #1F5D4E, #143F35);
+            --footer-gradient: linear-gradient(160deg, #143F35, #0E1B16);
+            --clock-bg: rgba(31,93,78,0.12); --card-bg: #ffffff; --card-text: #1F5D4E;
+            --separator: #C8932F; --label-color: #2D5A47; --date-bg: rgba(255,255,255,0.8);
+            --footer-text: #CFE0D6;
+        }
+        [data-theme="dark"] {
+            --bg: #0F1A14; --card: #1C2A23; --ink: #EBE7DB; --ink-soft: #9BACA4;
+            --forest: #3A8B76; --forest-dark: #22634D; --gold: #D9B554; --gold-soft: #3E3A22;
+            --line: #2B3D34; --shadow-sm: 0 2px 10px rgba(0,0,0,0.2); --shadow-md: 0 8px 24px rgba(0,0,0,0.3);
+            --header-gradient: linear-gradient(135deg, #1B4332, #0D211A);
+            --footer-gradient: linear-gradient(160deg, #0D211A, #060E0B);
+            --clock-bg: rgba(255,255,255,0.06); --card-bg: #0f2b24; --card-text: #f6e7c6;
+            --separator: #D9B554; --label-color: #A3B0A8; --date-bg: rgba(28,42,35,0.8);
+            --footer-text: #A3B0A8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg); color: var(--ink); font-family: 'Tajawal', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.35s, color 0.35s;
+        }
+        .sprite-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+        .seal { color: var(--gold); }
+
+        header {
+            background: var(--header-gradient); color: #fff; padding: 14px 0;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+        }
+        .nav-container {
+            width: 90%; max-width: 1200px; margin: auto;
+            display: flex; justify-content: space-between; align-items: center;
+            gap: 10px; flex-wrap: wrap;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 16px; font-weight: 600; font-family: 'Reem Kufi', sans-serif;
+        }
+        .nav-actions {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .back-link {
+            color: #fff; text-decoration: none; background: rgba(255,255,255,0.12);
+            padding: 8px 14px; border-radius: 20px; font-weight: 600; font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.2); white-space: nowrap;
+            transition: background 0.25s;
+        }
+        .back-link:hover { background: rgba(255,255,255,0.24); }
+        .theme-toggle {
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
+            font-size: 18px; display: flex; align-items: center; justify-content: center;
+            transition: .25s; flex-shrink: 0;
+        }
+        .theme-toggle:hover { background: rgba(255,255,255,0.24); transform: rotate(15deg); }
+
+        .main-content {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; gap: 25px; padding: 30px 15px;
+        }
+        .page-title {
+            font-family: 'Amiri', serif; font-size: 28px; color: var(--forest);
+            margin-bottom: 5px; text-align: center;
+        }
+
+        /* Flip Clock - Responsive */
+        .flip-clock {
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; background: var(--clock-bg); backdrop-filter: blur(12px);
+            padding: 24px; border-radius: 24px; box-shadow: var(--shadow-md);
+            border: 1px solid rgba(31,93,78,0.25); direction: ltr;
+            flex-wrap: wrap; max-width: 100%;
+        }
+        .flip-unit {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+        }
+        .flip-digits-row {
+            display: flex; gap: 3px; direction: ltr;
+        }
+        .flip-card {
+            background: var(--card-bg); color: var(--card-text);
+            font-size: 52px; font-weight: 800; width: 70px; height: 90px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.25s ease;
+        }
+        .flip-card.flip {
+            animation: flipDown 0.35s ease;
+        }
+        @keyframes flipDown {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(-90deg); background: #1a4a3a; color: #F6E7C6; }
+            100% { transform: rotateX(0deg); }
+        }
+        .flip-separator {
+            font-size: 48px; margin: 0 2px; color: var(--separator);
+        }
+        .flip-label {
+            font-size: 14px; font-weight: 600; opacity: 0.9; color: var(--label-color);
+        }
+
+        .date-box {
+            background: var(--date-bg); backdrop-filter: blur(12px);
+            padding: 16px 30px; border-radius: 24px; font-size: 20px;
+            font-weight: 600; color: var(--ink); box-shadow: var(--shadow-md);
+            border: 1px solid rgba(31,93,78,0.2); text-align: center;
+            direction: rtl; line-height: 1.8; max-width: 90%;
+        }
+        .date-box .gregorian { font-weight: 700; color: var(--forest); }
+        .amazigh-line { font-size: 18px; margin-top: 6px; font-weight: 600; color: var(--gold); }
+
+        .back-btn-bottom {
+            color: #fff; text-decoration: none; font-size: 16px; font-weight: 700;
+            background: var(--forest); padding: 12px 28px; border-radius: 50px;
+            box-shadow: var(--shadow-sm); display: inline-block; margin-top: 10px;
+            transition: background 0.25s, transform 0.25s;
+        }
+        .back-btn-bottom:hover { background: var(--forest-dark); transform: translateY(-2px); }
+
+        footer {
+            background: var(--footer-gradient); color: var(--footer-text);
+            text-align: center; padding: 25px 15px; margin-top: 40px;
+            border-top: 3px solid var(--gold); font-size: 13px;
+        }
+
+        /* ============ تحسينات الهاتف ============ */
+        @media screen and (max-width: 768px) {
+            .nav-container { flex-direction: column; align-items: flex-start; }
+            .nav-actions { width: 100%; justify-content: space-between; }
+            .flip-clock { padding: 16px 12px; gap: 6px; border-radius: 18px; }
+            .flip-card { font-size: 36px; width: 50px; height: 68px; border-radius: 10px; }
+            .flip-separator { font-size: 32px; margin: 0 1px; }
+            .flip-label { font-size: 11px; }
+            .page-title { font-size: 24px; }
+            .date-box { font-size: 16px; padding: 14px 20px; }
+            .amazigh-line { font-size: 15px; }
+            .main-content { gap: 20px; padding: 20px 10px; }
+        }
+
+        @media screen and (max-width: 400px) {
+            .flip-card { font-size: 28px; width: 40px; height: 56px; border-radius: 8px; }
+            .flip-separator { font-size: 26px; }
+            .flip-label { font-size: 10px; }
+            .flip-clock { padding: 12px 8px; gap: 4px; }
+            .back-link { font-size: 12px; padding: 6px 10px; }
+            .theme-toggle { width: 34px; height: 34px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <svg class="sprite-defs"><symbol id="seal-emblem" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4"/><path d="M50 28 L59 45 L78 47 L63 60 L67 79 L50 69 L33 79 L37 60 L22 47 L41 45 Z" fill="currentColor"/></symbol></svg>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <svg class="seal" width="24" height="24"><use href="#seal-emblem"/></svg>
+                <span>منصة azou loucif</span>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html" class="back-link">← العودة للمنصة</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="تغيير الوضع الليلي">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <h1 class="page-title">⏱️ المؤقت والتاريخ</h1>
+        <div class="flip-clock" id="flipClock">
+            <div class="flip-unit">
+                <div class="flip-digits-row">
+                    <div class="flip-card" id="flipHourTens">0</div>
+                    <div class="flip-card" id="flipHourOnes">0</div>
+                </div>
+                <span class="flip-label">ساعة</span>
+            </div>
+            <span class="flip-separator">:</span>
+            <div class="flip-unit">
+                <div class="flip-digits-row">
+                    <div class="flip-card" id="flipMinuteTens">0</div>
+                    <div class="flip-card" id="flipMinuteOnes">0</div>
+                </div>
+                <span class="flip-label">دقيقة</span>
+            </div>
+            <span class="flip-separator">:</span>
+            <div class="flip-unit">
+                <div class="flip-digits-row">
+                    <div class="flip-card" id="flipSecondTens">0</div>
+                    <div class="flip-card" id="flipSecondOnes">0</div>
+                </div>
+                <span class="flip-label">ثانية</span>
+            </div>
+        </div>
+        <div class="date-box" id="dateDisplay"></div>
+        <a href="index.html" class="back-btn-bottom">← العودة للمنصة</a>
+    </div>
+
+    <footer>
+        <p>© 2026 منصة azou loucif | جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script>
+        // ---- نظام الوضع الليلي الموحد ----
+        const THEME_KEY = 'azou-loucif-theme';
+        const htmlEl = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+
+        function getSavedTheme() { return localStorage.getItem(THEME_KEY) || 'light'; }
+        function applyTheme(t) {
+            htmlEl.setAttribute('data-theme', t);
+            if (themeToggle) themeToggle.textContent = t === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem(THEME_KEY, t);
+        }
+
+        applyTheme(getSavedTheme());
+        themeToggle.addEventListener('click', () => {
+            const next = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+        });
+        window.addEventListener('storage', (e) => {
+            if (e.key === THEME_KEY) applyTheme(e.newValue || 'light');
+        });
+
+        // Flip Clock
+        function updateFlipClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2,'0');
+            const m = String(now.getMinutes()).padStart(2,'0');
+            const s = String(now.getSeconds()).padStart(2,'0');
+            updateFlipDigit('flipHourTens', h[0]);
+            updateFlipDigit('flipHourOnes', h[1]);
+            updateFlipDigit('flipMinuteTens', m[0]);
+            updateFlipDigit('flipMinuteOnes', m[1]);
+            updateFlipDigit('flipSecondTens', s[0]);
+            updateFlipDigit('flipSecondOnes', s[1]);
+            updateDateDisplay(now);
+        }
+
+        function updateFlipDigit(id, newVal) {
+            const el = document.getElementById(id);
+            if (el.textContent !== newVal) {
+                el.classList.add('flip');
+                el.textContent = newVal;
+                setTimeout(() => el.classList.remove('flip'), 400);
+            }
+        }
+
+        function updateDateDisplay(date) {
+            const days = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+            const months = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+            const dayName = days[date.getDay()];
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            const gregorianDate = `<span class="gregorian">${dayName}، ${day} ${month} ${year}</span>`;
+            const amazighYear = year + 950;
+            const amazighLine = `<div class="amazigh-line">ⵣ السنة الأمازيغية ${amazighYear}</div>`;
+            document.getElementById('dateDisplay').innerHTML = gregorianDate + amazighLine;
+        }
+
+        updateFlipClock();
+        setInterval(updateFlipClock, 1000);
+    </script>
+</body>
+</html>
