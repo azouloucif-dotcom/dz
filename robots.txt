@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://azouloucif-dotcom.github.io/dz/sitemap.xml
