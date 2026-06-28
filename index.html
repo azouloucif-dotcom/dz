@@ -10,7 +10,8 @@
     <meta name="apple-mobile-web-app-title" content="azou loucif">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230f172a'/%3E%3Ctext x='50' y='67' font-size='54' font-family='Georgia,serif' font-weight='700' text-anchor='middle' fill='%23f59e0b'%3EA%3C/text%3E%3C/svg%3E">
-    <title>azou loucif | منصة البكالوريا الجزائرية 2027 - دروس، تمارين، معدل وحاسبة</title>
+    <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22azou%20loucif%20%7C%20%D9%85%D9%86%D8%B5%D8%A9%20%D8%A7%D9%84%D8%A8%D9%83%D8%A7%D9%84%D9%88%D8%B1%D9%8A%D8%A7%22%2C%22short_name%22%3A%22azou%20loucif%22%2C%22description%22%3A%22%D9%85%D9%86%D8%B5%D8%A9%20%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9%20%D9%84%D8%B7%D9%84%D8%A7%D8%A8%20%D8%A7%D9%84%D8%A8%D9%83%D8%A7%D9%84%D9%88%D8%B1%D9%8A%D8%A7%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml,%253Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%253E%253Crect width='100' height='100' rx='22' fill='%25230f172a'/%253E%253Ctext x='50' y='67' font-size='54' font-family='Georgia,serif' font-weight='700' text-anchor='middle' fill='%2523f59e0b'%253EA%253C/text%253E%253C/svg%253E%22%2C%22sizes%22%3A%22100x100%22%2C%22type%22%3A%22image/svg+xml%22%7D%5D%7D">
+    <title>azou loucif | منصة البكالوريا الجزائرية 2027</title>
 
     <!-- ====== SEO الأساسي ====== -->
     <meta name="description" content="منصة azou loucif: بطاقتك الشاملة لنجاح البكالوريا الجزائرية 2027. دروس فيديو لأفضل الأساتذة، تمارين وملخصات، حاسبة المعدل، معاملات المواد، بكالوريات سابقة 2017-2025، مساعد azou ai الذكي، أذكار، ومصحف مرتل - كل ذلك مجاناً.">
@@ -2105,13 +2106,439 @@
                 transform: scale(0.98);
             }
         }
+
+        /* ====== Skeleton Loading ====== */
+        .skeleton {
+            background: linear-gradient(90deg, var(--line) 25%, var(--paper) 50%, var(--line) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s ease-in-out infinite;
+            border-radius: 8px;
+        }
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skeleton-card {
+            height: 180px;
+            border-radius: var(--radius-card);
+        }
+        .skeleton-line {
+            height: 14px;
+            margin-bottom: 10px;
+            width: 80%;
+        }
+        .skeleton-line.short { width: 50%; }
+        .skeleton-line.long { width: 95%; }
+        .skeleton-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ====== Back to Top ====== */
+        .back-to-top {
+            position: fixed;
+            bottom: calc(80px + var(--safe-bottom));
+            left: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary-mid);
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            z-index: 1500;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* ====== Offline Banner ====== */
+        .offline-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--accent-red);
+            color: #fff;
+            text-align: center;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 5000;
+            transform: translateY(-100%);
+            transition: transform 0.35s cubic-bezier(.32,.72,0,1);
+        }
+        .offline-banner.show {
+            transform: translateY(0);
+        }
+
+        /* ====== Search Modal ====== */
+        .search-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(2,6,23,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 80px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+        .search-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .search-modal-content {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 24px;
+            width: 94%;
+            max-width: 560px;
+            box-shadow: var(--shadow-lg);
+            max-height: 70vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .search-modal input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--line);
+            border-radius: 12px;
+            background: var(--input-bg);
+            color: var(--ink);
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-modal input:focus {
+            border-color: var(--primary-mid);
+        }
+        .search-results {
+            margin-top: 14px;
+            overflow-y: auto;
+            flex: 1;
+            max-height: 400px;
+        }
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.15s;
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 1px solid var(--line);
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        .search-result-item:hover {
+            background: var(--paper);
+        }
+        .search-result-item i {
+            color: var(--accent-gold);
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+        .search-result-item span {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .search-result-item small {
+            color: var(--ink-soft);
+            font-size: 12px;
+        }
+        .search-empty {
+            text-align: center;
+            padding: 30px;
+            color: var(--ink-soft);
+        }
+        .search-hints {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .search-hints kbd {
+            background: var(--chip-bg);
+            color: var(--chip-text);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: inherit;
+        }
+
+        /* ====== Pomodoro Timer ====== */
+        .pomodoro-section {
+            margin-top: 32px;
+            background: var(--card);
+            border-radius: 20px;
+            padding: 28px 20px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--line);
+            text-align: center;
+        }
+        .pomodoro-display {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--primary-mid);
+            direction: ltr;
+            letter-spacing: 4px;
+            margin: 12px 0;
+        }
+        .pomodoro-phase {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 6px;
+        }
+        .pomodoro-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+        .pomodoro-controls .btn {
+            padding: 10px 24px;
+            font-size: 13px;
+        }
+        .pomodoro-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
+        .pomodoro-stats strong {
+            color: var(--ink);
+            font-size: 15px;
+        }
+
+        /* ====== Streak Tracker ====== */
+        .streak-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent-gold-soft);
+            padding: 10px 20px;
+            border-radius: 999px;
+            border: 2px solid var(--accent-gold);
+            direction: ltr;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .streak-bar i {
+            color: var(--accent-gold);
+            font-size: 22px;
+        }
+        .streak-count {
+            font-family: 'Reem Kufi', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-mid);
+        }
+        .streak-label {
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
+
+        /* ====== Download Manager ====== */
+        .download-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .download-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--paper);
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            transition: 0.2s;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .download-item:hover {
+            border-color: var(--accent-gold);
+        }
+        .download-item .dinfo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .download-item .dinfo i {
+            color: var(--primary-mid);
+            font-size: 20px;
+        }
+        .download-item .dinfo .dtitle {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .download-item .dinfo .dsize {
+            font-size: 12px;
+            color: var(--ink-soft);
+        }
+        .download-item .dbtn {
+            background: var(--primary-mid);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .download-item .dbtn:hover {
+            background: var(--primary-dark);
+        }
+        .download-item .dbtn.downloaded {
+            background: var(--accent-green);
+        }
+
+        /* ====== Scroll Reveal ====== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ====== Page Transition Overlay ====== */
+        .page-transition {
+            position: fixed;
+            inset: 0;
+            background: var(--paper);
+            z-index: 4000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        .page-transition.active {
+            opacity: 0.7;
+            pointer-events: auto;
+        }
+
+        /* ====== Focus Styles for Accessibility ====== */
+        :focus-visible {
+            outline: 3px solid var(--accent-gold);
+            outline-offset: 2px;
+        }
+
+        /* ====== Loading Spinner Overlay ====== */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--paper);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.4s;
+        }
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--line);
+            border-top-color: var(--primary-mid);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ====== Notification Badge ====== */
+        .badge-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 50%;
+            position: relative;
+            top: -2px;
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- ====== Loading Overlay ====== -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- ====== Page Transition Overlay ====== -->
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- ====== Offline Banner ====== -->
+    <div class="offline-banner" id="offlineBanner">
+        <i class="fas fa-wifi-slash"></i> أنت غير متصل بالإنترنت - بعض الميزات قد لا تعمل
+    </div>
+
+    <!-- ====== Search Modal ====== -->
+    <div class="search-modal" id="searchModal" role="dialog" aria-label="بحث سريع">
+        <div class="search-modal-content">
+            <input type="text" id="searchInput" placeholder="🔍 ابحث في الموقع... (رياضيات، فيزياء، أذكار...)" autocomplete="off" aria-label="بحث سريع">
+            <div class="search-results" id="searchResults">
+                <div class="search-empty">ابدأ الكتابة للبحث...</div>
+            </div>
+            <div class="search-hints">
+                <kbd>Esc</kbd> إغلاق
+                <kbd>↑</kbd><kbd>↓</kbd> تنقل
+                <kbd>Enter</kbd> فتح
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Back to Top ====== -->
+    <button class="back-to-top" id="backToTop" aria-label="العودة إلى الأعلى">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <!-- ============================================================
-    الجزء 18: الهيدر (تم إضافة الساعة)
+    الجزء 18: الهيدر
     ============================================================ -->
     <header>
         <div class="nav-container">
@@ -2175,6 +2602,15 @@
                     <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-seconds">00</span><span>ثانية</span></span>
                 </span>
             </div>
+
+            <!-- متابعة التقدم -->
+            <div class="streak-bar" id="streakBar" style="margin-top:16px;">
+                <i class="fas fa-fire"></i>
+                <span class="streak-count" id="streakCount">0</span>
+                <span class="streak-label">أيام متتالية من الدراسة</span>
+                <span style="color:var(--ink-soft);font-size:12px;">|</span>
+                <span style="font-size:13px;color:var(--ink);font-weight:600;">إجمالي <span id="totalStudyDays">0</span> يوم</span>
+            </div>
         </section>
 
         <!-- === قسم الأساتذة === -->
@@ -2224,6 +2660,7 @@
                     </div>
                 </div>
 
+
                 <!-- بطاقة العلوم الطبيعية -->
                 <div class="ticket-card">
                     <div class="ticket-main">
@@ -2258,9 +2695,11 @@
                     </div>
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
+                        <a href="#arabic" class="btn-channel gold" onclick="navigateTo('arabic');return false;"><i class="fas fa-book"></i> فضاء العربية</a>
                         <a href="https://www.youtube.com/@prof_haigoune" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
                     </div>
                 </div>
+
 
                 <!-- بطاقة العلوم الإسلامية -->
                 <div class="ticket-card">
@@ -2281,24 +2720,46 @@
                     </div>
                 </div>
 
-                <!-- بطاقة التاريخ والجغرافيا -->
+                <!-- بطاقة التاريخ -->
                 <div class="ticket-card">
                     <div class="ticket-main">
-                        <span class="ticket-category"><i class="fas fa-globe-africa"></i> الأدبيات</span>
+                        <span class="ticket-category"><i class="fas fa-landmark"></i> الأدبيات</span>
                         <div class="teacher-header">
                             <img src="https://yt3.googleusercontent.com/-F6XxaYamNERayRZjkA4ptjkNQFUxD8ZsBOONW3VCkS-7YrwQs_OaxjIqvlDuQvgHZfZDayr_g=s160-c-k-c0x00ffffff-no-rj" class="teacher-img">
                             <div class="teacher-info">
-                                <h3>التاريخ والجغرافيا</h3>
+                                <h3>التاريخ</h3>
                                 <span>أ. بورنان</span>
                             </div>
                         </div>
-                        <p class="ticket-desc">طرق حفظ التواريخ والخرائط.</p>
+                        <p class="ticket-desc">طرق حفظ التواريخ.</p>
                     </div>
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
+                        <a href="#history" class="btn-channel gold" onclick="navigateTo('history');return false;"><i class="fas fa-landmark"></i> فضاء التاريخ</a>
                         <a href="https://www.youtube.com/@profbournane" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
                     </div>
                 </div>
+
+                <!-- بطاقة الجغرافيا -->
+                <div class="ticket-card">
+                    <div class="ticket-main">
+                        <span class="ticket-category"><i class="fas fa-map"></i> الأدبيات</span>
+                        <div class="teacher-header">
+                            <img src="https://yt3.googleusercontent.com/-F6XxaYamNERayRZjkA4ptjkNQFUxD8ZsBOONW3VCkS-7YrwQs_OaxjIqvlDuQvgHZfZDayr_g=s160-c-k-c0x00ffffff-no-rj" class="teacher-img">
+                            <div class="teacher-info">
+                                <h3>الجغرافيا</h3>
+                                <span>أ. بورنان</span>
+                            </div>
+                        </div>
+                        <p class="ticket-desc">طرق حفظ الخرائط والمصطلحات.</p>
+                    </div>
+                    <div class="ticket-perf"></div>
+                    <div class="ticket-stub">
+                        <a href="#geography" class="btn-channel gold" onclick="navigateTo('geography');return false;"><i class="fas fa-map"></i> فضاء الجغرافيا</a>
+                        <a href="https://www.youtube.com/@profbournane" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                    </div>
+                </div>
+
 
                 <!-- بطاقة الفلسفة -->
                 <div class="ticket-card">
@@ -2334,6 +2795,7 @@
                     </div>
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
+                        <a href="#english" class="btn-channel gold" onclick="navigateTo('english');return false;"><i class="fas fa-language"></i> فضاء الإنجليزية</a>
                         <a href="https://www.youtube.com/@mr.mansouri-english.fran%C3%A7ais" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
                     </div>
                 </div>
@@ -2353,7 +2815,28 @@
                     </div>
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
+                        <a href="#french" class="btn-channel gold" onclick="navigateTo('french');return false;"><i class="fas fa-language"></i> فضاء الفرنسية</a>
                         <a href="https://www.youtube.com/@mr.mansouri-english.fran%C3%A7ais" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                    </div>
+                </div>
+
+                <!-- بطاقة هندسة الطرائق -->
+                <div class="ticket-card">
+                    <div class="ticket-main">
+                        <span class="ticket-category"><i class="fas fa-industry"></i> التقني</span>
+                        <div class="teacher-header">
+                            <img src="https://yt3.googleusercontent.com/ombDEfAtmgbZpQryJGFXNFlV_-a_oexeNnl8Mrm5LRjfLy-IzMHpz4O434-s3TwH8nrNjlMc=s160-c-k-c0x00ffffff-no-rj" class="teacher-img">
+                            <div class="teacher-info">
+                                <h3>هندسة الطرائق</h3>
+                                <span>أ. رهواني سفيان</span>
+                            </div>
+                        </div>
+                        <p class="ticket-desc">دروس وتمارين ومواضيع مقترحة لبكالوريا 2026.</p>
+                    </div>
+                    <div class="ticket-perf"></div>
+                    <div class="ticket-stub">
+                        <a href="#process" class="btn-channel gold" onclick="navigateTo('process');return false;"><i class="fas fa-industry"></i> فضاء هندسة الطرائق</a>
+                        <a href="https://www.youtube.com/@RAHOUANI-SOFIANE-GP" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
                     </div>
                 </div>
             </div>
@@ -2755,6 +3238,28 @@
     </div>
 
     <!-- ============================================================
+    الجزء 21ب: صفحات المواد الدراسية (8 مواد)
+    ============================================================ -->
+    <!-- العلوم الطبيعية -->
+    <div id="page-sciences" class="page-content"><div class="section-container" style="margin-top:20px;" id="sciencesContent"></div></div>
+    <!-- اللغة العربية -->
+    <div id="page-arabic" class="page-content"><div class="section-container" style="margin-top:20px;" id="arabicContent"></div></div>
+    <!-- العلوم الإسلامية -->
+    <div id="page-islamic" class="page-content"><div class="section-container" style="margin-top:20px;" id="islamicContent"></div></div>
+    <!-- التاريخ -->
+    <div id="page-history" class="page-content"><div class="section-container" style="margin-top:20px;" id="historyContent"></div></div>
+    <!-- الجغرافيا -->
+    <div id="page-geography" class="page-content"><div class="section-container" style="margin-top:20px;" id="geographyContent"></div></div>
+    <!-- الفلسفة -->
+    <div id="page-philosophy" class="page-content"><div class="section-container" style="margin-top:20px;" id="philosophyContent"></div></div>
+    <!-- الإنجليزية -->
+    <div id="page-english" class="page-content"><div class="section-container" style="margin-top:20px;" id="englishContent"></div></div>
+    <!-- الفرنسية -->
+    <div id="page-french" class="page-content"><div class="section-container" style="margin-top:20px;" id="frenchContent"></div></div>
+    <!-- هندسة الطرائق -->
+    <div id="page-process" class="page-content"><div class="section-container" style="margin-top:20px;" id="processContent"></div></div>
+
+    <!-- ============================================================
     الجزء 22: صفحة المؤقت (تم إضافة الساعة الآن)
     ============================================================ -->
     <div id="page-timer" class="page-content">
@@ -2814,6 +3319,23 @@
                 </div>
 
                 <div class="date-box" id="dateDisplay"></div>
+
+            <!-- Pomodoro Timer -->
+            <div class="pomodoro-section reveal">
+                <h3 style="font-family:'Amiri',serif;font-size:22px;color:var(--ink);margin-bottom:4px;"><i class="fas fa-hourglass-half" style="color:var(--accent-gold);"></i> مؤقت الدراسة (بومودورو)</h3>
+                <p style="font-size:13px;color:var(--ink-soft);margin-bottom:12px;">تقنية بومودورو: 25 دقيقة تركيز + 5 دقائق راحة</p>
+                <div class="pomodoro-phase" id="pomodoroPhase">🎯 وقت الدراسة</div>
+                <div class="pomodoro-display" id="pomodoroDisplay">25:00</div>
+                <div class="pomodoro-controls">
+                    <button class="btn btn-primary" id="pomodoroStartBtn"><i class="fas fa-play"></i> بدء</button>
+                    <button class="btn btn-ghost" id="pomodoroResetBtn"><i class="fas fa-undo"></i> إعادة</button>
+                    <button class="btn btn-ghost" id="pomodoroSkipBtn"><i class="fas fa-forward"></i> تخطي</button>
+                </div>
+                <div class="pomodoro-stats">
+                    <span>الدورة الحالية: <strong id="pomodoroCurrent">0</strong></span>
+                    <span>إجمالي اليوم: <strong id="pomodoroToday">0</strong></span>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -2860,9 +3382,23 @@
                 <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
             </div>
 
-            <p style="color:var(--ink-soft);margin-bottom:24px;">اختر المادة للاطلاع على امتحانات السنوات السابقة من dzexams.</p>
+            <p style="color:var(--ink-soft);margin-bottom:24px;">اختر المادة للاطلاع على امتحانات السنوات السابقة.</p>
+
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+                <label style="font-weight:600;color:var(--ink);font-size:14px;">اختر السنة:</label>
+                <select id="bacYearSelector" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--ink);font-size:14px;cursor:pointer;min-width:110px;"></select>
+            </div>
+
+            <div class="tab-nav" id="bacStreamTabs" style="margin-bottom:16px;overflow-x:auto;white-space:nowrap;flex-wrap:nowrap;justify-content:flex-start;gap:4px;"></div>
 
             <div class="subjects-grid" id="subjectsGrid"></div>
+
+            <!-- Download Manager -->
+            <div class="pomodoro-section reveal" style="margin-top:28px;">
+                <h3 style="font-family:'Amiri',serif;font-size:20px;color:var(--ink);margin-bottom:8px;"><i class="fas fa-download" style="color:var(--accent-gold);"></i> مدير التحميلات - بكالوريات سابقة</h3>
+                <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px;">اضغط على "تحميل" لحفظ الامتحان للتصفح دون اتصال</p>
+                <div class="download-list" id="downloadList"></div>
+            </div>
         </div>
     </div>
 
@@ -2956,7 +3492,11 @@
 
     <footer>
         <div class="footer-brand"><i class="fas fa-award" style="color:var(--accent-gold);"></i> منصة azou loucif</div>
-        <a href="https://www.instagram.com/rd.c_?igsh=ZHJpNzljdXBjcTUw" target="_blank" class="footer-social"><i class="fab fa-instagram"></i> تابعني على Instagram</a>
+        <div class="footer-socials" style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:12px 0;">
+            <a href="https://www.instagram.com/d._u4?igsh=eW1vaTNhcmFiOHh0" target="_blank" class="footer-social" style="background:rgba(255,255,255,0.06);"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="mailto:loucifabdelmouaiz@gmail.com" class="footer-social" style="background:rgba(255,255,255,0.06);"><i class="fas fa-envelope"></i> Gmail</a>
+            <a href="https://t.me/azou_loucif" target="_blank" class="footer-social" style="background:rgba(255,255,255,0.06);"><i class="fab fa-telegram"></i> Telegram</a>
+        </div>
         <div class="footer-copy">جميع الحقوق محفوظة © 2026</div>
     </footer>
 
@@ -3022,6 +3562,9 @@
             if (pageId === 'math' && typeof loadMathNotes === 'function') loadMathNotes();
             if (pageId === 'bac' && typeof renderBacSubjects === 'function') renderBacSubjects();
             if (pageId === 'audio' && typeof initAudioPlayer === 'function') initAudioPlayer();
+
+            const subjectPages = ['sciences','arabic','islamic','history','geography','philosophy','english','french','process'];
+            if (subjectPages.includes(pageId) && typeof renderSubjectContent === 'function') renderSubjectContent(pageId);
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -3688,31 +4231,151 @@
         }
 
         // ============================================================
-        //  9. البكالوريات
+        //  9. البكالوريات (كل السنوات + كل الشعب)
         // ============================================================
         function renderBacSubjects() {
             const g = document.getElementById('subjectsGrid');
-            if (!g || g.children.length > 0) return;
+            if (!g) return;
+            if (g.children.length > 0) return;
 
-            const subs = [
-                { name: 'الرياضيات', icon: '📐', url: 'https://www.dzexams.com/ar/bac/mathematiques' },
-                { name: 'الفيزياء', icon: '⚡', url: 'https://www.dzexams.com/ar/bac/physique' },
-                { name: 'العلوم الطبيعية', icon: '🧬', url: 'https://www.dzexams.com/ar/bac/sciences-naturelles' },
-                { name: 'اللغة العربية', icon: '📖', url: 'https://www.dzexams.com/ar/bac/arabe' },
-                { name: 'العلوم الإسلامية', icon: '☪️', url: 'https://www.dzexams.com/ar/bac/tarbia-islamia' },
-                { name: 'التاريخ والجغرافيا', icon: '🌍', url: 'https://www.dzexams.com/ar/bac/histoire-geographie' },
-                { name: 'الفلسفة', icon: '💭', url: 'https://www.dzexams.com/ar/bac/philosophie' },
-                { name: 'الإنجليزية', icon: '🇬🇧', url: 'https://www.dzexams.com/ar/bac/anglais' },
-                { name: 'الفرنسية (شعب علمية)', icon: '🇫🇷', url: 'https://www.dzexams.com/ar/bac/francais/sci' }
+            const SITE = 'https://eddirasa.com';
+            const MIN_YR = 2015, MAX_YR = 2026;
+
+            const streams = [
+                { id:'math', name:'الرياضيات', icon:'📐',
+                  subs:[
+                    { n:'الرياضيات', i:'📐', u:'/bac-math-maths-{y}/', m:2015 },
+                    { n:'الفيزياء', i:'⚡', u:'/bac-math-physique-{y}/', m:2015 },
+                    { n:'علوم طبيعة وحياة', i:'🧬', u:'/bac-math-sciences-{y}/', m:2015 },
+                    { n:'اللغة العربية', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
+                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
+                    { n:'الفلسفة', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
+                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
+                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
+                  ]},
+                { id:'se', name:'علوم تجريبية', icon:'🔬',
+                  subs:[
+                    { n:'الرياضيات', i:'📐', u:'/bac-se-maths-{y}/', m:2015 },
+                    { n:'الفيزياء', i:'⚡', u:'/bac-se-physique-{y}/', m:2015 },
+                    { n:'علوم طبيعة وحياة', i:'🧬', u:'/bac-se-svt-{y}/', m:2015 },
+                    { n:'اللغة العربية', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
+                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
+                    { n:'الفلسفة', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
+                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
+                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
+                  ]},
+                { id:'tch', name:'تقني رياضي', icon:'⚙️',
+                  subs:[
+                    { n:'الرياضيات', i:'📐', u:'/bac-tch-maths-{y}/', m:2015 },
+                    { n:'الفيزياء', i:'⚡', u:'/bac-math-physique-{y}/', m:2015 },
+                    { n:'هندسة مدنية', i:'🏗️', u:'/bac-tch-gcivil-{y}/', m:2015 },
+                    { n:'هندسة كهربائية', i:'⚡', u:'/bac-tch-gelectrical-{y}/', m:2015 },
+                    { n:'هندسة ميكانيكية', i:'🔧', u:'/bac-tch-gmecanique-{y}/', m:2015 },
+                    { n:'هندسة طرائق', i:'🧪', u:'/bac-tch-gprocess-{y}/', m:2015 },
+                    { n:'اللغة العربية', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
+                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
+                    { n:'الفلسفة', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
+                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
+                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
+                  ]},
+                { id:'lt', name:'آداب وفلسفة', icon:'📜',
+                  subs:[
+                    { n:'الرياضيات', i:'📐', u:'/bac-lt-maths-{y}/', m:2015 },
+                    { n:'اللغة العربية', i:'📖', u:'/bac-lt-arabe-{y}/', m:2015 },
+                    { n:'الفلسفة', i:'💭', u:'/bac-lt-philosophy-{y}/', m:2015 },
+                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-lt-his-geo-{y}/', m:2015 },
+                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-lt-english-{y}/', m:2015 },
+                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-lt-francais-{y}/', m:2015 }
+                  ]},
+                { id:'ge', name:'تسيير واقتصاد', icon:'💰',
+                  subs:[
+                    { n:'الرياضيات', i:'📐', u:'/bac-ge-maths-{y}/', m:2015 },
+                    { n:'تسيير محاسبي ومالي', i:'📊', u:'/bac-ge-accounting-{y}/', m:2015 },
+                    { n:'اقتصاد ومناجمنت', i:'📈', u:'/bac-ge-economique-{y}/', m:2015 },
+                    { n:'قانون', i:'⚖️', u:'/bac-ge-law-{y}/', m:2015 },
+                    { n:'اللغة العربية', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
+                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
+                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'الفلسفة', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
+                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
+                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
+                  ]},
+                { id:'langu', name:'لغات أجنبية', icon:'🌐',
+                  subs:[
+                    { n:'الرياضيات', i:'📐', u:'/bac-langu-maths-{y}/', m:2015 },
+                    { n:'اللغة العربية', i:'📖', u:'/bac-langu-ara-{y}/', m:2015 },
+                    { n:'الفلسفة', i:'💭', u:'/bac-langu-philosophy-{y}/', m:2015 },
+                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-langu-his-geo-{y}/', m:2015 },
+                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-langu-english-{y}/', m:2015 },
+                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-langu-francais-{y}/', m:2015 },
+                    { n:'الألمانية', i:'🇩🇪', u:'/bac-langu-deutsch-{y}/', m:2015 },
+                    { n:'الإسبانية', i:'🇪🇸', u:'/bac-langu-espanol-{y}/', m:2015 },
+                    { n:'الإيطالية', i:'🇮🇹', u:'/bac-langu-italien-{y}/', m:2015 }
+                  ]}
             ];
 
-            g.innerHTML = subs.map(s =>
-                `<div class="subject-card">
-                            <div class="subject-icon">${s.icon}</div>
-                            <div class="subject-name">${s.name}</div>
-                            <a href="${s.url}" target="_blank" class="btn-visit">📂 تصفح</a>
-                        </div>`
-            ).join('');
+            const sel = document.getElementById('bacYearSelector');
+            if (sel && !sel.options.length) {
+                for (let y = MAX_YR; y >= MIN_YR; y--) {
+                    const o = document.createElement('option');
+                    o.value = y; o.textContent = y;
+                    if (y === 2026) o.selected = true;
+                    sel.appendChild(o);
+                }
+            }
+
+            const tabs = document.getElementById('bacStreamTabs');
+            if (tabs && !tabs.children.length) {
+                streams.forEach((st, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'tab-btn' + (idx === 0 ? ' active' : '');
+                    btn.dataset.stream = st.id;
+                    btn.innerHTML = st.icon + ' ' + st.name;
+                    tabs.appendChild(btn);
+                });
+            }
+
+            let curStream = streams[0].id;
+
+            function render(y) {
+                const st = streams.find(s => s.id === curStream) || streams[0];
+                g.innerHTML = st.subs.map(s => {
+                    const avail = y >= s.m;
+                    return `<div class="subject-card" style="${avail ? '' : 'opacity:0.5'}">
+                        <div class="subject-icon">${s.i}</div>
+                        <div class="subject-name">${s.n}</div>
+                        <a href="${avail ? SITE + s.u.replace('{y}', y) : '#'}" target="${avail ? '_blank' : '_self'}" class="btn-visit" style="${avail ? '' : 'pointer-events:none;background:var(--border);'}">${avail ? '📂 تصفح' : '❌ غير متاح'}</a>
+                    </div>`;
+                }).join('');
+            }
+
+            render(parseInt(sel?.value || 2026));
+
+            if (tabs) {
+                tabs.addEventListener('click', function(e) {
+                    const btn = e.target.closest('.tab-btn');
+                    if (!btn) return;
+                    tabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    curStream = btn.dataset.stream;
+                    render(parseInt(sel?.value || 2026));
+                    const dl = document.getElementById('downloadList');
+                    if (dl) { dl.innerHTML = ''; renderDownloadManager(); }
+                });
+            }
+
+            if (sel) {
+                sel.addEventListener('change', function() {
+                    render(parseInt(this.value));
+                    const dl = document.getElementById('downloadList');
+                    if (dl) { dl.innerHTML = ''; renderDownloadManager(); }
+                });
+            }
         }
 
         // ============================================================
@@ -4103,6 +4766,777 @@
         }
 
         window.extractPDF = extractPDF;
+
+        // ============================================================
+        //  15. تحسينات احترافية - PWA، إيماءات، اختصارات، وغيرها
+        // ============================================================
+
+        // 15.1 إخفاء شاشة التحميل
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const overlay = document.getElementById('loadingOverlay');
+                if (overlay) overlay.classList.add('hidden');
+            }, 400);
+        });
+
+        // 15.2 تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', e => self.skipWaiting());
+                self.addEventListener('activate', e => {
+                    e.waitUntil(clients.claim());
+                });
+                self.addEventListener('fetch', e => {
+                    e.respondWith(
+                        fetch(e.request).catch(() => {
+                            if (e.request.mode === 'navigate') {
+                                return caches.match('./index.html');
+                            }
+                            return new Response('غير متصل', { status: 503 });
+                        })
+                    );
+                });
+            `;
+            const swBlob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swUrl, { scope: './' }).catch(() => {});
+        }
+
+        // 15.3 زر العودة للأعلى
+        const backBtn = document.getElementById('backToTop');
+        if (backBtn) {
+            window.addEventListener('scroll', () => {
+                backBtn.classList.toggle('visible', window.scrollY > 400);
+            }, { passive: true });
+            backBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // 15.4 كشف حالة الاتصال
+        const offlineBanner = document.getElementById('offlineBanner');
+        function updateOnlineStatus() {
+            if (!offlineBanner) return;
+            offlineBanner.classList.toggle('show', !navigator.onLine);
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        // 15.5 البحث السريع (Ctrl+K)
+        const searchModal = document.getElementById('searchModal');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        if (searchModal && searchInput) {
+            const searchData = [
+                { title: 'الرئيسية', page: 'home', icon: 'fa-home' },
+                { title: 'الرياضيات', page: 'math', icon: 'fa-calculator' },
+                { title: 'الفيزياء', page: 'physics', icon: 'fa-bolt' },
+                { title: 'المؤقت والتاريخ', page: 'timer', icon: 'fa-clock' },
+                { title: 'الأذكار', page: 'azkar', icon: 'fa-pray' },
+                { title: 'بكالوريات سابقة', page: 'bac', icon: 'fa-book-open' },
+                { title: 'المصحف المرتل', page: 'audio', icon: 'fa-quran' },
+                { title: 'معالج النصوص', page: 'processor', icon: 'fa-file-alt' },
+                { title: 'حاسبة المعدل', page: 'home', icon: 'fa-calculator', extra: '#calculator' },
+                { title: 'معاملات المواد', page: 'home', icon: 'fa-weight-hanging', extra: '#coefficients' },
+                { title: 'azou ai المساعد الذكي', page: 'home', icon: 'fa-robot', extra: '#azou-ai' },
+                { title: 'الدوال العددية (رياضيات)', page: 'math', icon: 'fa-chart-line', extra: 'رياضيات' },
+                { title: 'المتابعة الزمنية (فيزياء)', page: 'physics', icon: 'fa-flask', extra: 'فيزياء' },
+                { title: 'أذكار الصباح', page: 'azkar', icon: 'fa-sun', extra: 'صباح' },
+                { title: 'أذكار المساء', page: 'azkar', icon: 'fa-moon', extra: 'مساء' },
+            ];
+
+            function filterSearch(query) {
+                if (!query.trim()) {
+                    searchResults.innerHTML = '<div class="search-empty">ابدأ الكتابة للبحث...</div>';
+                    return;
+                }
+                const q = query.toLowerCase();
+                const matches = searchData.filter(item =>
+                    item.title.includes(q) || (item.extra && item.extra.includes(q))
+                );
+                if (matches.length === 0) {
+                    searchResults.innerHTML = '<div class="search-empty">لا توجد نتائج 😔</div>';
+                    return;
+                }
+                searchResults.innerHTML = matches.map(m =>
+                    `<a class="search-result-item" href="#" data-page="${m.page}" data-extra="${m.extra || ''}">
+                        <i class="fas ${m.icon}"></i>
+                        <div><span>${m.title}</span></div>
+                    </a>`
+                ).join('');
+
+                searchResults.querySelectorAll('.search-result-item').forEach(el => {
+                    el.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const page = el.dataset.page;
+                        const extra = el.dataset.extra;
+                        closeSearch();
+                        navigateTo(page);
+                        if (extra && extra.startsWith('#')) {
+                            setTimeout(() => {
+                                const target = document.querySelector(extra);
+                                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 400);
+                        }
+                    });
+                });
+            }
+
+            searchInput.addEventListener('input', () => filterSearch(searchInput.value));
+
+            window.openSearch = function() {
+                if (!searchModal) return;
+                searchModal.classList.add('show');
+                setTimeout(() => searchInput.focus(), 100);
+                searchInput.value = '';
+                searchResults.innerHTML = '<div class="search-empty">ابدأ الكتابة للبحث...</div>';
+            };
+
+            window.closeSearch = function() {
+                if (!searchModal) return;
+                searchModal.classList.remove('show');
+                searchInput.blur();
+            };
+
+            searchModal.addEventListener('click', (e) => {
+                if (e.target === searchModal) closeSearch();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    openSearch();
+                }
+                if (e.key === 'Escape') closeSearch();
+            });
+        } else {
+            window.openSearch = function() {};
+            window.closeSearch = function() {};
+        }
+
+        // 15.6 اختصارات لوحة المفاتيح
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.ctrlKey || e.metaKey) return;
+
+            const shortcuts = {
+                '1': 'home',
+                '2': 'math',
+                '3': 'physics',
+                '4': 'timer',
+                '5': 'azkar',
+                '6': 'bac',
+                '7': 'audio',
+                '8': 'processor'
+            };
+
+            if (e.key in shortcuts) {
+                navigateTo(shortcuts[e.key]);
+            }
+            if (e.key === 't') {
+                document.getElementById('themeToggle')?.click();
+            }
+            if (e.key === '/' && !e.ctrlKey) {
+                e.preventDefault();
+                window.openSearch?.();
+            }
+        });
+
+        // 15.7 Scroll Reveal Animations
+        let revealObserver = null;
+        function initReveal() {
+            if (revealObserver) revealObserver.disconnect();
+            const hidden = document.querySelectorAll('.reveal:not(.visible)');
+            if (hidden.length === 0) return;
+
+            revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+            hidden.forEach(el => revealObserver.observe(el));
+        }
+
+        // ربط reveal مع التنقل (سيتم الربط النهائي لاحقاً)
+        const origNav = navigateTo;
+
+        // ============================================================
+        //  16. متابعة التقدم (Study Streak)
+        // ============================================================
+        function updateStreak() {
+            const STREAK_KEY = 'azou_streak_data';
+            const now = new Date();
+            const today = now.toISOString().slice(0, 10);
+
+            let data = JSON.parse(localStorage.getItem(STREAK_KEY)) || { streak: 0, total: 0, lastDate: null, dates: [] };
+
+            if (data.lastDate !== today) {
+                const yesterday = new Date(now);
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayStr = yesterday.toISOString().slice(0, 10);
+
+                if (data.lastDate === yesterdayStr) {
+                    data.streak += 1;
+                } else if (data.lastDate !== today) {
+                    data.streak = 1;
+                }
+
+                if (!data.dates.includes(today)) {
+                    data.dates.push(today);
+                    data.total += 1;
+                }
+
+                data.lastDate = today;
+                localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+            }
+
+            const streakEl = document.getElementById('streakCount');
+            const totalEl = document.getElementById('totalStudyDays');
+            if (streakEl) streakEl.textContent = data.streak;
+            if (totalEl) totalEl.textContent = data.total;
+        }
+
+        // ============================================================
+        //  17. مؤقت بومودورو
+        // ============================================================
+        let pomodoroInit = false;
+
+        function initPomodoro() {
+            if (pomodoroInit) return;
+            pomodoroInit = true;
+
+            const display = document.getElementById('pomodoroDisplay');
+            const phase = document.getElementById('pomodoroPhase');
+            const startBtn = document.getElementById('pomodoroStartBtn');
+            const resetBtn = document.getElementById('pomodoroResetBtn');
+            const skipBtn = document.getElementById('pomodoroSkipBtn');
+            const currentEl = document.getElementById('pomodoroCurrent');
+            const todayEl = document.getElementById('pomodoroToday');
+
+            if (!display) return;
+
+            const POMODORO_KEY = 'azou_pomodoro_data';
+            const WORK = 25 * 60;
+            const BREAK = 5 * 60;
+
+            let state = localStorage.getItem('azou_pomodoro_state');
+            let timeLeft = parseInt(localStorage.getItem('azou_pomodoro_time'));
+            let isRunning = localStorage.getItem('azou_pomodoro_running') === 'true';
+            let isWork = localStorage.getItem('azou_pomodoro_is_work') !== 'false';
+            let interval = null;
+
+            if (!state || isNaN(timeLeft)) {
+                state = 'idle';
+                timeLeft = WORK;
+                isRunning = false;
+                isWork = true;
+                saveState();
+            }
+
+            function saveState() {
+                localStorage.setItem('azou_pomodoro_state', state);
+                localStorage.setItem('azou_pomodoro_time', String(timeLeft));
+                localStorage.setItem('azou_pomodoro_running', String(isRunning));
+                localStorage.setItem('azou_pomodoro_is_work', String(isWork));
+            }
+
+            function getPomodoroStats() {
+                let data = JSON.parse(localStorage.getItem(POMODORO_KEY)) || { total: 0, today: 0, date: '' };
+                const today = new Date().toISOString().slice(0, 10);
+                if (data.date !== today) {
+                    data.today = 0;
+                    data.date = today;
+                }
+                return data;
+            }
+
+            function savePomodoroStats() {
+                let data = getPomodoroStats();
+                const today = new Date().toISOString().slice(0, 10);
+                if (data.date !== today) {
+                    data.today = 0;
+                    data.date = today;
+                }
+                data.today += 1;
+                data.total += 1;
+                localStorage.setItem(POMODORO_KEY, JSON.stringify(data));
+                updatePomodoroStats();
+            }
+
+            function updatePomodoroStats() {
+                const data = getPomodoroStats();
+                if (currentEl) currentEl.textContent = data.total;
+                if (todayEl) todayEl.textContent = data.today;
+            }
+
+            function updateDisplay() {
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                display.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+                phase.textContent = isWork ? '🎯 وقت الدراسة' : '☕ وقت الراحة';
+                phase.style.color = isWork ? 'var(--accent-gold)' : 'var(--accent-green)';
+                saveState();
+            }
+
+            function tick() {
+                timeLeft -= 1;
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    interval = null;
+                    isRunning = false;
+                    if (isWork) {
+                        savePomodoroStats();
+                        toast('✅ أحسنت! انتهت جلسة الدراسة. خذ راحة.');
+                    } else {
+                        toast('⏰ انتهت الراحة! عد للدراسة.');
+                    }
+                    isWork = !isWork;
+                    timeLeft = isWork ? WORK : BREAK;
+                    state = 'idle';
+                    isRunning = false;
+                    updateDisplay();
+                    startBtn.innerHTML = '<i class="fas fa-play"></i> بدء';
+                    return;
+                }
+                updateDisplay();
+            }
+
+            startBtn.addEventListener('click', () => {
+                if (isRunning) {
+                    clearInterval(interval);
+                    interval = null;
+                    isRunning = false;
+                    state = 'paused';
+                    startBtn.innerHTML = '<i class="fas fa-play"></i> استئناف';
+                } else {
+                    if (state === 'idle' && timeLeft <= 0) {
+                        timeLeft = isWork ? WORK : BREAK;
+                    }
+                    interval = setInterval(tick, 1000);
+                    isRunning = true;
+                    state = 'running';
+                    startBtn.innerHTML = '<i class="fas fa-pause"></i> إيقاف مؤقت';
+                }
+                saveState();
+            });
+
+            resetBtn.addEventListener('click', () => {
+                clearInterval(interval);
+                interval = null;
+                isRunning = false;
+                isWork = true;
+                timeLeft = WORK;
+                state = 'idle';
+                updateDisplay();
+                startBtn.innerHTML = '<i class="fas fa-play"></i> بدء';
+                toast('🔄 تم إعادة المؤقت');
+            });
+
+            skipBtn.addEventListener('click', () => {
+                clearInterval(interval);
+                interval = null;
+                isRunning = false;
+                if (isWork) {
+                    savePomodoroStats();
+                    toast('⏭️ تم تخطي جلسة الدراسة');
+                }
+                isWork = !isWork;
+                timeLeft = isWork ? WORK : BREAK;
+                state = 'idle';
+                updateDisplay();
+                startBtn.innerHTML = '<i class="fas fa-play"></i> بدء';
+            });
+
+            updateDisplay();
+            updatePomodoroStats();
+            if (isRunning) {
+                interval = setInterval(tick, 1000);
+                startBtn.innerHTML = '<i class="fas fa-pause"></i> إيقاف مؤقت';
+            }
+        }
+
+        // تهيئة البومودورو عند فتح صفحة المؤقت (سيتم الربط النهائي لاحقاً)
+
+        // ============================================================
+        //  18. مدير التحميلات (كل السنوات + كل الشعب)
+        // ============================================================
+        function renderDownloadManager() {
+            const container = document.getElementById('downloadList');
+            if (!container || container.children.length > 0) return;
+
+            const SITE = 'https://eddirasa.com';
+            const DOWNLOAD_KEY = 'azou_downloads_cache';
+
+            const streams = [
+                { id:'math', name:'رياضيات',
+                  items:[
+                    { name:'رياضيات', slug:'/bac-math-maths-{y}/', min:2015 },
+                    { name:'فيزياء', slug:'/bac-math-physique-{y}/', min:2015 },
+                    { name:'علوم طبيعية', slug:'/bac-math-sciences-{y}/', min:2015 },
+                    { name:'عربية', slug:'/bac-arabe-{y}-se/', min:2015 },
+                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'تاريخ وجغرافيا', slug:'/bac-sci-his-geo-{y}/', min:2015 },
+                    { name:'فلسفة', slug:'/bac-sc-philosophy-{y}/', min:2022 },
+                    { name:'إنجليزية', slug:'/bac-se-english-{y}/', min:2022 },
+                    { name:'فرنسية', slug:'/bac-sci-francais-{y}/', min:2015 }
+                  ]},
+                { id:'se', name:'علوم تجريبية',
+                  items:[
+                    { name:'رياضيات', slug:'/bac-se-maths-{y}/', min:2015 },
+                    { name:'فيزياء', slug:'/bac-se-physique-{y}/', min:2015 },
+                    { name:'علوم طبيعية', slug:'/bac-se-svt-{y}/', min:2015 },
+                    { name:'عربية', slug:'/bac-arabe-{y}-se/', min:2015 },
+                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'تاريخ وجغرافيا', slug:'/bac-sci-his-geo-{y}/', min:2015 },
+                    { name:'فلسفة', slug:'/bac-sc-philosophy-{y}/', min:2022 },
+                    { name:'إنجليزية', slug:'/bac-se-english-{y}/', min:2022 },
+                    { name:'فرنسية', slug:'/bac-sci-francais-{y}/', min:2015 }
+                  ]},
+                { id:'tch', name:'تقني رياضي',
+                  items:[
+                    { name:'رياضيات', slug:'/bac-tch-maths-{y}/', min:2015 },
+                    { name:'فيزياء', slug:'/bac-math-physique-{y}/', min:2015 },
+                    { name:'هندسة مدنية', slug:'/bac-tch-gcivil-{y}/', min:2015 },
+                    { name:'هندسة كهربائية', slug:'/bac-tch-gelectrical-{y}/', min:2015 },
+                    { name:'هندسة ميكانيكية', slug:'/bac-tch-gmecanique-{y}/', min:2015 },
+                    { name:'هندسة طرائق', slug:'/bac-tch-gprocess-{y}/', min:2015 },
+                    { name:'عربية', slug:'/bac-arabe-{y}-se/', min:2015 },
+                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'تاريخ وجغرافيا', slug:'/bac-sci-his-geo-{y}/', min:2015 },
+                    { name:'فلسفة', slug:'/bac-sc-philosophy-{y}/', min:2022 },
+                    { name:'إنجليزية', slug:'/bac-se-english-{y}/', min:2022 },
+                    { name:'فرنسية', slug:'/bac-sci-francais-{y}/', min:2015 }
+                  ]},
+                { id:'lt', name:'آداب وفلسفة',
+                  items:[
+                    { name:'رياضيات', slug:'/bac-lt-maths-{y}/', min:2015 },
+                    { name:'عربية', slug:'/bac-lt-arabe-{y}/', min:2015 },
+                    { name:'فلسفة', slug:'/bac-lt-philosophy-{y}/', min:2015 },
+                    { name:'تاريخ وجغرافيا', slug:'/bac-lt-his-geo-{y}/', min:2015 },
+                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'إنجليزية', slug:'/bac-lt-english-{y}/', min:2015 },
+                    { name:'فرنسية', slug:'/bac-lt-francais-{y}/', min:2015 }
+                  ]},
+                { id:'ge', name:'تسيير واقتصاد',
+                  items:[
+                    { name:'رياضيات', slug:'/bac-ge-maths-{y}/', min:2015 },
+                    { name:'تسيير محاسبي', slug:'/bac-ge-accounting-{y}/', min:2015 },
+                    { name:'اقتصاد ومناجمنت', slug:'/bac-ge-economique-{y}/', min:2015 },
+                    { name:'قانون', slug:'/bac-ge-law-{y}/', min:2015 },
+                    { name:'عربية', slug:'/bac-arabe-{y}-se/', min:2015 },
+                    { name:'تاريخ وجغرافيا', slug:'/bac-sci-his-geo-{y}/', min:2015 },
+                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'فلسفة', slug:'/bac-sc-philosophy-{y}/', min:2022 },
+                    { name:'إنجليزية', slug:'/bac-se-english-{y}/', min:2022 },
+                    { name:'فرنسية', slug:'/bac-sci-francais-{y}/', min:2015 }
+                  ]},
+                { id:'langu', name:'لغات أجنبية',
+                  items:[
+                    { name:'رياضيات', slug:'/bac-langu-maths-{y}/', min:2015 },
+                    { name:'عربية', slug:'/bac-langu-ara-{y}/', min:2015 },
+                    { name:'فلسفة', slug:'/bac-langu-philosophy-{y}/', min:2015 },
+                    { name:'تاريخ وجغرافيا', slug:'/bac-langu-his-geo-{y}/', min:2015 },
+                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'إنجليزية', slug:'/bac-langu-english-{y}/', min:2015 },
+                    { name:'فرنسية', slug:'/bac-langu-francais-{y}/', min:2015 },
+                    { name:'ألمانية', slug:'/bac-langu-deutsch-{y}/', min:2015 },
+                    { name:'إسبانية', slug:'/bac-langu-espanol-{y}/', min:2015 },
+                    { name:'إيطالية', slug:'/bac-langu-italien-{y}/', min:2015 }
+                  ]}
+            ];
+
+            function getDownloaded() {
+                try { return JSON.parse(localStorage.getItem(DOWNLOAD_KEY)) || []; }
+                catch { return []; }
+            }
+
+            function markDownloaded(name) {
+                const list = getDownloaded();
+                if (!list.includes(name)) {
+                    list.push(name);
+                    localStorage.setItem(DOWNLOAD_KEY, JSON.stringify(list));
+                }
+            }
+
+            const sel = document.getElementById('bacYearSelector');
+            const y = parseInt(sel?.value || 2026);
+
+            const activeBtn = document.querySelector('#bacStreamTabs .tab-btn.active');
+            const curId = activeBtn ? activeBtn.dataset.stream : 'math';
+            const cur = streams.find(s => s.id === curId) || streams[0];
+
+            container.innerHTML = cur.items.map(d => {
+                const avail = y >= d.min;
+                const url = avail ? SITE + d.slug.replace('{y}', y) : '#';
+                const fullName = avail ? `بكالوريا ${d.name} ${y}` : `بكالوريا ${d.name} ${y} (غير متاح)`;
+                const downloaded = getDownloaded().includes(fullName);
+                return `
+                    <div class="download-item" data-name="${fullName}">
+                        <div class="dinfo">
+                            <i class="fas fa-file-pdf"></i>
+                            <div>
+                                <div class="dtitle">${fullName}</div>
+                                <div class="dsize">PDF</div>
+                            </div>
+                        </div>
+                        <button class="dbtn ${downloaded ? 'downloaded' : ''}" data-url="${url}" data-name="${fullName}" ${avail ? '' : 'disabled style="opacity:0.4"'}">
+                            ${avail ? (downloaded ? '<i class="fas fa-check"></i> تم التحميل' : '<i class="fas fa-download"></i> تحميل') : '❌ غير متاح'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            container.querySelectorAll('.dbtn:not([disabled])').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const url = this.dataset.url;
+                    const name = this.dataset.name;
+                    window.open(url, '_blank');
+                    markDownloaded(name);
+                    this.innerHTML = '<i class="fas fa-check"></i> تم التحميل';
+                    this.classList.add('downloaded');
+                    toast('✅ تم تسجيل التحميل');
+                });
+            });
+        }
+
+        // ربط التنقل النهائي (يجمع كل التحسينات)
+        window.navigateTo = function(pageId) {
+            document.getElementById('pageTransition')?.classList.add('active');
+            setTimeout(() => {
+                origNav(pageId);
+                document.getElementById('pageTransition')?.classList.remove('active');
+                if (pageId === 'bac') setTimeout(renderDownloadManager, 200);
+                if (pageId === 'timer') setTimeout(initPomodoro, 200);
+                setTimeout(initReveal, 100);
+            }, 150);
+        };
+
+        // ============================================================
+        //  فتح صفحات المواد (data-driven)
+        // ============================================================
+        const ALMASIYAH_2026 = 'https://drive.google.com/drive/folders/1-0D-k_3jDHJv_gBwIzWO4GRoAztIHmff';
+
+        const subjectData = {
+            sciences: {
+                title: 'العلوم الطبيعية', iconClass: 'fa-dna',
+                desc: 'شعبة علوم تجريبية | رياضيات',
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 }
+                ]
+            },
+            arabic: {
+                title: 'اللغة العربية', iconClass: 'fa-feather-alt',
+                desc: 'جميع الشعب الأدبية والعلمية',
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 },
+                    { title: 'بكالوريات بدون حل للمحاولة', url: 'https://drive.google.com/drive/folders/1j2NvlbwYUGLS5gOduSNALvzPoih-L-hF' },
+                    { title: 'بكالوريات مع الحل', url: 'https://drive.google.com/drive/folders/1xodbi-c068K1a6EeWIshJwHRPBh4HgDn' },
+                    { title: 'باقة الامتياز - بكالوريات تجريبية', url: 'https://drive.google.com/file/d/1vAE2cexhTBidYqWnPXewrAfQsVS112N_/view' },
+                    { title: 'الأفضل في علم البلاغة', url: 'https://drive.google.com/file/d/1xIOF2XJJUurm_CnueHjktPGJr1TIB2sc/view' },
+                    { title: 'الأنجع في الإعراب', url: 'https://drive.google.com/file/d/1hydCV2X35zj03WoZVCCTUPIB-wrtPkmo/view' },
+                    { title: 'الكناية - أ. عيدي ع القادر', url: 'https://drive.google.com/file/d/1cZEAdW-XadMSz9XMXNlZ4kM9m0euAlNQ/view' },
+                    { title: 'المراجعة النهائية - جميع الشعب', url: 'https://drive.google.com/file/d/12TsqIFy__T9-lUWrJ3gG_amkRB0uexim/view' },
+                    { title: 'ملخص العربية - أ. حيقون', url: 'https://drive.google.com/file/d/1Q5IXy_L43y9buBE0CTauZ92inEsrBjZe/view' },
+                    { title: 'ملخص العربية - أ. خالد - علمي', url: 'https://drive.google.com/file/d/1sGZyQGOTk5ssICse9M2sKOKxReOGh7lV/view' }
+                ]
+            },
+            islamic: {
+                title: 'العلوم الإسلامية', iconClass: 'fa-mosque',
+                desc: 'جميع الشعب',
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 },
+                    { title: 'ملفات النخبة', url: 'https://drive.google.com/drive/folders/1sRTKTErkfofa9dl7FlT8ZSrXhW9QATdd' },
+                    { title: 'مواضيع واختبارات', url: 'https://drive.google.com/drive/folders/1xioN5C_6Uzzp5qFGrxUOIyVrbpm4kAjH' },
+                    { title: 'البرهان - أ. آيت شعلال', url: 'https://drive.google.com/file/d/1ZTwKBZuaV18P0UTRXqaA0-5iTzGKNroS/view' },
+                    { title: 'الكتاب المدرسي', url: 'https://drive.google.com/file/d/1ViaEsE5w8mqPR5c8HT1BjDtZX_mk_a3S/view' },
+                    { title: 'الملخص النظري الشامل', url: 'https://drive.google.com/file/d/1iuh4g3WTaS5trqptikqOs6LKSB__kI3Q/view' },
+                    { title: 'باقة الدروس المفصلة', url: 'https://drive.google.com/file/d/1FljJNA8gEpxsNKwiD8DkguP5dYOOwSrZ/view' },
+                    { title: 'برنامج العلوم الإسلامية', url: 'https://drive.google.com/file/d/1FSvxkKBKfzyKSb9arzu7Ylv8fRtB1RJW/view' },
+                    { title: 'خلاصتي في العلوم الإسلامية', url: 'https://drive.google.com/file/d/1Z1VzQdvEciR_yqv0heEL4XGPMuech8Qg/view' },
+                    { title: 'مخططات شاملة - أ. موسلي', url: 'https://drive.google.com/file/d/1cSn60B7wo7fghed_hp-O9KX4R_iAdtnT/view' },
+                    { title: 'مذكرة الدروس - أ. بن الشايب', url: 'https://drive.google.com/file/d/1cQu5o1UI5mH83uczjZtjt-FZMKUhk_Fr/view' }
+                ]
+            },
+            history: {
+                title: 'التاريخ', iconClass: 'fa-landmark',
+                desc: 'جميع الشعب',
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 },
+                    { title: 'أهم 15 سؤال + الإجابة', url: 'https://drive.google.com/file/d/1-qTOIEfKuaSYBn5ftzu1AMVTWOOn6gpR/view' },
+                    { title: 'أهم الشخصيات والتواريخ', url: 'https://drive.google.com/file/d/1Fb6ySN5V5wMCBCvGzZlkIPVcqzYbVzZd/view' },
+                    { title: 'أسئلة الوحدة الثانية', url: 'https://drive.google.com/file/d/17v7pFFlar3o-lUGA2PSEAt1vciK6Vks9/view' },
+                    { title: 'أسئلة الوحدة الأولى', url: 'https://drive.google.com/file/d/1ALqdz4BGKGJU_uoqDcDcWJWh9DaFgApi/view' },
+                    { title: 'التواريخ من 2008 إلى 2021', url: 'https://drive.google.com/file/d/1UxgrQCtWm0Hz12c7SD3cmzw2maOiwGF8/view' },
+                    { title: 'الحرب الباردة', url: 'https://drive.google.com/file/d/1V7OqkQYWJ5gnsMfUiq04zbjddgAv4_Va/view' },
+                    { title: 'الشخصيات والتواريخ بكالوريا', url: 'https://drive.google.com/file/d/1A6pCxG5W1hXTvnuDnBmOqHYJb5BIAGZ0/view' },
+                    { title: 'الوجيز في التاريخ', url: 'https://drive.google.com/file/d/1jJAAe_2ECLwje2K8-X_3is9VSNfzbR-8/view' },
+                    { title: 'خرائط التاريخ', url: 'https://drive.google.com/file/d/1nZzmzgtTm17jctOjrgUXHGJyzZjK-1wE/view' },
+                    { title: 'شخصيات 2008-2021 بكالوريا', url: 'https://drive.google.com/file/d/1tx8oqFpnW1iJ3ggz6bGU8vtbXh_WsaYX/view' },
+                    { title: 'شخصيات الوحدة الأولى', url: 'https://drive.google.com/file/d/1e7heLy5szemVnclH_zhp9ZG-sfV9MgxQ/view' },
+                    { title: 'مجلة المجتهد رقم 01', url: 'https://drive.google.com/file/d/1FB6ShNndXVdsAb60t-pBdoX0bF8WTnok/view' },
+                    { title: 'مصطلحات 2008-2021 بكالوريا', url: 'https://drive.google.com/file/d/1DR7F7vV5EdJ-716G_6i-Nujn6qWrVd3n/view' },
+                    { title: 'مصطلحات باك', url: 'https://drive.google.com/file/d/1GnTAfdZRSbaErRA0E-DTc_qRmqpsEnhl/view' },
+                    { title: 'ملخص الوحدة الأولى - الحرب الباردة', url: 'https://drive.google.com/file/d/1t5Mxl8IiTwM2MhMXzgbFbSztVAGABdki/view' },
+                    { title: 'ملخص الوحدة الثانية', url: 'https://drive.google.com/file/d/12Z10g4rvkHyXwD5Q55Md1oqfytd4EN3y/view' },
+                    { title: 'وحدة 2 - تاريخ', url: 'https://drive.google.com/file/d/1K9tBJWAhpxV4eRI8pa56HZo82Tspqdnf/view' }
+                ]
+            },
+            geography: {
+                title: 'الجغرافيا', iconClass: 'fa-map',
+                desc: 'جميع الشعب',
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 },
+                    { title: 'مصطلحات الوحدة الأولى', url: 'https://drive.google.com/file/d/1ojq30u5pHU9O4qxpap5WzyR7LLuCP1WR/view' },
+                    { title: 'العدد 05 - الوحدة الثانية', url: 'https://drive.google.com/file/d/1617V-zH8EAdMdqi4OZoLKwoLIsK4o-jW/view' },
+                    { title: 'القوى الاقتصادية الكبرى', url: 'https://drive.google.com/file/d/1kx0RAlkAXWcyTEjKy_MStqEkjgNVHTy7/view' },
+                    { title: 'الوحدة الثانية - العدد الثاني', url: 'https://drive.google.com/file/d/1DKj21C_pF5fJbxhjSiPaN4jhggOGbyXq/view' },
+                    { title: 'خرائط الجغرافيا', url: 'https://drive.google.com/file/d/151BEs-iQx_UZq_dj_GzxA6xYnzdz2X7-/view' },
+                    { title: 'مصطلحات الجغرافيا 3ث', url: 'https://drive.google.com/file/d/1Ar5IRIabszCGPYm3Tt7tB7-tuMvDyvUG/view' },
+                    { title: 'مقالات الوحدة الأولى', url: 'https://drive.google.com/file/d/1PozAeWdgl-jiF_V4TXWuuGyJtuMFcxdi/view' },
+                    { title: 'مقالات بكالوريات سابقة - وحدة 01', url: 'https://drive.google.com/file/d/1rZcI9t_XsGhBUsm-sPHGOIcq04Rsw1sN/view' },
+                    { title: 'ملخص الوحدة الأولى', url: 'https://drive.google.com/file/d/1YJUZzfwAL2Z--CxDnP4tUAMX9W6ZKBxB/view' },
+                    { title: 'ملخص الوحدة الثانية', url: 'https://drive.google.com/file/d/15kJS0ffqr1lN2mvvWzuzGAscb6f37-FC/view' }
+                ]
+            },
+            philosophy: {
+                title: 'الفلسفة', iconClass: 'fa-brain',
+                desc: 'جميع الشعب (آداب، علوم، تقني)',
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 }
+                ]
+            },
+            english: {
+                title: 'الإنجليزية', iconClass: 'fa-language',
+                desc: 'جميع الشعب',
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 },
+                    { title: 'باك ت 01 + الحل', url: 'https://drive.google.com/file/d/1B9lSLnTn1sEhoAaXPuIHdMYNGCLZRnna/view' },
+                    { title: 'باك ت 02 + الحل', url: 'https://drive.google.com/file/d/1YnaTgYh5qwrctNsBybMH3u4COIKeFTUg/view' },
+                    { title: 'باك ت 03 + الحل', url: 'https://drive.google.com/file/d/1I910vX_Ex_XkFsgwZbN0dq_MPm5wiY8d/view' },
+                    { title: 'باك ت 04 + الحل', url: 'https://drive.google.com/file/d/1vWObfGInJtqgyK5ARMaezjEukyScCzC4/view' },
+                    { title: 'باك ت 05 + الحل', url: 'https://drive.google.com/file/d/1K9tomL8wV8Mbznv97vNehZntCXzP8_3B/view' },
+                    { title: 'باك ت 06 + الحل', url: 'https://drive.google.com/file/d/1Z0gBCfrxA8hvtSuyWVfCi59IDD9sWeAy/view' },
+                    { title: 'باك ت 07 + الحل', url: 'https://drive.google.com/file/d/1CSqnqdz3zZK_pXYsICLKxnPRenCHdECr/view' },
+                    { title: 'باك ت 08 + الحل', url: 'https://drive.google.com/file/d/1FB9bzSx1viaPQV8RvXBPJiVyzEzbchj4/view' },
+                    { title: 'باك ت 09 + الحل', url: 'https://drive.google.com/file/d/1bwyPJI33KMJIKKjQmY32jirtJBxoQuhx/view' },
+                    { title: 'باك ت 10 + الحل', url: 'https://drive.google.com/file/d/1EL73-01XIcqI_IgQdesAErXS7Qv5gtNt/view' }
+                ]
+            },
+            french: {
+                title: 'الفرنسية', iconClass: 'fa-language',
+                desc: 'جميع الشعب العلمية والأدبية',
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 },
+                    { title: 'Cahier de Fr - نافع 2026', url: 'https://drive.google.com/file/d/1AIl0MoONIx8viu3NxAlbmZmohJgVTCK4/view' },
+                    { title: 'ملخص الفرنسية - أ. منير شبوة', url: 'https://drive.google.com/file/d/1gVOrfylN2fl2BP3ioQ8i7vMRIpEwye7g/view' },
+                    { title: 'باقة التحضير الشامل - علمي', url: 'https://drive.google.com/file/d/1V-HBw4K5YRZl8rA1SPwgisaiC_CMrMW6/view' },
+                    { title: 'المراجعة الشاملة - علمي', url: 'https://drive.google.com/file/d/1tYJ_b3xey_SOT1zh1UGwIGTp_5lsm3Al/view' },
+                    { title: 'الهدية الذهبية نحو الفرنسية', url: 'https://drive.google.com/file/d/1O2nytKf5B2YmcESeRtCV2nP50dFFgoQ_/view' },
+                    { title: 'باقة الامتياز - علمي', url: 'https://drive.google.com/file/d/1SCi7gYQpw86gzhJjAoq57A9lUDFMR6I7/view' },
+                    { title: 'مواضيع تحضيرية + الحل', url: 'https://drive.google.com/file/d/1Dqt2_nzGxZyzfEOrGQNWRc3ZqiZe0pYN/view' },
+                    { title: '10 مواضيع تحضيرية + الحل - علمي', url: 'https://drive.google.com/file/d/1UhiD_YGzk_67XtRyr4yls5qrbI9ujK89/view' }
+                ]
+            },
+            process: {
+                title: 'هندسة الطرائق', iconClass: 'fa-industry',
+                desc: 'شعبة تقني رياضي',
+                youtube: {
+                    url: 'https://www.youtube.com/@RAHOUANI-SOFIANE-GP',
+                    name: 'الأستاذ رهواني سفيان',
+                    subs: '923 ألف',
+                    desc: 'دروس، تمارين محلولة، مواضيع مقترحة وتحضير مكثف لبكالوريا هندسة الطرائق.',
+                    image: 'https://yt3.googleusercontent.com/ombDEfAtmgbZpQryJGFXNFlV_-a_oexeNnl8Mrm5LRjfLy-IzMHpz4O434-s3TwH8nrNjlMc=s160-c-k-c0x00ffffff-no-rj'
+                },
+                topics: [
+                    { title: 'الحقيبة الألماسية 2026', url: ALMASIYAH_2026 },
+                    { title: 'الليبيدات', url: 'https://drive.google.com/file/d/1zuBdzv0hITp5gCBa52PLl7jrmhPDuvhW/view' },
+                    { title: 'بكالوريا الديناميك الحراري', url: 'https://drive.google.com/file/d/1lYyaBdAia4D5Sk7sgd1A1diOGVvDPt5F/view' },
+                    { title: 'بكالوريا الكيمياء الحيوية', url: 'https://drive.google.com/file/d/1WVztPQDhfrFy9JAUubjIVrunZHDqUC2u/view' },
+                    { title: 'بكالوريا الكيمياء العضوية', url: 'https://drive.google.com/file/d/1fxZxeHNVx0Y8gOT_2p-2RLtxClzjINzb/view' },
+                    { title: 'حلول تمارين الكتاب (جزء 1)', url: 'https://drive.google.com/file/d/1tDUx8uKbs3Wix-UDv6iBJtuw84Kaql-W/view' },
+                    { title: 'حلول تمارين الكتاب (جزء 2)', url: 'https://drive.google.com/file/d/1nnPB_QU7XpzTEozsOtKUa4ku_ZgtXrgg/view' },
+                    { title: 'حلول جميع الأعمال التطبيقية', url: 'https://drive.google.com/file/d/1Oaccpp4y-wn2pfcxkaE2wZ3mSC-WSVQV/view' }
+                ]
+            }
+        };
+
+        function renderSubjectContent(pageId) {
+            const data = subjectData[pageId];
+            if (!data) return;
+            const container = document.getElementById(pageId + 'Content');
+            if (!container) return;
+            if (container.dataset.rendered) return;
+            container.dataset.rendered = '1';
+
+            let html = `
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                    <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas ${data.iconClass}" style="color:var(--accent-gold);"></i> فضاء ${data.title}</h1>
+                    <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                </div>
+                <p style="color:var(--ink-soft);margin-bottom:24px;">${data.desc}</p>`;
+
+            if (data.youtube) {
+                html += `
+                <div class="ticket-card" style="margin-bottom:24px;">
+                    <div class="ticket-main">
+                        <div class="teacher-header">
+                            <img src="${data.youtube.image}" class="teacher-img">
+                            <div class="teacher-info">
+                                <h3>${data.youtube.name}</h3>
+                                <span>${data.youtube.subs} مشترك</span>
+                            </div>
+                        </div>
+                        <p class="ticket-desc">${data.youtube.desc}</p>
+                    </div>
+                    <div class="ticket-perf"></div>
+                    <div class="ticket-stub">
+                        <a href="${data.youtube.url}" target="_blank" class="btn-channel" style="background:#ff0000;color:#fff;"><i class="fab fa-youtube"></i> زيارة القناة</a>
+                    </div>
+                </div>`;
+            }
+
+            html += `<h2 class="section-title" style="font-size:22px;margin-bottom:16px;"><i class="fas fa-download" style="color:var(--accent-gold);"></i> مواضيع وتمارين</h2><div class="grid-topics">`;
+
+            data.topics.forEach(t => {
+                html += `
+                    <div class="ticket-card">
+                        <div class="ticket-main">
+                            <h3 style="font-size:16px;">${t.title}</h3>
+                        </div>
+                        <div class="ticket-perf"></div>
+                        <div class="ticket-stub">
+                            <a href="${t.url}" target="_blank" class="btn-channel" style="background:var(--accent-gold);color:#0f172a;"><i class="fas fa-download"></i> تحميل</a>
+                        </div>
+                    </div>`;
+            });
+
+            html += `</div>`;
+
+            container.innerHTML = html;
+        }
+
+        // تهيئة أولية
+        window.addEventListener('load', () => {
+            setTimeout(initReveal, 300);
+            updateStreak();
+        });
+
+        // toast محسّن
+        function toast(msg) {
+            const t = document.getElementById('toast');
+            if (!t) return;
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._hideTimer);
+            t._hideTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+        window.toast = toast;
     </script>
 
 </body>
