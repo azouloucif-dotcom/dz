@@ -3068,169 +3068,127 @@
         }
 
         /* ====== Chat Page ====== */
+        #page-chat {
+            background: var(--paper);
+        }
         .chat-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 16px 20px;
+            padding: 12px 16px;
             background: var(--card);
             border-bottom: 1px solid var(--line);
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
         .chat-back {
-            background: none;
-            border: none;
-            font-size: 18px;
-            color: var(--ink);
-            cursor: pointer;
-            padding: 6px;
+            background: none; border: none; font-size: 18px; color: var(--ink);
+            cursor: pointer; padding: 6px;
         }
-        .chat-user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-        }
+        .chat-user-info { display: flex; align-items: center; gap: 10px; flex: 1; }
         .chat-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             background: var(--header-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 800;
-            font-size: 16px;
-            flex-shrink: 0;
-            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 800; font-size: 14px;
+            flex-shrink: 0; overflow: hidden;
         }
-        .chat-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .chat-user-name {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--ink);
-        }
-        .chat-user-status {
-            font-size: 12px;
-            color: #27ae60;
-        }
+        .chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .chat-user-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+        .chat-user-status { font-size: 11px; color: #27ae60; }
+
         .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            flex: 1; overflow-y: auto; padding: 12px 14px;
+            display: flex; flex-direction: column; gap: 2px;
+            background: var(--paper);
         }
-        .chat-empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--ink-soft);
-        }
-        .chat-empty p {
-            margin: 0;
-            font-size: 14px;
-        }
+        .chat-empty { text-align: center; padding: 40px 20px; color: var(--ink-soft); }
+        .chat-empty p { margin: 0; font-size: 13px; }
+
         .chat-msg {
-            max-width: 80%;
-            padding: 8px 14px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.5;
-            word-wrap: break-word;
-            animation: msgIn 0.2s ease;
-            position: relative;
+            max-width: 85%; padding: 6px 12px; border-radius: 14px;
+            font-size: 14px; line-height: 1.45; word-wrap: break-word;
+            animation: msgIn 0.15s ease; position: relative;
         }
         @keyframes msgIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .chat-msg-sent {
             align-self: flex-end;
-            background: linear-gradient(135deg, var(--primary-mid), #5b6abf);
+            background: var(--primary-mid);
             color: #fff;
             border-bottom-right-radius: 4px;
         }
         .chat-msg-recv {
             align-self: flex-start;
-            background: var(--card);
-            color: var(--ink);
-            border: 1px solid var(--line);
+            background: #fff;
+            color: #1c1e21;
+            border: 1px solid #e4e6eb;
             border-bottom-left-radius: 4px;
         }
-        .chat-msg-text {
-            font-size: 14px;
-            line-height: 1.5;
+        .dark-mode .chat-msg-recv {
+            background: #303030;
+            color: #e4e6eb;
+            border-color: #404040;
         }
-        .chat-msg-time {
-            font-size: 10px;
-            opacity: 0.7;
-            margin-top: 2px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            direction: ltr;
+        .chat-msg-deleted {
+            opacity: 0.5; font-size: 12px; padding: 4px 10px;
         }
-        .chat-msg-sent .chat-msg-time { float: left; }
-        .chat-msg-recv .chat-msg-time { float: right; }
-        .chat-msg-status {
-            display: inline-flex;
-            align-items: center;
-            font-size: 10px;
+        .chat-msg-text { font-size: 14px; line-height: 1.45; }
+        .chat-msg-footer {
+            display: flex; align-items: center; gap: 3px;
+            justify-content: flex-end; margin-top: 1px; direction: ltr;
         }
-        .chat-msg-status .fa-check { color: rgba(255,255,255,0.7); }
-        .chat-msg-status .fa-check-double { color: #8ecae6; }
-        .chat-msg-recv .chat-msg-status .fa-check-double { color: var(--primary-mid); }
-        .chat-messages { padding-bottom: 8px; }
-        .chat-msg + .chat-msg { margin-top: 2px; }
+        .chat-msg-recv .chat-msg-footer { justify-content: flex-start; }
+        .chat-msg-time { font-size: 9px; opacity: 0.6; }
+        .chat-msg-status { font-size: 9px; display: inline-flex; }
+        .chat-msg-sent .chat-msg-status .fa-check { color: rgba(255,255,255,0.5); }
+        .chat-msg-sent .chat-msg-status .fa-check-double { color: #8ecae6; }
+        .chat-msg-recv .chat-msg-status { display: none; }
+        .chat-msg-del {
+            font-size: 9px; opacity: 0; cursor: pointer; padding: 2px;
+            transition: 0.15s; color: inherit;
+        }
+        .chat-msg:hover .chat-msg-del { opacity: 0.7; }
+        .chat-msg-del:hover { opacity: 1 !important; color: #e74c3c; }
+
         .chat-input-wrap {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 16px;
-            background: var(--card);
+            display: flex; align-items: center; gap: 6px;
+            padding: 10px 12px; background: var(--card);
             border-top: 1px solid var(--line);
         }
         .chat-input-wrap input {
-            flex: 1;
-            padding: 10px 16px;
-            border: 2px solid var(--line);
-            border-radius: 20px;
-            font-size: 14px;
-            font-family: inherit;
-            background: var(--paper);
-            color: var(--ink);
-            outline: none;
-        }
-        .chat-input-wrap input:focus {
-            border-color: var(--primary-mid);
+            flex: 1; padding: 9px 14px; border: none; border-radius: 20px;
+            font-size: 14px; font-family: inherit;
+            background: var(--paper); color: var(--ink); outline: none;
         }
         .chat-send {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary-mid);
-            color: #fff;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-            flex-shrink: 0;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--primary-mid); color: #fff; border: none;
+            font-size: 14px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s; flex-shrink: 0;
         }
         .chat-send:hover { opacity: 0.85; }
-        .chat-input-wrap {
-            position: sticky;
-            bottom: 0;
+
+        /* Desktop chat popup */
+        @media (min-width: 768px) {
+            #page-chat {
+                position: fixed !important;
+                bottom: 80px; right: 20px;
+                width: 340px; height: 460px;
+                border-radius: 16px !important;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+                z-index: 9999;
+                display: none !important;
+                overflow: hidden;
+                border: 1px solid var(--line);
+            }
+            #page-chat.active {
+                display: flex !important;
+                flex-direction: column;
+            }
+            .chat-header { padding: 10px 14px; }
+            .chat-messages { padding: 10px 12px; }
         }
 
         /* ====== Recent Chats (Home, Compact) ====== */
@@ -4552,7 +4510,7 @@
     <!-- ====== Chat Page ====== -->
     <div id="page-chat" class="page-content">
         <div class="chat-header" id="chatHeader">
-            <button class="chat-back" onclick="navigateTo('friends')"><i class="fas fa-arrow-right"></i></button>
+            <button class="chat-back" onclick="closeChat()"><i class="fas fa-arrow-right"></i></button>
             <div class="chat-user-info">
                 <div class="chat-avatar" id="chatAvatar"></div>
                 <div>
@@ -4621,7 +4579,10 @@
         //  1. التنقل بين الصفحات
         // ============================================================
         function navigateTo(pageId) {
-            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
+            const isChatDesktop = pageId === 'chat' && window.innerWidth >= 768;
+            if (!isChatDesktop) {
+                document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
+            }
             const target = document.getElementById('page-' + pageId);
             if (target) target.classList.add('active');
 
@@ -7054,33 +7015,32 @@
                         container.innerHTML = `<div class="chat-empty"><i class="fas fa-comments" style="font-size:40px;color:var(--line);margin-bottom:12px;"></i><p>${translations[currentLang].chat_start || 'ابدأ المحادثة'}</p></div>`;
                         return;
                     }
-                    let newMsgCount = 0;
-                    snap.forEach(doc => {
-                        const m = doc.data();
+                    snap.docChanges().forEach(change => {
+                        if (change.type !== 'added') return;
+                        const m = change.doc.data();
                         const isSent = m.senderId === currentUser.uid;
                         const time = m.timestamp ? new Date(m.timestamp.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-                        if (!isSent && !m.read) newMsgCount++;
+                        const msgId = change.doc.id;
+                        if (m.deleted) {
+                            container.insertAdjacentHTML('beforeend',
+                                `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'} chat-msg-deleted">
+                                    <div class="chat-msg-text" style="font-style:italic;opacity:0.5;"><i class="fas fa-trash"></i> ${translations[currentLang].chat_deleted || 'تم حذف الرسالة'}</div>
+                                </div>`);
+                            return;
+                        }
                         container.insertAdjacentHTML('beforeend',
-                            `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'}">
+                            `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'}" data-msg-id="${msgId}">
                                 <div class="chat-msg-text">${Sanitize.text(m.text)}</div>
-                                <span class="chat-msg-time">
-                                    ${time}
-                                    ${isSent ? `<span class="chat-msg-status"><i class="fas fa-check${m.read ? '-double' : ''}" style="color:${m.read ? 'var(--accent-gold)' : '#fff'}"></i></span>` : ''}
-                                </span>
+                                <div class="chat-msg-footer">
+                                    <span class="chat-msg-time">${time}</span>
+                                    ${isSent ? `<span class="chat-msg-status"><i class="fas fa-check${m.read ? '-double' : ''}"></i></span>` : ''}
+                                    ${isSent ? `<span class="chat-msg-del" onclick="deleteMessage('${currentChatId}','${msgId}')"><i class="fas fa-trash-alt"></i></span>` : ''}
+                                </div>
                             </div>`);
-                        // Mark received messages as read
-                        if (!isSent && !m.read && currentChatId) {
-                            db.collection('chats').doc(currentChatId).collection('messages').doc(doc.id).update({ read: true }).catch(() => {});
+                        if (!isSent && !m.read) {
+                            db.collection('chats').doc(currentChatId).collection('messages').doc(msgId).update({ read: true }).catch(() => {});
                         }
                     });
-                    // Show notification for new messages if not in chat
-                    if (newMsgCount > 0 && !document.hidden) {
-                        const friendName = document.getElementById('chatUserName')?.textContent || 'صديق';
-                        const msg = newMsgCount === 1
-                            ? `${translations[currentLang].chat_notification || 'رسالة جديدة من'} ${friendName}`
-                            : `${newMsgCount} ${translations[currentLang].chat_notifications || 'رسائل جديدة من'} ${friendName}`;
-                        if (typeof toast === 'function') toast('💬 ' + msg);
-                    }
                     container.scrollTop = container.scrollHeight;
                 });
         }
@@ -7109,6 +7069,23 @@
                 }, { merge: true }).catch(() => {});
                 loadRecentChats();
             }).catch(err => toast('❌ ' + err.message));
+        }
+
+        // Close chat (popup on desktop, navigate on mobile)
+        function closeChat() {
+            if (window.innerWidth >= 768) {
+                document.getElementById('page-chat')?.classList.remove('active');
+            } else {
+                navigateTo('friends');
+            }
+        }
+
+        // Delete message
+        function deleteMessage(chatId, msgId) {
+            if (!currentUser || !WriteGuard.canWrite()) return;
+            if (!confirm(translations[currentLang].chat_delete_confirm || 'حذف هذه الرسالة؟')) return;
+            db.collection('chats').doc(chatId).collection('messages').doc(msgId).update({ deleted: true, text: '' })
+                .catch(err => toast('❌ ' + err.message));
         }
 
         // Enter key sends message
@@ -7175,6 +7152,40 @@
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && currentUser) loadRecentChats();
         });
+
+        // Global new message notification listener
+        let notifUnsub = null;
+        const seenMessages = {};
+
+        function startMessageNotifier() {
+            if (!currentUser || notifUnsub) return;
+            notifUnsub = db.collection('chats')
+                .where('participants.' + currentUser.uid, '==', true)
+                .onSnapshot(snap => {
+                    snap.docChanges().forEach(change => {
+                        if (change.type === 'modified') {
+                            const data = change.doc.data();
+                            const chatId = change.doc.id;
+                            if (data.lastSender === currentUser.uid) return;
+                            const prevTime = seenMessages[chatId] || 0;
+                            const newTime = data.lastTime ? data.lastTime.seconds : 0;
+                            if (newTime > prevTime && data.lastMessage && currentChatId !== chatId) {
+                                const parts = chatId.split('_');
+                                const friendId = parts[0] === currentUser.uid ? parts[1] : parts[0];
+                                db.collection('users').doc(friendId).get().then(snap => {
+                                    if (!snap.exists) return;
+                                    const u = snap.data();
+                                    toast('💬 ' + (u.name || 'صديق') + ': ' + (data.lastMessage.length > 40 ? data.lastMessage.substring(0, 40) + '...' : data.lastMessage));
+                                });
+                            }
+                            seenMessages[chatId] = newTime;
+                        } else if (change.type === 'added') {
+                            const data = change.doc.data();
+                            seenMessages[change.doc.id] = data.lastTime ? data.lastTime.seconds : 0;
+                        }
+                    });
+                }, () => {});
+        }
 
         // Add chat button to friend cards
         function renderFriendCardWithChat(user, uid) {
@@ -7385,12 +7396,23 @@
                         }
                     });
                     loadRecentChats();
+                    startMessageNotifier();
                 } else {
                     if (onlineUnsubscribe) { onlineUnsubscribe(); onlineUnsubscribe = null; }
                     if (recentChatsUnsub) { recentChatsUnsub(); recentChatsUnsub = null; }
                     document.getElementById('recent-chats').style.display = 'none';
                 }
             });
+        });
+
+        // Close chat popup on outside click (desktop)
+        document.addEventListener('click', e => {
+            if (window.innerWidth < 768) return;
+            const chat = document.getElementById('page-chat');
+            if (!chat || !chat.classList.contains('active')) return;
+            if (!chat.contains(e.target) && e.target.closest('.recent-chat-item, .friend-card, .chat-back') === null) {
+                chat.classList.remove('active');
+            }
         });
 
         // Online status tracking
@@ -7565,6 +7587,7 @@
                 chat_online: 'متصل', chat_start: 'ابدأ المحادثة',
                 chat_placeholder: 'اكتب رسالة...',
                 chat_notification: 'رسالة جديدة من', chat_notifications: 'رسائل جديدة من',
+                chat_deleted: 'تم حذف الرسالة', chat_delete_confirm: 'حذف هذه الرسالة؟',
                 recent_chats_title: 'الرسائل', recent_chats_all: 'عرض الكل', recent_chats_empty: 'لا توجد محادثات بعد',
             },
             fr: {
@@ -7718,6 +7741,7 @@
                 chat_online: 'En ligne', chat_start: 'Commencer la conversation',
                 chat_placeholder: 'Écrivez un message...',
                 chat_notification: 'Nouveau message de', chat_notifications: 'Nouveaux messages de',
+                chat_deleted: 'Message supprimé', chat_delete_confirm: 'Supprimer ce message ?',
                 recent_chats_title: 'Messages', recent_chats_all: 'Voir tout', recent_chats_empty: 'Aucune conversation',
             }
         };
