@@ -3139,13 +3139,14 @@
             font-size: 14px;
         }
         .chat-msg {
-            max-width: 75%;
-            padding: 10px 14px;
-            border-radius: 16px;
+            max-width: 80%;
+            padding: 8px 14px;
+            border-radius: 18px;
             font-size: 14px;
             line-height: 1.5;
             word-wrap: break-word;
             animation: msgIn 0.2s ease;
+            position: relative;
         }
         @keyframes msgIn {
             from { opacity: 0; transform: translateY(8px); }
@@ -3153,7 +3154,7 @@
         }
         .chat-msg-sent {
             align-self: flex-end;
-            background: var(--primary-mid);
+            background: linear-gradient(135deg, var(--primary-mid), #5b6abf);
             color: #fff;
             border-bottom-right-radius: 4px;
         }
@@ -3164,14 +3165,31 @@
             border: 1px solid var(--line);
             border-bottom-left-radius: 4px;
         }
+        .chat-msg-text {
+            font-size: 14px;
+            line-height: 1.5;
+        }
         .chat-msg-time {
             font-size: 10px;
-            opacity: 0.6;
-            margin-top: 4px;
-            display: block;
+            opacity: 0.7;
+            margin-top: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            direction: ltr;
         }
-        .chat-msg-sent .chat-msg-time { text-align: left; }
-        .chat-msg-recv .chat-msg-time { text-align: right; }
+        .chat-msg-sent .chat-msg-time { float: left; }
+        .chat-msg-recv .chat-msg-time { float: right; }
+        .chat-msg-status {
+            display: inline-flex;
+            align-items: center;
+            font-size: 10px;
+        }
+        .chat-msg-status .fa-check { color: rgba(255,255,255,0.7); }
+        .chat-msg-status .fa-check-double { color: #8ecae6; }
+        .chat-msg-recv .chat-msg-status .fa-check-double { color: var(--primary-mid); }
+        .chat-messages { padding-bottom: 8px; }
+        .chat-msg + .chat-msg { margin-top: 2px; }
         .chat-input-wrap {
             display: flex;
             align-items: center;
@@ -3214,6 +3232,67 @@
             position: sticky;
             bottom: 0;
         }
+
+        /* ====== Recent Chats (Home) ====== */
+        .recent-chat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--card);
+            border-radius: 14px;
+            margin-bottom: 8px;
+            border: 1px solid var(--line);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .recent-chat-item:hover {
+            border-color: var(--primary-mid);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .rc-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--header-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 18px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .rc-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .rc-avatar-initial {
+            width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--header-gradient);
+            border-radius: 50%;
+            color: #fff; font-weight: 800; font-size: 18px;
+        }
+        .rc-info { flex: 1; min-width: 0; }
+        .rc-name {
+            font-size: 14px; font-weight: 700; color: var(--ink);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .rc-preview {
+            font-size: 12px; color: var(--ink-soft);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            margin-top: 2px;
+        }
+        .rc-meta {
+            text-align: left; flex-shrink: 0;
+        }
+        .rc-time {
+            font-size: 10px; color: var(--ink-soft);
+        }
+        .rc-status {
+            font-size: 10px; margin-top: 4px; color: var(--ink-soft);
+        }
+        .rc-status.rc-read { color: var(--primary-mid); }
+
         .profile-name {
             font-size: 20px;
             font-weight: 800;
@@ -3451,6 +3530,20 @@
                 <span class="streak-label" data-i18n="streak_label">أيام متتالية من الدراسة</span>
                 <span style="color:var(--ink-soft);font-size:12px;">|</span>
                 <span style="font-size:13px;color:var(--ink);font-weight:600;"><span data-i18n="streak_total">إجمالي</span> <span id="totalStudyDays">0</span> <span data-i18n="unit_days">يوم</span></span>
+            </div>
+        </section>
+
+        <!-- === قسم المحادثات الأخيرة === -->
+        <section id="recent-chats" class="section-container" style="display:none;">
+            <div class="section-head" style="cursor:pointer;" onclick="navigateTo('friends')">
+                <h2 class="section-title"><i class="fas fa-comment-dots" style="color:var(--primary-mid);"></i> <span data-i18n="recent_chats_title">الرسائل</span></h2>
+                <a href="#friends" onclick="navigateTo('friends');return false;" style="font-size:13px;color:var(--primary-mid);"><span data-i18n="recent_chats_all">عرض الكل</span> <i class="fas fa-chevron-left"></i></a>
+            </div>
+            <div id="recentChatsList">
+                <div class="recent-chat-empty" style="text-align:center;padding:20px;color:var(--ink-soft);font-size:14px;">
+                    <i class="fas fa-comments" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+                    <p data-i18n="recent_chats_empty">لا توجد محادثات بعد</p>
+                </div>
             </div>
         </section>
 
@@ -4586,6 +4679,7 @@
 
             window.location.hash = pageId;
 
+            if (pageId === 'home' && typeof loadRecentChats === 'function') loadRecentChats();
             if (pageId === 'timer' && typeof initTimer === 'function') initTimer();
             if (pageId === 'azkar' && typeof initAzkar === 'function') initAzkar();
             if (pageId === 'math' && typeof loadMathNotes === 'function') loadMathNotes();
@@ -6977,6 +7071,11 @@
             }
             navigateTo('chat');
             loadChatMessages();
+            // Ensure chat doc exists
+            db.collection('chats').doc(currentChatId).set({
+                participants: { [currentUser.uid]: true, [friendId]: true },
+                lastTime: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true }).catch(() => {});
         }
 
         function loadChatMessages() {
@@ -6992,16 +7091,33 @@
                         container.innerHTML = `<div class="chat-empty"><i class="fas fa-comments" style="font-size:40px;color:var(--line);margin-bottom:12px;"></i><p>${translations[currentLang].chat_start || 'ابدأ المحادثة'}</p></div>`;
                         return;
                     }
+                    let newMsgCount = 0;
                     snap.forEach(doc => {
                         const m = doc.data();
                         const isSent = m.senderId === currentUser.uid;
                         const time = m.timestamp ? new Date(m.timestamp.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+                        if (!isSent && !m.read) newMsgCount++;
                         container.insertAdjacentHTML('beforeend',
                             `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'}">
-                                ${Sanitize.text(m.text)}
-                                <span class="chat-msg-time">${time}</span>
+                                <div class="chat-msg-text">${Sanitize.text(m.text)}</div>
+                                <span class="chat-msg-time">
+                                    ${time}
+                                    ${isSent ? `<span class="chat-msg-status"><i class="fas fa-check${m.read ? '-double' : ''}" style="color:${m.read ? 'var(--accent-gold)' : '#fff'}"></i></span>` : ''}
+                                </span>
                             </div>`);
+                        // Mark received messages as read
+                        if (!isSent && !m.read && currentChatId) {
+                            db.collection('chats').doc(currentChatId).collection('messages').doc(doc.id).update({ read: true }).catch(() => {});
+                        }
                     });
+                    // Show notification for new messages if not in chat
+                    if (newMsgCount > 0 && !document.hidden) {
+                        const friendName = document.getElementById('chatUserName')?.textContent || 'صديق';
+                        const msg = newMsgCount === 1
+                            ? `${translations[currentLang].chat_notification || 'رسالة جديدة من'} ${friendName}`
+                            : `${newMsgCount} ${translations[currentLang].chat_notifications || 'رسائل جديدة من'} ${friendName}`;
+                        if (typeof toast === 'function') toast('💬 ' + msg);
+                    }
                     container.scrollTop = container.scrollHeight;
                 });
         }
@@ -7015,16 +7131,100 @@
                 return;
             }
             input.value = '';
+            const parts = currentChatId.split('_');
+            const friendId = parts[0] === currentUser.uid ? parts[1] : parts[0];
             db.collection('chats').doc(currentChatId).collection('messages').add({
                 senderId: currentUser.uid,
                 text: text,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                db.collection('chats').doc(currentChatId).set({
+                    participants: { [currentUser.uid]: true, [friendId]: true },
+                    lastMessage: text,
+                    lastTime: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastSender: currentUser.uid
+                }, { merge: true }).catch(() => {});
+                loadRecentChats();
             }).catch(err => toast('❌ ' + err.message));
         }
 
         // Enter key sends message
         document.getElementById('chatInput')?.addEventListener('keydown', e => {
             if (e.key === 'Enter') sendChatMessage();
+        });
+
+        // --- Recent Chats (Home page) ---
+        let recentChatsUnsub = null;
+
+        function loadRecentChats() {
+            if (!currentUser) return;
+            const section = document.getElementById('recent-chats');
+            const list = document.getElementById('recentChatsList');
+            if (!section || !list) return;
+            section.style.display = '';
+            if (recentChatsUnsub) { recentChatsUnsub(); recentChatsUnsub = null; }
+            recentChatsUnsub = db.collection('chats')
+                .where('participants.' + currentUser.uid, '==', true)
+                .onSnapshot(snap => {
+                    if (snap.empty) {
+                        list.innerHTML = `<div class="recent-chat-empty" style="text-align:center;padding:20px;color:var(--ink-soft);font-size:14px;">
+                            <i class="fas fa-comments" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+                            <p>${translations[currentLang].recent_chats_empty || 'لا توجد محادثات بعد'}</p>
+                        </div>`;
+                        return;
+                    }
+                    const chats = [];
+                    snap.forEach(doc => {
+                        const data = doc.data();
+                        const chatId = doc.id;
+                        const parts = chatId.split('_');
+                        const friendId = parts[0] === currentUser.uid ? parts[1] : parts[0];
+                        const isLastFromMe = data.lastSender === currentUser.uid;
+                        const time = data.lastTime ? new Date(data.lastTime.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+                        const lastTime = data.lastTime ? data.lastTime.seconds : 0;
+                        chats.push({ chatId, friendId, data, time, isLastFromMe, lastTime });
+                    });
+                    chats.sort((a, b) => b.lastTime - a.lastTime);
+                    const topChats = chats.slice(0, 10);
+                    // Fetch friend info for each chat
+                    let html = '';
+                    let loaded = 0;
+                    topChats.forEach(c => {
+                        db.collection('users').doc(c.friendId).get().then(snap => {
+                            loaded++;
+                            const u = snap.exists ? snap.data() : { name: 'مستخدم', photoURL: '' };
+                            const initial = (u.name || '?')[0].toUpperCase();
+                            const photoHTML = u.photoURL
+                                ? `<img src="${u.photoURL}">`
+                                : `<div class="rc-avatar-initial">${initial}</div>`;
+                            const preview = c.data.lastMessage ? (c.data.lastMessage.length > 30 ? c.data.lastMessage.substring(0, 30) + '...' : c.data.lastMessage) : '';
+                            html += `
+                                <div class="recent-chat-item" onclick="openChat('${c.friendId}', '${Sanitize.text(u.name)}', '${u.photoURL || ''}')">
+                                    <div class="rc-avatar">${photoHTML}</div>
+                                    <div class="rc-info">
+                                        <div class="rc-name">${Sanitize.text(u.name || 'مستخدم')}</div>
+                                        <div class="rc-preview">${c.isLastFromMe ? '<span style="color:var(--primary-mid);">أنت: </span>' : ''}${Sanitize.text(preview)}</div>
+                                    </div>
+                                    <div class="rc-meta">
+                                        <div class="rc-time">${c.time}</div>
+                                        <div class="rc-status ${c.isLastFromMe ? 'rc-read' : ''}"><i class="fas fa-check-double"></i></div>
+                                    </div>
+                                </div>`;
+                            if (loaded === topChats.length) list.innerHTML = html;
+                        });
+                    });
+                }, err => {
+                    if (err.code === 'failed-precondition') {
+                        list.innerHTML = `<div class="recent-chat-empty" style="text-align:center;padding:20px;color:var(--ink-soft);font-size:14px;">
+                            <p>⚠️ يلزم إنشاء فهرس في Firebase Console للمجموعة chats</p>
+                        </div>`;
+                    }
+                });
+        }
+
+        // Load recent chats on home page
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && currentUser) loadRecentChats();
         });
 
         // Add chat button to friend cards
@@ -7235,8 +7435,11 @@
                             badge.style.display = 'none';
                         }
                     });
+                    loadRecentChats();
                 } else {
                     if (onlineUnsubscribe) { onlineUnsubscribe(); onlineUnsubscribe = null; }
+                    if (recentChatsUnsub) { recentChatsUnsub(); recentChatsUnsub = null; }
+                    document.getElementById('recent-chats').style.display = 'none';
                 }
             });
         });
@@ -7412,6 +7615,8 @@
                 // Chat
                 chat_online: 'متصل', chat_start: 'ابدأ المحادثة',
                 chat_placeholder: 'اكتب رسالة...',
+                chat_notification: 'رسالة جديدة من', chat_notifications: 'رسائل جديدة من',
+                recent_chats_title: 'الرسائل', recent_chats_all: 'عرض الكل', recent_chats_empty: 'لا توجد محادثات بعد',
             },
             fr: {
                 // Navigation
@@ -7563,6 +7768,8 @@
                 // Chat
                 chat_online: 'En ligne', chat_start: 'Commencer la conversation',
                 chat_placeholder: 'Écrivez un message...',
+                chat_notification: 'Nouveau message de', chat_notifications: 'Nouveaux messages de',
+                recent_chats_title: 'Messages', recent_chats_all: 'Voir tout', recent_chats_empty: 'Aucune conversation',
             }
         };
 
