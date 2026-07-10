@@ -2884,6 +2884,22 @@
             color: var(--ink);
             outline: none;
         }
+        .friends-search-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--primary-mid);
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: 0.2s;
+        }
+        .friends-search-btn:hover { opacity: 0.85; }
         .friends-tabs {
             display: flex;
             gap: 8px;
@@ -4410,6 +4426,7 @@
             <div class="friends-search-box">
                 <i class="fas fa-search"></i>
                 <input type="text" id="friendSearchInput" data-i18n-placeholder="friends_search_placeholder" placeholder="ابحث بالاسم أو الإيميل...">
+                <button class="friends-search-btn" onclick="switchFriendsTab('search');searchUsers(document.getElementById('friendSearchInput').value)"><i class="fas fa-arrow-left"></i></button>
             </div>
         </div>
 
