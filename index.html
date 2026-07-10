@@ -7347,9 +7347,8 @@
                 </div>`;
         }
 
-        // Override loadFriendsList to use chat-enabled cards
-        const _origLoadFriendsList = loadFriendsList;
-        loadFriendsList = function() {
+        // Load friends list with chat-enabled cards
+        function loadFriendsList() {
             if (!currentUser) return;
             const container = document.getElementById('friendsListTab');
             const empty = document.getElementById('friendsEmpty');
