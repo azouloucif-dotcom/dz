@@ -3053,6 +3053,20 @@
         }
         .friend-btn:hover { opacity: 0.85; }
 
+        .friend-online .friend-avatar {
+            position: relative;
+        }
+        .online-dot {
+            width: 12px;
+            height: 12px;
+            background: #2ecc71;
+            border-radius: 50%;
+            border: 2px solid var(--card);
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+        }
+
         /* ====== Chat Page ====== */
         .chat-header {
             display: flex;
@@ -4439,6 +4453,9 @@
                 <i class="fas fa-user-clock"></i> <span data-i18n="friends_tab_requests">الطلبات</span>
                 <span class="friends-badge" id="requestsCount" style="display:none">0</span>
             </button>
+            <button class="friends-tab" data-friends-tab="online" onclick="switchFriendsTab('online')">
+                <i class="fas fa-wifi"></i> <span data-i18n="friends_tab_online">المتصلون</span>
+            </button>
             <button class="friends-tab" data-friends-tab="search" onclick="switchFriendsTab('search')">
                 <i class="fas fa-search-plus"></i> <span data-i18n="friends_tab_search">بحث</span>
             </button>
@@ -4465,6 +4482,14 @@
                 <p data-i18n="friends_search_hint">ابحث عن طلاب آخرين بالاسم أو الإيميل</p>
             </div>
             <div id="searchResults"></div>
+        </div>
+
+        <div class="friends-list" id="friendsOnlineTab" style="display:none">
+            <div class="friends-empty" id="onlineEmpty">
+                <i class="fas fa-wifi" style="font-size:40px;color:var(--success);margin-bottom:12px;"></i>
+                <p data-i18n="friends_online_empty">لا يوجد متصلون حالياً</p>
+            </div>
+            <div id="onlineResults"></div>
         </div>
     </div>
 
@@ -6742,8 +6767,10 @@
             document.getElementById('friendsListTab').style.display = tab === 'list' ? '' : 'none';
             document.getElementById('friendsRequestsTab').style.display = tab === 'requests' ? '' : 'none';
             document.getElementById('friendsSearchTab').style.display = tab === 'search' ? '' : 'none';
+            document.getElementById('friendsOnlineTab').style.display = tab === 'online' ? '' : 'none';
             if (tab === 'list') loadFriendsList();
             if (tab === 'requests') loadFriendRequests();
+            if (tab === 'online') loadOnlineUsers();
         }
 
         function renderFriendCard(user, actions) {
@@ -6880,6 +6907,44 @@
                 toast('✅ ' + (translations[currentLang].friends_removed || 'تمت إزالة الصديق'));
                 loadFriendsList();
             }).catch(err => toast('❌ ' + err.message));
+        }
+
+        // --- Online Users ---
+        let onlineUnsubscribe = null;
+
+        function loadOnlineUsers() {
+            if (!currentUser) return;
+            if (onlineUnsubscribe) { onlineUnsubscribe(); onlineUnsubscribe = null; }
+            const container = document.getElementById('onlineResults');
+            const empty = document.getElementById('onlineEmpty');
+            onlineUnsubscribe = db.collection('users').onSnapshot(snap => {
+                let html = '';
+                let count = 0;
+                snap.forEach(doc => {
+                    if (doc.id === currentUser.uid) return;
+                    const u = doc.data();
+                    if (u.online) {
+                        count++;
+                        const initial = (u.name || '?')[0].toUpperCase();
+                        const photoHTML = u.photoURL
+                            ? `<img src="${u.photoURL}">`
+                            : initial;
+                        html += `
+                            <div class="friend-card friend-online">
+                                <div class="friend-avatar">${photoHTML}<span class="online-dot"></span></div>
+                                <div class="friend-info">
+                                    <div class="friend-name">${Sanitize.text(u.name || 'مستخدم')}</div>
+                                    <div class="friend-email">${Sanitize.text(u.email || '')}</div>
+                                </div>
+                                <div class="friend-actions">
+                                    <button class="friend-btn friend-btn-add" onclick="sendFriendRequest('${doc.id}')">${translations[currentLang].friends_add || 'إضافة'}</button>
+                                </div>
+                            </div>`;
+                    }
+                });
+                empty.style.display = count === 0 ? '' : 'none';
+                container.innerHTML = html;
+            });
         }
 
         // Search input listener
@@ -7134,6 +7199,11 @@
                 currentUser = user;
                 updateUserBtn();
                 if (user) {
+                    // Set online status
+                    db.collection('users').doc(user.uid).update({
+                        online: true,
+                        lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                    }).catch(() => {});
                     db.collection('users').doc(user.uid).get().then(doc => {
                         if (!doc.exists) {
                             db.collection('users').doc(user.uid).set({
@@ -7165,8 +7235,24 @@
                             badge.style.display = 'none';
                         }
                     });
+                } else {
+                    if (onlineUnsubscribe) { onlineUnsubscribe(); onlineUnsubscribe = null; }
                 }
             });
+        });
+
+        // Online status tracking
+        window.addEventListener('beforeunload', () => {
+            if (currentUser) {
+                db.collection('users').doc(currentUser.uid).update({ online: false }).catch(() => {});
+            }
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (currentUser) {
+                db.collection('users').doc(currentUser.uid).update({
+                    online: !document.hidden
+                }).catch(() => {});
+            }
         });
 
         // ============================================================
@@ -7322,6 +7408,7 @@
                 friends_add: 'إضافة', friends_remove: 'إزالة', friends_accept: 'قبول', friends_reject: 'رفض',
                 friends_request_sent: 'تم إرسال الطلب', friends_accepted: 'تمت إضافة الصديق',
                 friends_removed: 'تمت إزالة الصديق',                 friends_not_found: 'لم يتم العثور على نتائج',
+                friends_tab_online: 'المتصلون', friends_online_empty: 'لا يوجد متصلون حالياً',
                 // Chat
                 chat_online: 'متصل', chat_start: 'ابدأ المحادثة',
                 chat_placeholder: 'اكتب رسالة...',
@@ -7471,6 +7558,7 @@
                 friends_add: 'Ajouter', friends_remove: 'Retirer', friends_accept: 'Accepter', friends_reject: 'Refuser',
                 friends_request_sent: 'Demande envoyée', friends_accepted: 'Ami ajouté',
                 friends_removed: 'Ami retiré',                 friends_not_found: 'Aucun résultat trouvé',
+                friends_tab_online: 'En ligne', friends_online_empty: "Personne n'est en ligne",
                 nav_friends: 'Amis',
                 // Chat
                 chat_online: 'En ligne', chat_start: 'Commencer la conversation',
