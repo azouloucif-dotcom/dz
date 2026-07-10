@@ -2732,16 +2732,23 @@
             position: relative;
             cursor: pointer;
             transition: 0.2s;
+            overflow: hidden;
         }
         .profile-avatar:hover {
             box-shadow: 0 0 0 3px var(--accent-gold);
         }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
         .profile-avatar-edit {
             position: absolute;
-            bottom: -2px;
-            right: -2px;
-            width: 26px;
-            height: 26px;
+            bottom: 0;
+            right: 0;
+            width: 28px;
+            height: 28px;
             background: var(--accent-gold);
             border-radius: 50%;
             display: flex;
@@ -2750,6 +2757,7 @@
             font-size: 11px;
             color: #fff;
             border: 2px solid var(--card);
+            z-index: 2;
         }
         .profile-name-wrap {
             display: flex;
@@ -3994,6 +4002,7 @@
                 <div class="profile-avatar-edit"><i class="fas fa-camera"></i></div>
             </div>
             <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
+            <p style="font-size:12px;color:var(--ink-soft);margin:0 0 8px;cursor:pointer;" onclick="document.getElementById('photoInput').click()" data-i18n="profile_change_photo">اضغط لتغيير الصورة</p>
             <div class="profile-name-wrap">
                 <h2 class="profile-name" id="profileName"></h2>
                 <button class="profile-edit-btn" onclick="openEditNameModal()" title="Edit name"><i class="fas fa-pen"></i></button>
@@ -6243,28 +6252,37 @@
                 toast('❌ الملف ليس صورة');
                 return;
             }
-            if (file.size > 2 * 1024 * 1024) {
-                toast('❌ الصورة كبيرة جداً (حد أقصى 2MB)');
-                return;
-            }
             if (!RateLimiter.canProceed('profile_edit')) {
                 toast('❌ انتظر قليلاً قبل التعديل مرة أخرى');
                 return;
             }
             const reader = new FileReader();
             reader.onload = function(e) {
-                const base64 = e.target.result;
-                currentUser.updateProfile({ photoURL: base64 })
-                    .then(() => {
-                        return db.collection('users').doc(currentUser.uid).update({ photoURL: base64 });
-                    })
-                    .then(() => {
-                        const avatar = document.getElementById('profileAvatar');
-                        avatar.innerHTML = `<img src="${base64}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent-gold);"><div class="profile-avatar-edit"><i class="fas fa-camera"></i></div>`;
-                        updateUserBtn();
-                        toast('✅ تم تحديث الصورة');
-                    })
-                    .catch(err => toast('❌ ' + err.message));
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxSize = 200;
+                    let w = img.width, h = img.height;
+                    if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } }
+                    else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+                    canvas.width = w;
+                    canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    const base64 = canvas.toDataURL('image/jpeg', 0.6);
+                    if (base64.length > 900000) {
+                        toast('❌ الصورة كبيرة جداً حتى بعد الضغط');
+                        return;
+                    }
+                    db.collection('users').doc(currentUser.uid).update({ photoURL: base64 })
+                        .then(() => {
+                            const avatar = document.getElementById('profileAvatar');
+                            avatar.innerHTML = `<img src="${base64}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent-gold);"><div class="profile-avatar-edit"><i class="fas fa-camera"></i></div>`;
+                            updateUserBtn();
+                            toast('✅ تم تحديث الصورة');
+                        })
+                        .catch(err => toast('❌ ' + err.message));
+                };
+                img.src = e.target.result;
             };
             reader.readAsDataURL(file);
             event.target.value = '';
@@ -6556,6 +6574,7 @@
                 profile_pomodoro: 'جلسة بومودورو', profile_settings: 'الإعدادات',
                 profile_progress: 'التقدم', profile_theme: 'تبديل المظهر', profile_language: 'تغيير اللغة',
                 profile_edit_name: 'تعديل الاسم', profile_edit_save: 'حفظ', profile_edit_cancel: 'إلغاء',
+                profile_change_photo: 'اضغط لتغيير الصورة',
             },
             fr: {
                 // Navigation
@@ -6693,6 +6712,7 @@
                 profile_pomodoro: 'Sessions Pomodoro', profile_settings: 'Paramètres',
                 profile_progress: 'Progrès', profile_theme: 'Changer de thème', profile_language: 'Changer la langue',
                 profile_edit_name: 'Modifier le nom', profile_edit_save: 'Enregistrer', profile_edit_cancel: 'Annuler',
+                profile_change_photo: 'Appuyez pour changer la photo',
             }
         };
 
