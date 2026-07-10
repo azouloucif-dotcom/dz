@@ -57,6 +57,11 @@
     <!-- ====== PDF.js ====== -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
+    <!-- ====== Firebase ====== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
     <!-- ====== التنسيقات ====== -->
     <style>
         /* ============================================================
@@ -296,6 +301,33 @@
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.22);
             transform: rotate(20deg) scale(1.05);
+        }
+
+        .lang-toggle {
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            height: 40px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.3s;
+            flex-shrink: 0;
+            padding: 0 14px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: scale(1.05);
+        }
+        .lang-toggle i {
+            color: var(--accent-gold);
+            font-size: 15px;
         }
 
         /* ============================================================
@@ -2499,6 +2531,328 @@
             position: relative;
             top: -2px;
         }
+
+        /* ====== Login / Register Page ====== */
+        .auth-page {
+            position: fixed;
+            inset: 0;
+            background: var(--paper);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .auth-page.show {
+            display: flex;
+        }
+        .auth-card {
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 420px;
+            padding: 36px 28px 32px;
+            position: relative;
+            border: 1px solid var(--line);
+        }
+        .auth-close {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--ink-soft);
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .auth-close:hover {
+            background: var(--paper);
+            color: var(--ink);
+        }
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .auth-logo i {
+            font-size: 40px;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .auth-logo h2 {
+            font-family: 'Amiri', serif;
+            font-size: 22px;
+            color: var(--ink);
+            margin: 0;
+        }
+        .auth-logo p {
+            font-size: 13px;
+            color: var(--ink-soft);
+            margin: 4px 0 0;
+        }
+        .auth-field {
+            margin-bottom: 16px;
+        }
+        .auth-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+        .auth-field input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid var(--line);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Tajawal', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+        .auth-field input:focus {
+            outline: none;
+            border-color: var(--primary-mid);
+            background: var(--card);
+        }
+        .auth-field input.error {
+            border-color: var(--accent-red);
+        }
+        .auth-error {
+            font-size: 12px;
+            color: var(--accent-red);
+            margin-top: 4px;
+            display: none;
+        }
+        .auth-error.show {
+            display: block;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 13px;
+            background: var(--primary-mid);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 4px;
+        }
+        .auth-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .auth-btn:active {
+            transform: translateY(0);
+        }
+        .auth-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .auth-google-btn {
+            width: 100%;
+            padding: 13px;
+            background: #fff;
+            color: #333;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .auth-google-btn:hover {
+            border-color: #4285F4;
+            box-shadow: 0 2px 8px rgba(66,133,244,0.25);
+        }
+        .auth-google-btn:active {
+            transform: translateY(0);
+        }
+        .auth-google-btn svg {
+            flex-shrink: 0;
+        }
+        .auth-divider {
+            text-align: center;
+            margin: 18px 0;
+            font-size: 12px;
+            color: var(--ink-soft);
+            position: relative;
+        }
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 35%;
+            height: 1px;
+            background: var(--line);
+        }
+        .auth-divider::before { left: 0; }
+        .auth-divider::after { right: 0; }
+
+        /* ====== Profile Page ====== */
+        .profile-header {
+            text-align: center;
+            padding: 40px 20px 30px;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--header-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 32px;
+            color: #fff;
+            font-weight: 800;
+            font-family: 'Amiri', serif;
+            border: 3px solid var(--accent-gold);
+        }
+        .profile-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--ink);
+            margin: 0 0 4px;
+        }
+        .profile-email {
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .profile-stat {
+            text-align: center;
+        }
+        .profile-stat-val {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-mid);
+            display: block;
+        }
+        .profile-stat-label {
+            font-size: 12px;
+            color: var(--ink-soft);
+        }
+        .profile-section {
+            padding: 0 20px 20px;
+        }
+        .profile-section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .profile-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .profile-item:hover {
+            border-color: var(--primary-mid);
+            box-shadow: var(--shadow-sm);
+        }
+        .profile-item i {
+            font-size: 18px;
+            color: var(--primary-mid);
+            width: 24px;
+            text-align: center;
+        }
+        .profile-item-text {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .profile-item-arrow {
+            color: var(--ink-soft);
+            font-size: 12px;
+        }
+        .profile-logout {
+            background: none;
+            border: 2px solid var(--accent-red);
+            color: var(--accent-red);
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .profile-logout:hover {
+            background: var(--accent-red);
+            color: #fff;
+        }
+
+        /* Header user button */
+        .user-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1.5px solid var(--line);
+            background: var(--card);
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .user-btn:hover {
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-sm);
+        }
+        .user-btn .user-avatar-sm {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--header-gradient);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
     </style>
 </head>
 
@@ -2552,17 +2906,19 @@
 
                 <nav>
                     <ul>
-                        <li><a href="#home" class="active" data-page="home"><i class="fas fa-home"></i> الرئيسية</a></li>
-                        <li><a href="#math" data-page="math"><i class="fas fa-calculator"></i> رياضيات</a></li>
-                        <li><a href="#physics" data-page="physics"><i class="fas fa-bolt"></i> فيزياء</a></li>
-                        <li><a href="#timer" data-page="timer"><i class="fas fa-clock"></i> مؤقت</a></li>
-                        <li><a href="#azkar" data-page="azkar"><i class="fas fa-pray"></i> أذكار</a></li>
-                        <li><a href="#bac" data-page="bac"><i class="fas fa-book-open"></i> بكالوريات</a></li>
-                        <li><a href="#audio" data-page="audio"><i class="fas fa-quran"></i> المصحف</a></li>
-                        <li><a href="#processor" data-page="processor"><i class="fas fa-file-alt"></i> معالج النصوص</a></li>
+                        <li><a href="#home" class="active" data-page="home"><i class="fas fa-home"></i> <span data-i18n="nav_home">الرئيسية</span></a></li>
+                        <li><a href="#math" data-page="math"><i class="fas fa-calculator"></i> <span data-i18n="nav_math">رياضيات</span></a></li>
+                        <li><a href="#physics" data-page="physics"><i class="fas fa-bolt"></i> <span data-i18n="nav_physics">فيزياء</span></a></li>
+                        <li><a href="#timer" data-page="timer"><i class="fas fa-clock"></i> <span data-i18n="nav_timer">مؤقت</span></a></li>
+                        <li><a href="#azkar" data-page="azkar"><i class="fas fa-pray"></i> <span data-i18n="nav_azkar">أذكار</span></a></li>
+                        <li><a href="#bac" data-page="bac"><i class="fas fa-book-open"></i> <span data-i18n="nav_bac">بكالوريات</span></a></li>
+                        <li><a href="#audio" data-page="audio"><i class="fas fa-quran"></i> <span data-i18n="nav_quran">المصحف</span></a></li>
+                        <li><a href="#processor" data-page="processor"><i class="fas fa-file-alt"></i> <span data-i18n="nav_processor">معالج النصوص</span></a></li>
                     </ul>
                 </nav>
+                <button class="lang-toggle" id="langToggle" aria-label="Changer la langue"><i class="fas fa-globe"></i> <span id="langLabel">FR</span></button>
                 <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <button class="user-btn" id="userBtn" aria-label="Profile"><i class="fas fa-user"></i></button>
             </div>
         </div>
     </header>
@@ -2574,32 +2930,32 @@
 
         <!-- === قسم الهيرو === -->
         <section style="text-align:center;padding:40px 20px 30px;">
-            <span class="eyebrow"><i class="fas fa-star"></i> نسخة ٢٠٢٦</span>
-            <h1 style="font-size:clamp(26px,5vw,44px);color:var(--ink);margin-bottom:12px;">بطاقتك الرسمية للنجاح في البكالوريا</h1>
-            <p style="color:var(--ink-soft);max-width:640px;margin:0 auto 28px;font-size:16px;">تجميع لأفضل الأساتذة الجزائريين، معاملات، حاسبة معدل، ومساعد azou ai الذكي مجاناً.</p>
+            <span class="eyebrow"><i class="fas fa-star"></i> <span data-i18n="hero_version">نسخة ٢٠٢٦</span></span>
+            <h1 style="font-size:clamp(26px,5vw,44px);color:var(--ink);margin-bottom:12px;" data-i18n="hero_title">بطاقتك الرسمية للنجاح في البكالوريا</h1>
+            <p style="color:var(--ink-soft);max-width:640px;margin:0 auto 28px;font-size:16px;" data-i18n="hero_desc">تجميع لأفضل الأساتذة الجزائريين، معاملات، حاسبة معدل، ومساعد azou ai الذكي مجاناً.</p>
 
             <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;">
-                <a href="#subjects" class="btn btn-primary" onclick="document.getElementById('subjects').scrollIntoView({behavior:'smooth'});return false;"><i class="fas fa-users"></i> الأساتذة</a>
-                <a href="#calculator" class="btn btn-ghost" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'});return false;"><i class="fas fa-calculator"></i> المعدل</a>
-                <a href="#bac-exams" class="btn btn-ghost" onclick="document.getElementById('bac-exams').scrollIntoView({behavior:'smooth'});return false;"><i class="fas fa-download"></i> بكالوريات</a>
+                <a href="#subjects" class="btn btn-primary" onclick="document.getElementById('subjects').scrollIntoView({behavior:'smooth'});return false;"><i class="fas fa-users"></i> <span data-i18n="hero_btn_teachers">الأساتذة</span></a>
+                <a href="#calculator" class="btn btn-ghost" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'});return false;"><i class="fas fa-calculator"></i> <span data-i18n="hero_btn_avg">المعدل</span></a>
+                <a href="#bac-exams" class="btn btn-ghost" onclick="document.getElementById('bac-exams').scrollIntoView({behavior:'smooth'});return false;"><i class="fas fa-download"></i> <span data-i18n="hero_btn_bac">بكالوريات</span></a>
                 <a href="#azou-ai" class="btn btn-gold" onclick="document.getElementById('azou-ai').scrollIntoView({behavior:'smooth'});return false;"><i class="fas fa-robot"></i> azou ai</a>
             </div>
 
             <!-- الإحصائيات -->
             <div style="display:flex;justify-content:center;gap:30px;flex-wrap:wrap;">
-                <div><span style="font-size:26px;font-weight:800;color:var(--primary-mid);display:block;">+40</span><span style="font-size:13px;color:var(--ink-soft);">أستاذ</span></div>
-                <div><span style="font-size:26px;font-weight:800;color:var(--primary-mid);display:block;">+300</span><span style="font-size:13px;color:var(--ink-soft);">فيديو</span></div>
-                <div><span style="font-size:26px;font-weight:800;color:var(--primary-mid);display:block;">+5000</span><span style="font-size:13px;color:var(--ink-soft);">طالب</span></div>
+                <div><span style="font-size:26px;font-weight:800;color:var(--primary-mid);display:block;">+40</span><span style="font-size:13px;color:var(--ink-soft);" data-i18n="stat_teachers">أستاذ</span></div>
+                <div><span style="font-size:26px;font-weight:800;color:var(--primary-mid);display:block;">+300</span><span style="font-size:13px;color:var(--ink-soft);" data-i18n="stat_videos">فيديو</span></div>
+                <div><span style="font-size:26px;font-weight:800;color:var(--primary-mid);display:block;">+5000</span><span style="font-size:13px;color:var(--ink-soft);" data-i18n="stat_students">طالب</span></div>
             </div>
 
             <!-- عداد البكالوريا -->
             <div style="background:var(--accent-gold-soft);border-radius:60px;padding:12px 24px;display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin:16px auto 0;border:2px solid var(--accent-gold);direction:ltr;">
-                <span style="font-weight:700;color:var(--primary-dark);font-size:15px;direction:rtl;"><i class="fas fa-hourglass-half" style="color:var(--accent-gold);"></i> متبقي على البكالوريا 2027:</span>
+                <span style="font-weight:700;color:var(--primary-dark);font-size:15px;direction:rtl;"><i class="fas fa-hourglass-half" style="color:var(--accent-gold);"></i> <span data-i18n="countdown_label">متبقي على البكالوريا 2027:</span></span>
                 <span style="font-family:'Reem Kufi',sans-serif;font-size:22px;font-weight:800;color:var(--primary-mid);background:var(--card);padding:4px 18px;border-radius:40px;box-shadow:var(--shadow-sm);display:inline-flex;direction:ltr;align-items:center;gap:10px;">
-                    <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-days">00</span><span>يوم</span></span>
-                    <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-hours">00</span><span>ساعة</span></span>
-                    <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-minutes">00</span><span>دقيقة</span></span>
-                    <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-seconds">00</span><span>ثانية</span></span>
+                    <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-days">00</span><span data-i18n="unit_days">يوم</span></span>
+                    <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-hours">00</span><span data-i18n="unit_hours">ساعة</span></span>
+                    <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-minutes">00</span><span data-i18n="unit_minutes">دقيقة</span></span>
+                    <span style="display:inline-flex;direction:ltr;align-items:center;gap:4px;"><span id="cd-seconds">00</span><span data-i18n="unit_seconds">ثانية</span></span>
                 </span>
             </div>
 
@@ -2607,16 +2963,16 @@
             <div class="streak-bar" id="streakBar" style="margin-top:16px;">
                 <i class="fas fa-fire"></i>
                 <span class="streak-count" id="streakCount">0</span>
-                <span class="streak-label">أيام متتالية من الدراسة</span>
+                <span class="streak-label" data-i18n="streak_label">أيام متتالية من الدراسة</span>
                 <span style="color:var(--ink-soft);font-size:12px;">|</span>
-                <span style="font-size:13px;color:var(--ink);font-weight:600;">إجمالي <span id="totalStudyDays">0</span> يوم</span>
+                <span style="font-size:13px;color:var(--ink);font-weight:600;"><span data-i18n="streak_total">إجمالي</span> <span id="totalStudyDays">0</span> <span data-i18n="unit_days">يوم</span></span>
             </div>
         </section>
 
         <!-- === قسم الأساتذة === -->
         <section id="subjects" class="section-container">
             <div class="section-head">
-                <h2 class="section-title"><i class="fas fa-chalkboard-teacher" style="color:var(--accent-gold);"></i> اختر مادتك، تابع أستاذك</h2>
+                <h2 class="section-title"><i class="fas fa-chalkboard-teacher" style="color:var(--accent-gold);"></i> <span data-i18n="sec_teachers">اختر مادتك، تابع أستاذك</span></h2>
             </div>
 
             <div class="grid">
@@ -2845,47 +3201,47 @@
         <!-- === قسم المعاملات === -->
         <section id="coefficients" class="section-container">
             <div class="section-head">
-                <h2 class="section-title"><i class="fas fa-weight-hanging" style="color:var(--accent-gold);"></i> معاملات المواد</h2>
+                <h2 class="section-title"><i class="fas fa-weight-hanging" style="color:var(--accent-gold);"></i> <span data-i18n="sec_coeffs">معاملات المواد</span></h2>
             </div>
             <div class="coeff-section">
                 <div class="tab-nav" id="tabNav">
-                    <button class="tab-btn active" data-tab="tech-math"><i class="fas fa-tools"></i> تقني رياضي</button>
-                    <button class="tab-btn" data-tab="sciences-exp"><i class="fas fa-flask"></i> علوم تجريبية</button>
-                    <button class="tab-btn" data-tab="math"><i class="fas fa-square-root-alt"></i> شعبة رياضيات</button>
+                    <button class="tab-btn active" data-tab="tech-math"><i class="fas fa-tools"></i> <span data-i18n="stream_tech_math">تقني رياضي</span></button>
+                    <button class="tab-btn" data-tab="sciences-exp"><i class="fas fa-flask"></i> <span data-i18n="stream_sciences_exp">علوم تجريبية</span></button>
+                    <button class="tab-btn" data-tab="math"><i class="fas fa-square-root-alt"></i> <span data-i18n="stream_math">شعبة رياضيات</span></button>
                 </div>
                 <table class="coeff-table">
-                    <thead><tr><th>المادة</th><th>المعامل</th><th>طبيعة الامتحان</th></tr></thead>
+                    <thead><tr><th data-i18n="th_subject">المادة</th><th data-i18n="th_coeff">المعامل</th><th data-i18n="th_exam_type">طبيعة الامتحان</th></tr></thead>
                     <tbody id="coeffTableBody"></tbody>
                 </table>
-                <p class="coeff-note"><i class="fas fa-info-circle"></i> المعاملات حسب المنهاج الرسمي. الأمازيغية اختيارية.</p>
+                <p class="coeff-note"><i class="fas fa-info-circle"></i> <span data-i18n="coeff_note">المعاملات حسب المنهاج الرسمي. الأمازيغية اختيارية.</span></p>
             </div>
         </section>
 
         <!-- === قسم الحاسبة === -->
         <section id="calculator" class="section-container">
             <div class="section-head">
-                <h2 class="section-title"><i class="fas fa-calculator" style="color:var(--accent-gold);"></i> حاسبة المعدل العام</h2>
+                <h2 class="section-title"><i class="fas fa-calculator" style="color:var(--accent-gold);"></i> <span data-i18n="sec_calculator">حاسبة المعدل العام</span></h2>
             </div>
             <div class="calc-section">
                 <div class="tab-nav" id="calcTabNav">
-                    <button class="tab-btn active" data-calc-tab="tech-math"><i class="fas fa-tools"></i> تقني رياضي</button>
-                    <button class="tab-btn" data-calc-tab="sciences-exp"><i class="fas fa-flask"></i> علوم تجريبية</button>
-                    <button class="tab-btn" data-calc-tab="math"><i class="fas fa-square-root-alt"></i> شعبة رياضيات</button>
+                    <button class="tab-btn active" data-calc-tab="tech-math"><i class="fas fa-tools"></i> <span data-i18n="stream_tech_math">تقني رياضي</span></button>
+                    <button class="tab-btn" data-calc-tab="sciences-exp"><i class="fas fa-flask"></i> <span data-i18n="stream_sciences_exp">علوم تجريبية</span></button>
+                    <button class="tab-btn" data-calc-tab="math"><i class="fas fa-square-root-alt"></i> <span data-i18n="stream_math">شعبة رياضيات</span></button>
                 </div>
                 <table class="calc-table">
-                    <thead><tr><th>المادة</th><th>المعامل</th><th>العلامة (0-20)</th><th>المعدل الجزئي</th></tr></thead>
+                    <thead><tr><th data-i18n="th_subject">المادة</th><th data-i18n="th_coeff">المعامل</th><th data-i18n="th_grade">العلامة (0-20)</th><th data-i18n="th_partial">المعدل الجزئي</th></tr></thead>
                     <tbody id="calcTableBody"></tbody>
                 </table>
-                <button class="btn-calculate" id="calculateBtn"><i class="fas fa-chart-simple"></i> احسب المعدل</button>
-                <div class="average-box" id="averageResult">أدخل العلامات ثم اضغط زر الحساب</div>
+                <button class="btn-calculate" id="calculateBtn"><i class="fas fa-chart-simple"></i> <span data-i18n="btn_calculate">احسب المعدل</span></button>
+                <div class="average-box" id="averageResult" data-i18n="calc_placeholder">أدخل العلامات ثم اضغط زر الحساب</div>
             </div>
         </section>
 
         <!-- === قسم البكالوريات === -->
         <section id="bac-exams" class="section-container">
             <div class="section-head">
-                <h2 class="section-title"><i class="fas fa-book-open" style="color:var(--accent-gold);"></i> بكالوريات سابقة</h2>
-                <p class="section-sub">اختر المادة للاطلاع على امتحانات السنوات السابقة</p>
+                <h2 class="section-title"><i class="fas fa-book-open" style="color:var(--accent-gold);"></i> <span data-i18n="sec_bac_exams">بكالوريات سابقة</span></h2>
+                <p class="section-sub" data-i18n="sec_bac_exams_sub">اختر المادة للاطلاع على امتحانات السنوات السابقة</p>
             </div>
             <div class="grid">
                 <a href="#bac" class="bac-card" onclick="navigateTo('bac');return false;"><span class="bac-icon">📐</span><h3>الرياضيات</h3><p>جميع الشعب 2017-2025</p></a>
@@ -2904,9 +3260,9 @@
         <section id="azou-ai" class="section-container">
             <div class="ai-section">
                 <div class="section-head">
-                    <span class="eyebrow"><i class="fas fa-gem"></i> مجاني</span>
-                    <h2 class="section-title"><i class="fas fa-robot" style="color:var(--accent-cyan);"></i> azou ai مساعدك الذكي</h2>
-                    <p class="section-sub">اسأل عن أي شيء في دراستك. استخدم النص فقط.</p>
+                    <span class="eyebrow"><i class="fas fa-gem"></i> <span data-i18n="ai_free">مجاني</span></span>
+                    <h2 class="section-title"><i class="fas fa-robot" style="color:var(--accent-cyan);"></i> <span data-i18n="ai_title">azou ai مساعدك الذكي</span></h2>
+                    <p class="section-sub" data-i18n="ai_subtitle">اسأل عن أي شيء في دراستك. استخدم النص فقط.</p>
                 </div>
 
                 <div class="ai-container">
@@ -2915,22 +3271,22 @@
                             <i class="fas fa-brain" style="color:var(--accent-gold);"></i> azou ai
                             <div class="ai-status">
                                 <span class="status-dot status-on" id="statusDot"></span>
-                                <span id="statusText">متصل وجاهز</span>
+                                <span id="statusText" data-i18n="ai_status_online">متصل وجاهز</span>
                             </div>
                         </div>
                         <button class="icon-btn" id="clearChatBtn"><i class="fas fa-trash-alt"></i></button>
                     </div>
 
                     <div class="quick-chips">
-                        <button class="chip" data-prompt="اشرح لي خطوات حل دالة رياضية من الدرجة الثانية"><i class="fas fa-calculator"></i> دالة رياضية</button>
-                        <button class="chip" data-prompt="ما هي خطوات المنهج العلمي؟"><i class="fas fa-microscope"></i> المنهج العلمي</button>
-                        <button class="chip" data-prompt="كيف أكتب خطة مقالة فلسفية جدلية؟"><i class="fas fa-quote-right"></i> مقالة فلسفية</button>
+                        <button class="chip" data-prompt="اشرح لي خطوات حل دالة رياضية من الدرجة الثانية"><i class="fas fa-calculator"></i> <span data-i18n="chip_math">دالة رياضية</span></button>
+                        <button class="chip" data-prompt="ما هي خطوات المنهج العلمي؟"><i class="fas fa-microscope"></i> <span data-i18n="chip_science">المنهج العلمي</span></button>
+                        <button class="chip" data-prompt="كيف أكتب خطة مقالة فلسفية جدلية؟"><i class="fas fa-quote-right"></i> <span data-i18n="chip_philo">مقالة فلسفية</span></button>
                     </div>
 
                     <div class="chat-box" id="chatBox">
                         <div class="message bot">
                             <div class="msg-avatar"><i class="fas fa-robot"></i></div>
-                            <div class="bubble">مرحباً! أنا <strong>azou ai</strong>، اسألني أي شيء.</div>
+                            <div class="bubble" data-i18n="ai_welcome">مرحباً! أنا <strong>azou ai</strong>، اسألني أي شيء.</div>
                         </div>
                         <div class="loading-dots" id="loadingDots">
                             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -2938,8 +3294,8 @@
                     </div>
 
                     <div class="ai-input-area">
-                        <textarea id="userInput" placeholder="اكتب سؤالك..." rows="1"></textarea>
-                        <button class="btn-send" id="sendBtn"><i class="fas fa-paper-plane"></i> إرسال</button>
+                        <textarea id="userInput" data-i18n-placeholder="ai_input_placeholder" placeholder="اكتب سؤالك..." rows="1"></textarea>
+                        <button class="btn-send" id="sendBtn"><i class="fas fa-paper-plane"></i> <span data-i18n="ai_send">إرسال</span></button>
                     </div>
                 </div>
             </div>
@@ -2974,16 +3330,16 @@
     <div id="page-math" class="page-content">
         <div class="section-container" style="margin-top:20px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-calculator" style="color:var(--accent-gold);"></i> فضاء الرياضيات</h1>
-                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-calculator" style="color:var(--accent-gold);"></i> <span data-i18n="page_math">فضاء الرياضيات</span></h1>
+                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_back">العودة</span></a>
             </div>
 
-            <p style="color:var(--ink-soft);margin-bottom:24px;">شعبة علوم تجريبية | رياضيات | تقني رياضي</p>
+            <p style="color:var(--ink-soft);margin-bottom:24px;" data-i18n="page_math_sub">شعبة علوم تجريبية | رياضيات | تقني رياضي</p>
 
             <div class="math-split" style="display:grid;grid-template-columns:2fr 1fr;gap:24px;">
                 <!-- قائمة الوحدات -->
                 <div>
-                    <h2 class="section-title" style="font-size:22px;margin-bottom:16px;"><i class="fas fa-list-ul" style="color:var(--accent-gold);"></i> الوحدات</h2>
+                    <h2 class="section-title" style="font-size:22px;margin-bottom:16px;"><i class="fas fa-list-ul" style="color:var(--accent-gold);"></i> <span data-i18n="math_units">الوحدات</span></h2>
 
                     <div class="grid-topics">
                         <!-- وحدة الدوال العددية -->
@@ -3082,12 +3438,12 @@
                 <!-- لوحة الملاحظات -->
                 <aside>
                     <div class="notes-panel">
-                        <h3 style="font-size:18px;margin-bottom:4px;"><i class="fas fa-pen"></i> تدوين القوانين</h3>
-                        <p style="font-size:12px;color:var(--ink-soft);margin-bottom:12px;">احفظ القوانين الذهبية محلياً.</p>
-                        <textarea id="mathNotesArea" placeholder="مثال: مشتقة ln(u) = u'/u"></textarea>
+                        <h3 style="font-size:18px;margin-bottom:4px;"><i class="fas fa-pen"></i> <span data-i18n="notes_title">تدوين القوانين</span></h3>
+                        <p style="font-size:12px;color:var(--ink-soft);margin-bottom:12px;" data-i18n="notes_desc">احفظ القوانين الذهبية محلياً.</p>
+                        <textarea id="mathNotesArea" data-i18n-placeholder="notes_placeholder" placeholder="مثال: مشتقة ln(u) = u'/u"></textarea>
                         <div class="notes-status">
-                            <span id="charCount">0 حرف</span>
-                            <span class="save-indicator" id="saveIndicator">✓ تم الحفظ</span>
+                            <span id="charCount">0 <span data-i18n="notes_chars">حرف</span></span>
+                            <span class="save-indicator" id="saveIndicator" data-i18n="notes_saved">✓ تم الحفظ</span>
                         </div>
                     </div>
                 </aside>
@@ -3101,14 +3457,14 @@
     <div id="page-physics" class="page-content">
         <div class="section-container" style="margin-top:20px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-bolt" style="color:var(--accent-gold);"></i> فضاء الفيزياء</h1>
-                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-bolt" style="color:var(--accent-gold);"></i> <span data-i18n="page_physics">فضاء الفيزياء</span></h1>
+                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_back">العودة</span></a>
             </div>
 
-            <p style="color:var(--ink-soft);margin-bottom:24px;">برنامج التوزيع السنوي للدروس والتمارين - السنة الثالثة ثانوي.</p>
+            <p style="color:var(--ink-soft);margin-bottom:24px;" data-i18n="page_physics_sub">برنامج التوزيع السنوي للدروس والتمارين - السنة الثالثة ثانوي.</p>
 
             <!-- الفصل الأول -->
-            <div class="term-title">📌 الفصل الدراسي الأول</div>
+            <div class="term-title" data-i18n="term_1">📌 الفصل الدراسي الأول</div>
             <div class="units-grid">
                 <!-- الوحدة 01 -->
                 <div class="unit-card">
@@ -3154,7 +3510,7 @@
             </div>
 
             <!-- الفصل الثاني -->
-            <div class="term-title">📌 الفصل الدراسي الثاني</div>
+            <div class="term-title" data-i18n="term_2">📌 الفصل الدراسي الثاني</div>
             <div class="units-grid">
                 <div class="unit-card" style="border-bottom:1px solid var(--line);margin-bottom:-10px;">
                     <div class="unit-info">
@@ -3185,7 +3541,7 @@
             </div>
 
             <!-- الفصل الثالث -->
-            <div class="term-title">📌 الفصل الدراسي الثالث</div>
+            <div class="term-title" data-i18n="term_3">📌 الفصل الدراسي الثالث</div>
             <div class="units-grid">
                 <div class="unit-card">
                     <div class="unit-info"><h3>🏭 تابع الوحدة 05: الانشطار والاندماج النووي</h3><p>تفاعلات الانشطار والاندماج وحصيلة الطاقة.</p></div>
@@ -3200,7 +3556,7 @@
 
             <!-- بكالوريات تجريبية -->
             <div class="exams-section">
-                <h2 style="color:var(--primary-mid);margin-bottom:12px;"><i class="fas fa-file-alt"></i> بكالوريات تجريبية</h2>
+                <h2 style="color:var(--primary-mid);margin-bottom:12px;"><i class="fas fa-file-alt"></i> <span data-i18n="physics_exams">بكالوريات تجريبية</span></h2>
                 <div class="units-grid">
                     <div class="unit-card" style="border-right-color:var(--primary-mid);">
                         <div class="unit-info"><h3>📝 الموضوع المقترح الأول + التصحيح</h3><p>شامل جميع وحدات الفصل الأول والثاني.</p></div>
@@ -3215,7 +3571,7 @@
 
             <!-- كتب المراجعة -->
             <div class="review-section">
-                <h2 style="color:var(--primary-mid);margin-bottom:12px;"><i class="fas fa-book"></i> كتب تأشيرة النجاح</h2>
+                <h2 style="color:var(--primary-mid);margin-bottom:12px;"><i class="fas fa-book"></i> <span data-i18n="physics_books">كتب تأشيرة النجاح</span></h2>
                 <div class="books-grid">
                     <div class="book-card">
                         <img src="https://eddirasa.com/wp-content/uploads/2022/12/%D9%83%D8%AA%D8%A7%D8%A8-%D8%AA%D8%A3%D8%B4%D9%8A%D8%B1%D8%A9-%D8%A7%D9%84%D9%86%D8%AC%D8%A7%D8%AD-%D9%81%D9%8A-%D8%A7%D9%84%D8%B9%D9%84%D9%88%D9%85-%D8%A7%D9%84%D9%81%D9%8A%D8%B2%D9%8A%D8%A7%D8%A6%D9%8A%D8%A9-%D8%A7%D9%84%D8%AC%D8%B2%D8%A1-1.jpg" class="book-img">
@@ -3265,8 +3621,8 @@
     <div id="page-timer" class="page-content">
         <div class="section-container" style="margin-top:20px;max-width:800px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-clock" style="color:var(--accent-gold);"></i> المؤقت والتاريخ</h1>
-                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-clock" style="color:var(--accent-gold);"></i> <span data-i18n="page_timer">المؤقت والتاريخ</span></h1>
+                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_back">العودة</span></a>
             </div>
 
             <div class="timer-hero">
@@ -3284,7 +3640,7 @@
                             <div class="flip-card" id="flipDayTens">0</div>
                             <div class="flip-card" id="flipDayOnes">0</div>
                         </div>
-                        <span class="flip-label">يوم</span>
+                        <span class="flip-label" data-i18n="unit_days">يوم</span>
                     </div>
                     <span class="flip-separator">:</span>
 
@@ -3294,7 +3650,7 @@
                             <div class="flip-card" id="flipHourTens">0</div>
                             <div class="flip-card" id="flipHourOnes">0</div>
                         </div>
-                        <span class="flip-label">ساعة</span>
+                        <span class="flip-label" data-i18n="unit_hours">ساعة</span>
                     </div>
                     <span class="flip-separator">:</span>
 
@@ -3304,7 +3660,7 @@
                             <div class="flip-card" id="flipMinuteTens">0</div>
                             <div class="flip-card" id="flipMinuteOnes">0</div>
                         </div>
-                        <span class="flip-label">دقيقة</span>
+                        <span class="flip-label" data-i18n="unit_minutes">دقيقة</span>
                     </div>
                     <span class="flip-separator">:</span>
 
@@ -3314,7 +3670,7 @@
                             <div class="flip-card" id="flipSecondTens">0</div>
                             <div class="flip-card" id="flipSecondOnes">0</div>
                         </div>
-                        <span class="flip-label">ثانية</span>
+                        <span class="flip-label" data-i18n="unit_seconds">ثانية</span>
                     </div>
                 </div>
 
@@ -3322,18 +3678,18 @@
 
             <!-- Pomodoro Timer -->
             <div class="pomodoro-section reveal">
-                <h3 style="font-family:'Amiri',serif;font-size:22px;color:var(--ink);margin-bottom:4px;"><i class="fas fa-hourglass-half" style="color:var(--accent-gold);"></i> مؤقت الدراسة (بومودورو)</h3>
-                <p style="font-size:13px;color:var(--ink-soft);margin-bottom:12px;">تقنية بومودورو: 25 دقيقة تركيز + 5 دقائق راحة</p>
-                <div class="pomodoro-phase" id="pomodoroPhase">🎯 وقت الدراسة</div>
+                <h3 style="font-family:'Amiri',serif;font-size:22px;color:var(--ink);margin-bottom:4px;"><i class="fas fa-hourglass-half" style="color:var(--accent-gold);"></i> <span data-i18n="pomodoro_title">مؤقت الدراسة (بومودورو)</span></h3>
+                <p style="font-size:13px;color:var(--ink-soft);margin-bottom:12px;" data-i18n="pomodoro_desc">تقنية بومودورو: 25 دقيقة تركيز + 5 دقائق راحة</p>
+                <div class="pomodoro-phase" id="pomodoroPhase" data-i18n="pomodoro_work">🎯 وقت الدراسة</div>
                 <div class="pomodoro-display" id="pomodoroDisplay">25:00</div>
                 <div class="pomodoro-controls">
-                    <button class="btn btn-primary" id="pomodoroStartBtn"><i class="fas fa-play"></i> بدء</button>
-                    <button class="btn btn-ghost" id="pomodoroResetBtn"><i class="fas fa-undo"></i> إعادة</button>
-                    <button class="btn btn-ghost" id="pomodoroSkipBtn"><i class="fas fa-forward"></i> تخطي</button>
+                    <button class="btn btn-primary" id="pomodoroStartBtn"><i class="fas fa-play"></i> <span data-i18n="pomodoro_start">بدء</span></button>
+                    <button class="btn btn-ghost" id="pomodoroResetBtn"><i class="fas fa-undo"></i> <span data-i18n="pomodoro_reset">إعادة</span></button>
+                    <button class="btn btn-ghost" id="pomodoroSkipBtn"><i class="fas fa-forward"></i> <span data-i18n="pomodoro_skip">تخطي</span></button>
                 </div>
                 <div class="pomodoro-stats">
-                    <span>الدورة الحالية: <strong id="pomodoroCurrent">0</strong></span>
-                    <span>إجمالي اليوم: <strong id="pomodoroToday">0</strong></span>
+                    <span><span data-i18n="pomodoro_current">الدورة الحالية:</span> <strong id="pomodoroCurrent">0</strong></span>
+                    <span><span data-i18n="pomodoro_today">إجمالي اليوم:</span> <strong id="pomodoroToday">0</strong></span>
                 </div>
             </div>
             </div>
@@ -3346,22 +3702,22 @@
     <div id="page-azkar" class="page-content">
         <div class="section-container" style="margin-top:20px;max-width:900px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-pray" style="color:var(--accent-gold);"></i> أذكار الصباح والمساء</h1>
-                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-pray" style="color:var(--accent-gold);"></i> <span data-i18n="page_azkar">أذكار الصباح والمساء</span></h1>
+                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_back">العودة</span></a>
             </div>
 
-            <p style="color:var(--ink-soft);margin-bottom:20px;">أذكار كاملة من الكتاب والسنة النبوية.</p>
+            <p style="color:var(--ink-soft);margin-bottom:20px;" data-i18n="azkar_desc">أذكار كاملة من الكتاب والسنة النبوية.</p>
 
             <div class="tab-nav" id="azkarTabs">
-                <button class="tab-btn active" data-azkar-tab="morning"><i class="fas fa-sun"></i> أذكار الصباح (15)</button>
-                <button class="tab-btn" data-azkar-tab="evening"><i class="fas fa-moon"></i> أذكار المساء (15)</button>
+                <button class="tab-btn active" data-azkar-tab="morning"><i class="fas fa-sun"></i> <span data-i18n="azkar_morning">أذكار الصباح (15)</span></button>
+                <button class="tab-btn" data-azkar-tab="evening"><i class="fas fa-moon"></i> <span data-i18n="azkar_evening">أذكار المساء (15)</span></button>
             </div>
 
             <div id="morningAzkar" class="azkar-list"></div>
             <div id="eveningAzkar" class="azkar-list" style="display:none;"></div>
 
             <div class="quotes-section">
-                <h3 style="font-family:'Amiri',serif;font-size:24px;color:var(--primary-mid);margin-bottom:12px;"><i class="fas fa-quote-left" style="color:var(--accent-gold);"></i> اقتباسات تحفيزية</h3>
+                <h3 style="font-family:'Amiri',serif;font-size:24px;color:var(--primary-mid);margin-bottom:12px;"><i class="fas fa-quote-left" style="color:var(--accent-gold);"></i> <span data-i18n="quotes_title">اقتباسات تحفيزية</span></h3>
                 <div class="quote-box" id="quoteText"></div>
                 <div class="quote-nav">
                     <button class="quote-arrow" onclick="prevQuote()"><i class="fas fa-chevron-right"></i></button>
@@ -3378,14 +3734,14 @@
     <div id="page-bac" class="page-content">
         <div class="section-container" style="margin-top:20px;max-width:900px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-book-open" style="color:var(--accent-gold);"></i> بكالوريات سابقة</h1>
-                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-book-open" style="color:var(--accent-gold);"></i> <span data-i18n="page_bac">بكالوريات سابقة</span></h1>
+                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_back">العودة</span></a>
             </div>
 
-            <p style="color:var(--ink-soft);margin-bottom:24px;">اختر المادة للاطلاع على امتحانات السنوات السابقة.</p>
+            <p style="color:var(--ink-soft);margin-bottom:24px;" data-i18n="bac_desc">اختر المادة للاطلاع على امتحانات السنوات السابقة.</p>
 
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-                <label style="font-weight:600;color:var(--ink);font-size:14px;">اختر السنة:</label>
+                <label style="font-weight:600;color:var(--ink);font-size:14px;" data-i18n="bac_select_year">اختر السنة:</label>
                 <select id="bacYearSelector" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--ink);font-size:14px;cursor:pointer;min-width:110px;"></select>
             </div>
 
@@ -3395,8 +3751,8 @@
 
             <!-- Download Manager -->
             <div class="pomodoro-section reveal" style="margin-top:28px;">
-                <h3 style="font-family:'Amiri',serif;font-size:20px;color:var(--ink);margin-bottom:8px;"><i class="fas fa-download" style="color:var(--accent-gold);"></i> مدير التحميلات - بكالوريات سابقة</h3>
-                <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px;">اضغط على "تحميل" لحفظ الامتحان للتصفح دون اتصال</p>
+                <h3 style="font-family:'Amiri',serif;font-size:20px;color:var(--ink);margin-bottom:8px;"><i class="fas fa-download" style="color:var(--accent-gold);"></i> <span data-i18n="dl_manager_title">مدير التحميلات - بكالوريات سابقة</span></h3>
+                <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px;" data-i18n="dl_manager_desc">اضغط على "تحميل" لحفظ الامتحان للتصفح دون اتصال</p>
                 <div class="download-list" id="downloadList"></div>
             </div>
         </div>
@@ -3408,11 +3764,11 @@
     <div id="page-audio" class="page-content">
         <div class="section-container" style="margin-top:20px;max-width:1000px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-quran" style="color:var(--accent-gold);"></i> المصحف المرتل - المكتبة الصوتية</h1>
-                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-quran" style="color:var(--accent-gold);"></i> <span data-i18n="page_quran">المصحف المرتل - المكتبة الصوتية</span></h1>
+                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_back">العودة</span></a>
             </div>
 
-            <p style="color:var(--ink-soft);margin-bottom:20px;">استمع إلى تلاوات خاشعة لجميع سور القرآن الكريم (برواية حفص عن عاصم) - خالية من الموسيقى تماماً.</p>
+            <p style="color:var(--ink-soft);margin-bottom:20px;" data-i18n="quran_desc">استمع إلى تلاوات خاشعة لجميع سور القرآن الكريم (برواية حفص عن عاصم) - خالية من الموسيقى تماماً.</p>
 
             <div class="audio-player-wrapper">
                 <div class="audio-player-main">
@@ -3429,10 +3785,10 @@
                 </div>
 
                 <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 12px;">
-                    <input type="number" id="surahSearch" placeholder="رقم السورة (1-114)" min="1" max="114" style="flex:1;min-width:140px;padding:10px 16px;border:2px solid var(--line);border-radius:10px;background:var(--input-bg);color:var(--ink);font-family:inherit;font-size:14px;">
-                    <input type="text" id="surahNameSearch" placeholder="اسم السورة (مثال: الرحمن)" style="flex:2;min-width:160px;padding:10px 16px;border:2px solid var(--line);border-radius:10px;background:var(--input-bg);color:var(--ink);font-family:inherit;font-size:14px;">
-                    <button class="btn btn-primary" onclick="searchSurah()" style="padding:10px 20px;"><i class="fas fa-search"></i> بحث</button>
-                    <button class="btn btn-ghost" onclick="document.getElementById('surahSearch').value='';document.getElementById('surahNameSearch').value='';renderPlaylist();" style="padding:10px 20px;"><i class="fas fa-undo"></i> عرض الكل</button>
+                    <input type="number" id="surahSearch" data-i18n-placeholder="quran_search_num" placeholder="رقم السورة (1-114)" min="1" max="114" style="flex:1;min-width:140px;padding:10px 16px;border:2px solid var(--line);border-radius:10px;background:var(--input-bg);color:var(--ink);font-family:inherit;font-size:14px;">
+                    <input type="text" id="surahNameSearch" data-i18n-placeholder="quran_search_name" placeholder="اسم السورة (مثال: الرحمن)" style="flex:2;min-width:160px;padding:10px 16px;border:2px solid var(--line);border-radius:10px;background:var(--input-bg);color:var(--ink);font-family:inherit;font-size:14px;">
+                    <button class="btn btn-primary" onclick="searchSurah()" style="padding:10px 20px;"><i class="fas fa-search"></i> <span data-i18n="btn_search">بحث</span></button>
+                    <button class="btn btn-ghost" onclick="document.getElementById('surahSearch').value='';document.getElementById('surahNameSearch').value='';renderPlaylist();" style="padding:10px 20px;"><i class="fas fa-undo"></i> <span data-i18n="btn_show_all">عرض الكل</span></button>
                 </div>
 
                 <div class="playlist-container" id="playlistContainer"></div>
@@ -3447,39 +3803,39 @@
     <div id="page-processor" class="page-content">
         <div class="section-container" style="margin-top:20px;max-width:1280px;">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-file-alt" style="color:var(--accent-gold);"></i> معالج النصوص الذكي</h1>
-                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas fa-file-alt" style="color:var(--accent-gold);"></i> <span data-i18n="page_processor">معالج النصوص الذكي</span></h1>
+                <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> <span data-i18n="btn_back">العودة</span></a>
             </div>
 
-            <p style="color:var(--ink-soft);margin-bottom:16px;">الصق نصاً أو ارفع ملف PDF لاستخراج النص منه، واستخدم الأدوات لتحليله (تلخيص، مصطلحات، أسئلة، وتحليل ذكي بالذكاء الاصطناعي).</p>
+            <p style="color:var(--ink-soft);margin-bottom:16px;" data-i18n="processor_desc">الصق نصاً أو ارفع ملف PDF لاستخراج النص منه، واستخدم الأدوات لتحليله (تلخيص، مصطلحات، أسئلة، وتحليل ذكي بالذكاء الاصطناعي).</p>
 
-            <p style="color:var(--accent-gold);margin-bottom:20px;font-size:14px;background:var(--accent-gold-soft);padding:8px 16px;border-radius:10px;display:inline-block;"><i class="fas fa-robot"></i> الزر <strong>"تحليل ذكي (AI)"</strong> يستخدم الذكاء الاصطناعي لتحليل النص بالكامل دفعة واحدة.</p>
+            <p style="color:var(--accent-gold);margin-bottom:20px;font-size:14px;background:var(--accent-gold-soft);padding:8px 16px;border-radius:10px;display:inline-block;"><i class="fas fa-robot"></i> <span data-i18n="processor_ai_note">الزر <strong>"تحليل ذكي (AI)"</strong> يستخدم الذكاء الاصطناعي لتحليل النص بالكامل دفعة واحدة.</span></p>
 
             <div class="processor-container">
                 <div class="processor-box">
-                    <textarea id="inputText" placeholder="الصق النص هنا (درس، مقال، موضوع، نص تاريخي)..."></textarea>
+                    <textarea id="inputText" data-i18n-placeholder="processor_input_placeholder" placeholder="الصق النص هنا (درس، مقال، موضوع، نص تاريخي)..."></textarea>
 
                     <div class="file-input-wrap">
                         <input type="file" id="pdfFileInput" accept=".pdf" />
-                        <button class="btn btn-ghost" onclick="extractPDF()" style="padding:6px 18px;font-size:13px;"><i class="fas fa-file-pdf"></i> استخراج النص</button>
+                        <button class="btn btn-ghost" onclick="extractPDF()" style="padding:6px 18px;font-size:13px;"><i class="fas fa-file-pdf"></i> <span data-i18n="processor_extract">استخراج النص</span></button>
                     </div>
                     <div id="fileStatus" class="file-status"></div>
 
                     <div class="processor-actions">
-                        <button class="btn btn-primary" onclick="processText('summary')"><i class="fas fa-compress-alt"></i> تلخيص</button>
-                        <button class="btn btn-ghost" onclick="processText('terms')"><i class="fas fa-tags"></i> المصطلحات</button>
-                        <button class="btn btn-gold" onclick="processText('questions')"><i class="fas fa-question-circle"></i> أسئلة</button>
-                        <button class="btn btn-primary" onclick="processWithAI()" style="background:var(--accent-purple);border-color:var(--accent-purple);"><i class="fas fa-robot"></i> تحليل ذكي (AI)</button>
+                        <button class="btn btn-primary" onclick="processText('summary')"><i class="fas fa-compress-alt"></i> <span data-i18n="processor_summary">تلخيص</span></button>
+                        <button class="btn btn-ghost" onclick="processText('terms')"><i class="fas fa-tags"></i> <span data-i18n="processor_terms">المصطلحات</span></button>
+                        <button class="btn btn-gold" onclick="processText('questions')"><i class="fas fa-question-circle"></i> <span data-i18n="processor_questions">أسئلة</span></button>
+                        <button class="btn btn-primary" onclick="processWithAI()" style="background:var(--accent-purple);border-color:var(--accent-purple);"><i class="fas fa-robot"></i> <span data-i18n="processor_ai">تحليل ذكي (AI)</span></button>
                     </div>
 
-                    <div style="margin-top:12px;font-size:12px;color:var(--ink-soft);">
+                    <div style="margin-top:12px;font-size:12px;color:var(--ink-soft);" data-i18n="processor_note">
                         <i class="fas fa-info-circle"></i> الأزرار الثلاثة الأولى تعمل محلياً (سريعة)، زر <strong>AI</strong> يستخدم الذكاء الاصطناعي للتحليل الشامل.
                     </div>
                 </div>
 
                 <div class="processor-box">
-                    <h4 style="font-family:'Tajawal',sans-serif;margin-bottom:10px;color:var(--primary-mid);"><i class="fas fa-eye"></i> النتيجة</h4>
-                    <div class="processor-result" id="processorResult">سيعرض هنا ناتج المعالجة...</div>
+                    <h4 style="font-family:'Tajawal',sans-serif;margin-bottom:10px;color:var(--primary-mid);"><i class="fas fa-eye"></i> <span data-i18n="processor_result">النتيجة</span></h4>
+                    <div class="processor-result" id="processorResult" data-i18n="processor_result_placeholder">سيعرض هنا ناتج المعالجة...</div>
                 </div>
             </div>
         </div>
@@ -3497,29 +3853,108 @@
             <a href="mailto:loucifabdelmouaiz@gmail.com" class="footer-social" style="background:rgba(255,255,255,0.06);"><i class="fas fa-envelope"></i> Gmail</a>
             <a href="https://t.me/azou_loucif" target="_blank" class="footer-social" style="background:rgba(255,255,255,0.06);"><i class="fab fa-telegram"></i> Telegram</a>
         </div>
-        <div class="footer-copy">جميع الحقوق محفوظة © 2026</div>
+        <div class="footer-copy"><span data-i18n="footer_rights">جميع الحقوق محفوظة</span> © 2026</div>
     </footer>
 
     <!-- ============================================================
     الجزء 27.1: شريط التنقل السفلي (تجربة تطبيق) - يظهر على الهاتف فقط
     ============================================================ -->
+    <!-- ====== Login Modal (Google) ====== -->
+    <div class="auth-page" id="authPage">
+        <div class="auth-card">
+            <button class="auth-close" id="authClose" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div class="auth-logo">
+                <i class="fas fa-user-circle"></i>
+                <h2 data-i18n="auth_welcome">مرحباً بك</h2>
+                <p data-i18n="auth_subtitle">سجل دخولك لحفظ تقدمك</p>
+            </div>
+            <button class="auth-google-btn" id="googleSignInBtn" type="button">
+                <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                <span data-i18n="auth_google_btn">تسجيل الدخول بـ Google</span>
+            </button>
+            <div class="auth-error" id="authError" style="text-align:center;margin-top:12px;"></div>
+        </div>
+    </div>
+
+    <!-- ====== Profile Page ====== -->
+    <div id="page-profile" class="page-content">
+        <div class="profile-header">
+            <div class="profile-avatar" id="profileAvatar"></div>
+            <h2 class="profile-name" id="profileName"></h2>
+            <p class="profile-email" id="profileEmail"></p>
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <span class="profile-stat-val" id="profileStreak">0</span>
+                    <span class="profile-stat-label" data-i18n="profile_streak">أيام متتالية</span>
+                </div>
+                <div class="profile-stat">
+                    <span class="profile-stat-val" id="profileTotal">0</span>
+                    <span class="profile-stat-label" data-i18n="profile_total">إجمالي الأيام</span>
+                </div>
+                <div class="profile-stat">
+                    <span class="profile-stat-val" id="profilePomodoro">0</span>
+                    <span class="profile-stat-label" data-i18n="profile_pomodoro">جلسة بومودورو</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-container">
+            <div class="profile-section">
+                <div class="profile-section-title"><i class="fas fa-cog"></i> <span data-i18n="profile_settings">الإعدادات</span></div>
+                <div class="profile-item" onclick="navigateTo('timer')">
+                    <i class="fas fa-clock"></i>
+                    <span class="profile-item-text" data-i18n="nav_timer">مؤقت</span>
+                    <i class="fas fa-chevron-left profile-item-arrow"></i>
+                </div>
+                <div class="profile-item" onclick="document.getElementById('themeToggle').click()">
+                    <i class="fas fa-moon"></i>
+                    <span class="profile-item-text" data-i18n="profile_theme">تبديل المظهر</span>
+                    <i class="fas fa-chevron-left profile-item-arrow"></i>
+                </div>
+                <div class="profile-item" onclick="document.getElementById('langToggle').click()">
+                    <i class="fas fa-globe"></i>
+                    <span class="profile-item-text" data-i18n="profile_language">تغيير اللغة</span>
+                    <i class="fas fa-chevron-left profile-item-arrow"></i>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-section-title"><i class="fas fa-chart-line"></i> <span data-i18n="profile_progress">التقدم</span></div>
+                <div class="profile-item" onclick="navigateTo('bac')">
+                    <i class="fas fa-book-open"></i>
+                    <span class="profile-item-text" data-i18n="nav_bac">بكالوريات سابقة</span>
+                    <i class="fas fa-chevron-left profile-item-arrow"></i>
+                </div>
+                <div class="profile-item" onclick="navigateTo('azkar')">
+                    <i class="fas fa-pray"></i>
+                    <span class="profile-item-text" data-i18n="nav_azkar">أذكار</span>
+                    <i class="fas fa-chevron-left profile-item-arrow"></i>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <button class="profile-logout" id="profileLogout" data-i18n="auth_logout">تسجيل الخروج</button>
+            </div>
+        </div>
+    </div>
+
     <nav class="bottom-nav" id="bottomNav">
-        <a href="#home" class="bn-item active" data-page="home"><i class="fas fa-home"></i><span>الرئيسية</span></a>
-        <a href="#math" class="bn-item" data-page="math"><i class="fas fa-calculator"></i><span>رياضيات</span></a>
-        <a href="#physics" class="bn-item" data-page="physics"><i class="fas fa-bolt"></i><span>فيزياء</span></a>
-        <a href="#audio" class="bn-item" data-page="audio"><i class="fas fa-quran"></i><span>المصحف</span></a>
-        <button type="button" class="bn-item" id="moreNavBtn"><i class="fas fa-ellipsis"></i><span>المزيد</span></button>
+        <a href="#home" class="bn-item active" data-page="home"><i class="fas fa-home"></i><span data-i18n="nav_home">الرئيسية</span></a>
+        <a href="#math" class="bn-item" data-page="math"><i class="fas fa-calculator"></i><span data-i18n="nav_math">رياضيات</span></a>
+        <a href="#physics" class="bn-item" data-page="physics"><i class="fas fa-bolt"></i><span data-i18n="nav_physics">فيزياء</span></a>
+        <a href="#audio" class="bn-item" data-page="audio"><i class="fas fa-quran"></i><span data-i18n="nav_quran">المصحف</span></a>
+        <button type="button" class="bn-item" id="moreNavBtn"><i class="fas fa-ellipsis"></i><span data-i18n="nav_more">المزيد</span></button>
     </nav>
 
     <div class="more-sheet-backdrop" id="moreSheetBackdrop"></div>
     <div class="more-sheet" id="moreSheet">
         <div class="more-sheet-handle"></div>
-        <h3 class="more-sheet-title"><i class="fas fa-grip-vertical" style="color:var(--accent-gold);"></i> المزيد من الأدوات</h3>
+        <h3 class="more-sheet-title"><i class="fas fa-grip-vertical" style="color:var(--accent-gold);"></i> <span data-i18n="more_title">المزيد من الأدوات</span></h3>
         <div class="more-grid">
-            <a href="#timer" class="more-item" data-page="timer"><i class="fas fa-clock"></i><span>مؤقت</span></a>
-            <a href="#azkar" class="more-item" data-page="azkar"><i class="fas fa-pray"></i><span>أذكار</span></a>
-            <a href="#bac" class="more-item" data-page="bac"><i class="fas fa-book-open"></i><span>بكالوريات</span></a>
-            <a href="#processor" class="more-item" data-page="processor"><i class="fas fa-file-alt"></i><span>معالج النصوص</span></a>
+            <a href="#timer" class="more-item" data-page="timer"><i class="fas fa-clock"></i><span data-i18n="nav_timer">مؤقت</span></a>
+            <a href="#azkar" class="more-item" data-page="azkar"><i class="fas fa-pray"></i><span data-i18n="nav_azkar">أذكار</span></a>
+            <a href="#bac" class="more-item" data-page="bac"><i class="fas fa-book-open"></i><span data-i18n="nav_bac">بكالوريات</span></a>
+            <a href="#processor" class="more-item" data-page="processor"><i class="fas fa-file-alt"></i><span data-i18n="nav_processor">معالج النصوص</span></a>
         </div>
         <div class="more-sheet-footer">
             <span style="font-size:12px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><i class="fas fa-award" style="color:var(--accent-gold);"></i> azou loucif</span>
@@ -3724,49 +4159,49 @@
         const coeffData = {
             'tech-math': {
                 subjects: [
-                    { name: 'الرياضيات', coeff: 6 },
-                    { name: 'الفيزياء', coeff: 6 },
-                    { name: 'الهندسة (تخصص)', coeff: 7 },
-                    { name: 'اللغة العربية', coeff: 3 },
-                    { name: 'اللغة الفرنسية', coeff: 2 },
-                    { name: 'اللغة الإنجليزية', coeff: 2 },
-                    { name: 'العلوم الإسلامية', coeff: 2 },
-                    { name: 'التاريخ والجغرافيا', coeff: 2 },
-                    { name: 'الفلسفة', coeff: 2 },
-                    { name: 'التربية البدنية', coeff: 1 },
-                    { name: 'الأمازيغية (اختيارية)', coeff: 2, optional: true }
+                    { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 6 },
+                    { name: 'الفيزياء', nameFr: 'Physique', coeff: 6 },
+                    { name: 'الهندسة (تخصص)', nameFr: 'Génie (spécialité)', coeff: 7 },
+                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 3 },
+                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 2 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
+                    { name: 'الفلسفة', nameFr: 'Philosophie', coeff: 2 },
+                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
+                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
                 ],
                 total: 33
             },
             'sciences-exp': {
                 subjects: [
-                    { name: 'العلوم الطبيعية', coeff: 6 },
-                    { name: 'الرياضيات', coeff: 5 },
-                    { name: 'الفيزياء', coeff: 5 },
-                    { name: 'اللغة العربية', coeff: 3 },
-                    { name: 'اللغة الفرنسية', coeff: 2 },
-                    { name: 'اللغة الإنجليزية', coeff: 2 },
-                    { name: 'العلوم الإسلامية', coeff: 2 },
-                    { name: 'التاريخ والجغرافيا', coeff: 2 },
-                    { name: 'الفلسفة', coeff: 2 },
-                    { name: 'التربية البدنية', coeff: 1 },
-                    { name: 'الأمازيغية (اختيارية)', coeff: 2, optional: true }
+                    { name: 'العلوم الطبيعية', nameFr: 'Sciences de la Vie', coeff: 6 },
+                    { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 5 },
+                    { name: 'الفيزياء', nameFr: 'Physique', coeff: 5 },
+                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 3 },
+                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 2 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
+                    { name: 'الفلسفة', nameFr: 'Philosophie', coeff: 2 },
+                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
+                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
                 ],
                 total: 30
             },
             'math': {
                 subjects: [
-                    { name: 'الرياضيات', coeff: 7 },
-                    { name: 'الفيزياء', coeff: 6 },
-                    { name: 'العلوم الطبيعية', coeff: 2 },
-                    { name: 'اللغة العربية', coeff: 3 },
-                    { name: 'اللغة الفرنسية', coeff: 2 },
-                    { name: 'اللغة الإنجليزية', coeff: 2 },
-                    { name: 'العلوم الإسلامية', coeff: 2 },
-                    { name: 'التاريخ والجغرافيا', coeff: 2 },
-                    { name: 'الفلسفة', coeff: 2 },
-                    { name: 'التربية البدنية', coeff: 1 },
-                    { name: 'الأمازيغية (اختيارية)', coeff: 2, optional: true }
+                    { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 7 },
+                    { name: 'الفيزياء', nameFr: 'Physique', coeff: 6 },
+                    { name: 'العلوم الطبيعية', nameFr: 'Sciences de la Vie', coeff: 2 },
+                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 3 },
+                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 2 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
+                    { name: 'الفلسفة', nameFr: 'Philosophie', coeff: 2 },
+                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
+                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
                 ],
                 total: 29
             }
@@ -3775,16 +4210,18 @@
         function renderCoefficients(tabId) {
             const data = coeffData[tabId];
             const tbody = document.getElementById('coeffTableBody');
+            const dict = translations[currentLang];
             let html = '';
 
             data.subjects.forEach((s, i) => {
                 const rowClass = (i < 3 && !s.optional) ? 'coeff-highlight' : '';
-                const badge = s.optional ? ' <span style="font-size:11px;opacity:0.7;">(اختياري)</span>' : '';
-                html += `<tr class="${rowClass}"><td>${s.name}${badge}</td><td><strong>${s.coeff}</strong></td><td>—</td></tr>`;
+                const sName = currentLang === 'fr' ? s.nameFr : s.name;
+                const badge = s.optional ? ' <span style="font-size:11px;opacity:0.7;">' + dict.coeff_optional + '</span>' : '';
+                html += `<tr class="${rowClass}"><td>${sName}${badge}</td><td><strong>${s.coeff}</strong></td><td>—</td></tr>`;
             });
 
             html += `<tr style="font-weight:800;background:var(--accent-gold-soft);">
-                        <td>المجموع العام</td>
+                        <td>${dict.coeff_total}</td>
                         <td class="coeff-total">${data.total}</td>
                         <td>—</td>
                     </tr>`;
@@ -3795,12 +4232,14 @@
         function renderCalculator(tabId) {
             const data = coeffData[tabId];
             const tbody = document.getElementById('calcTableBody');
+            const dict = translations[currentLang];
             let html = '';
 
             data.subjects.forEach(s => {
+                const sName = currentLang === 'fr' ? s.nameFr : s.name;
                 const opt = s.optional ? ' data-optional="true"' : '';
                 html += `<tr>
-                            <td>${s.name}</td>
+                            <td>${sName}</td>
                             <td><input type="number" class="calc-input coeff-input" value="${s.coeff}" min="0" step="0.5" ${opt}></td>
                             <td><input type="number" class="calc-input grade-input" placeholder="0-20" min="0" max="20" step="0.25"></td>
                             <td class="calc-result" data-partial="0">—</td>
@@ -3808,12 +4247,13 @@
             });
 
             tbody.innerHTML = html;
-            document.getElementById('averageResult').textContent = 'أدخل العلامات ثم اضغط زر الحساب';
+            document.getElementById('averageResult').textContent = dict.calc_placeholder;
             document.getElementById('averageResult').className = 'average-box';
         }
 
         function calculateAverage() {
             const rows = document.querySelectorAll('#calcTableBody tr');
+            const dict = translations[currentLang];
             let totalWeighted = 0,
                 totalCoeff = 0,
                 hasAnyGrade = false;
@@ -3848,16 +4288,16 @@
             const box = document.getElementById('averageResult');
 
             if (!hasAnyGrade || totalCoeff === 0) {
-                box.textContent = '⚠️ أدخل العلامات أولاً';
+                box.textContent = dict.calc_enter_grades;
                 box.className = 'average-box';
                 return;
             }
 
             const avg = totalWeighted / totalCoeff;
-            box.textContent = `🎯 المعدل العام: ${avg.toFixed(2)} / 20`;
+            box.textContent = dict.calc_avg_result + ' ' + avg.toFixed(2) + ' / 20';
             box.className = avg >= 10 ? 'average-box success' : 'average-box fail';
-            if (avg >= 10) box.textContent += ' ✅';
-            else box.textContent += ' ❌';
+            if (avg >= 10) box.textContent += dict.calc_pass;
+            else box.textContent += dict.calc_fail;
         }
 
         // ربط أزرار المعاملات والحاسبة
@@ -3907,11 +4347,12 @@
             }
 
             function setLoading(isLoading) {
+                const dict = translations[currentLang];
                 dots.style.display = isLoading ? 'block' : 'none';
                 send.disabled = isLoading;
                 send.innerHTML = isLoading ?
                     '<i class="fas fa-spinner fa-spin"></i>' :
-                    '<i class="fas fa-paper-plane"></i> إرسال';
+                    '<i class="fas fa-paper-plane"></i> ' + dict.ai_send;
             }
 
             function addMessage(role, text) {
@@ -3942,19 +4383,21 @@
             }
 
             clear.addEventListener('click', () => {
+                const dict = translations[currentLang];
                 box.querySelectorAll('.message').forEach(m => m.remove());
-                addMessage('bot', 'مرحباً! أنا **azou ai**، اسألني أي شيء.');
-                toast('🗑️ تم مسح المحادثة');
+                addMessage('bot', dict.ai_welcome);
+                toast(dict.ai_clear_chat);
             });
 
             async function sendToAI(userText) {
                 try {
+                    const dict = translations[currentLang];
                     const response = await fetch('https://text.pollinations.ai/openai', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             messages: [
-                                { role: 'system', content: 'أنت azou ai، مساعد تعليمي جزائري.' },
+                                { role: 'system', content: dict.ai_system_prompt },
                                 { role: 'user', content: userText }
                             ],
                             model: 'openai',
@@ -3966,14 +4409,14 @@
                     const data = await response.json();
                     return data.choices[0].message.content;
                 } catch {
-                    return 'عذراً، حدث خطأ تقني. حاول مرة أخرى.';
+                    return translations[currentLang].ai_error;
                 }
             }
 
             async function sendMessage() {
                 const text = input.value.trim();
                 if (!text) {
-                    toast('✏️ اكتب سؤالك أولاً');
+                    toast(translations[currentLang].ai_write_question);
                     return;
                 }
 
@@ -3986,7 +4429,7 @@
                     const reply = await sendToAI(text);
                     addMessage('bot', reply);
                 } catch {
-                    addMessage('bot', 'حدث خطأ غير متوقع.');
+                    addMessage('bot', translations[currentLang].ai_unexpected_error);
                 }
                 setLoading(false);
             }
@@ -4066,10 +4509,14 @@
         }
 
         function updateDateDisplay(date) {
-            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-            const months = ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان', 'جويلية', 'أوت', 'سبتمبر', 'أكتوبر', 'نوفمبر',
-                'ديسمبر'
-            ];
+            const daysAr = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+            const monthsAr = ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان', 'جويلية', 'أوت', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            const daysFr = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+            const monthsFr = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+            const isFr = currentLang === 'fr';
+            const days = isFr ? daysFr : daysAr;
+            const months = isFr ? monthsFr : monthsAr;
 
             const e = document.getElementById('dateDisplay');
             if (!e) return;
@@ -4079,10 +4526,11 @@
             const month = months[date.getMonth()];
             const year = date.getFullYear();
             const amazighYear = year + 950;
+            const dict = translations[currentLang];
 
             e.innerHTML = `
-                        <span class="gregorian">${dn}، ${day} ${month} ${year}</span>
-                        <div class="amazigh-line">ⵣ السنة الأمازيغية ${amazighYear}</div>
+                        <span class="gregorian">${dn}, ${day} ${month} ${year}</span>
+                        <div class="amazigh-line">ⵣ ${dict.date_amazigh} ${amazighYear}</div>
                     `;
         }
 
@@ -4242,80 +4690,80 @@
             const MIN_YR = 2015, MAX_YR = 2026;
 
             const streams = [
-                { id:'math', name:'الرياضيات', icon:'📐',
+                { id:'math', name:'الرياضيات', nameFr:'Mathématiques', icon:'📐',
                   subs:[
-                    { n:'الرياضيات', i:'📐', u:'/bac-math-maths-{y}/', m:2015 },
-                    { n:'الفيزياء', i:'⚡', u:'/bac-math-physique-{y}/', m:2015 },
-                    { n:'علوم طبيعة وحياة', i:'🧬', u:'/bac-math-sciences-{y}/', m:2015 },
-                    { n:'اللغة العربية', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
-                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
-                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
-                    { n:'الفلسفة', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
-                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
-                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
+                    { n:'الرياضيات', nFr:'Mathématiques', i:'📐', u:'/bac-math-maths-{y}/', m:2015 },
+                    { n:'الفيزياء', nFr:'Physique', i:'⚡', u:'/bac-math-physique-{y}/', m:2015 },
+                    { n:'علوم طبيعة وحياة', nFr:'Sciences de la Vie', i:'🧬', u:'/bac-math-sciences-{y}/', m:2015 },
+                    { n:'اللغة العربية', nFr:'Arabe', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
+                    { n:'العلوم الإسلامية', nFr:'Sciences islamiques', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'التاريخ والجغرافيا', nFr:'Histoire-Géo', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
+                    { n:'الفلسفة', nFr:'Philosophie', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
+                    { n:'الإنجليزية', nFr:'Anglais', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
+                    { n:'الفرنسية', nFr:'Français', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
                   ]},
-                { id:'se', name:'علوم تجريبية', icon:'🔬',
+                { id:'se', name:'علوم تجريبية', nameFr:'Sciences Expérimentales', icon:'🔬',
                   subs:[
-                    { n:'الرياضيات', i:'📐', u:'/bac-se-maths-{y}/', m:2015 },
-                    { n:'الفيزياء', i:'⚡', u:'/bac-se-physique-{y}/', m:2015 },
-                    { n:'علوم طبيعة وحياة', i:'🧬', u:'/bac-se-svt-{y}/', m:2015 },
-                    { n:'اللغة العربية', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
-                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
-                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
-                    { n:'الفلسفة', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
-                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
-                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
+                    { n:'الرياضيات', nFr:'Mathématiques', i:'📐', u:'/bac-se-maths-{y}/', m:2015 },
+                    { n:'الفيزياء', nFr:'Physique', i:'⚡', u:'/bac-se-physique-{y}/', m:2015 },
+                    { n:'علوم طبيعة وحياة', nFr:'Sciences de la Vie', i:'🧬', u:'/bac-se-svt-{y}/', m:2015 },
+                    { n:'اللغة العربية', nFr:'Arabe', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
+                    { n:'العلوم الإسلامية', nFr:'Sciences islamiques', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'التاريخ والجغرافيا', nFr:'Histoire-Géo', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
+                    { n:'الفلسفة', nFr:'Philosophie', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
+                    { n:'الإنجليزية', nFr:'Anglais', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
+                    { n:'الفرنسية', nFr:'Français', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
                   ]},
-                { id:'tch', name:'تقني رياضي', icon:'⚙️',
+                { id:'tch', name:'تقني رياضي', nameFr:'Tech. Math', icon:'⚙️',
                   subs:[
-                    { n:'الرياضيات', i:'📐', u:'/bac-tch-maths-{y}/', m:2015 },
-                    { n:'الفيزياء', i:'⚡', u:'/bac-math-physique-{y}/', m:2015 },
-                    { n:'هندسة مدنية', i:'🏗️', u:'/bac-tch-gcivil-{y}/', m:2015 },
-                    { n:'هندسة كهربائية', i:'⚡', u:'/bac-tch-gelectrical-{y}/', m:2015 },
-                    { n:'هندسة ميكانيكية', i:'🔧', u:'/bac-tch-gmecanique-{y}/', m:2015 },
-                    { n:'هندسة طرائق', i:'🧪', u:'/bac-tch-gprocess-{y}/', m:2015 },
-                    { n:'اللغة العربية', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
-                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
-                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
-                    { n:'الفلسفة', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
-                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
-                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
+                    { n:'الرياضيات', nFr:'Mathématiques', i:'📐', u:'/bac-tch-maths-{y}/', m:2015 },
+                    { n:'الفيزياء', nFr:'Physique', i:'⚡', u:'/bac-math-physique-{y}/', m:2015 },
+                    { n:'هندسة مدنية', nFr:'Génie Civil', i:'🏗️', u:'/bac-tch-gcivil-{y}/', m:2015 },
+                    { n:'هندسة كهربائية', nFr:'Génie Électrique', i:'⚡', u:'/bac-tch-gelectrical-{y}/', m:2015 },
+                    { n:'هندسة ميكانيكية', nFr:'Génie Mécanique', i:'🔧', u:'/bac-tch-gmecanique-{y}/', m:2015 },
+                    { n:'هندسة طرائق', nFr:'Génie des Procédés', i:'🧪', u:'/bac-tch-gprocess-{y}/', m:2015 },
+                    { n:'اللغة العربية', nFr:'Arabe', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
+                    { n:'العلوم الإسلامية', nFr:'Sciences islamiques', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'التاريخ والجغرافيا', nFr:'Histoire-Géo', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
+                    { n:'الفلسفة', nFr:'Philosophie', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
+                    { n:'الإنجليزية', nFr:'Anglais', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
+                    { n:'الفرنسية', nFr:'Français', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
                   ]},
-                { id:'lt', name:'آداب وفلسفة', icon:'📜',
+                { id:'lt', name:'آداب وفلسفة', nameFr:'Lettres & Philo', icon:'📜',
                   subs:[
-                    { n:'الرياضيات', i:'📐', u:'/bac-lt-maths-{y}/', m:2015 },
-                    { n:'اللغة العربية', i:'📖', u:'/bac-lt-arabe-{y}/', m:2015 },
-                    { n:'الفلسفة', i:'💭', u:'/bac-lt-philosophy-{y}/', m:2015 },
-                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-lt-his-geo-{y}/', m:2015 },
-                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
-                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-lt-english-{y}/', m:2015 },
-                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-lt-francais-{y}/', m:2015 }
+                    { n:'الرياضيات', nFr:'Mathématiques', i:'📐', u:'/bac-lt-maths-{y}/', m:2015 },
+                    { n:'اللغة العربية', nFr:'Arabe', i:'📖', u:'/bac-lt-arabe-{y}/', m:2015 },
+                    { n:'الفلسفة', nFr:'Philosophie', i:'💭', u:'/bac-lt-philosophy-{y}/', m:2015 },
+                    { n:'التاريخ والجغرافيا', nFr:'Histoire-Géo', i:'🌍', u:'/bac-lt-his-geo-{y}/', m:2015 },
+                    { n:'العلوم الإسلامية', nFr:'Sciences islamiques', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'الإنجليزية', nFr:'Anglais', i:'🇬🇧', u:'/bac-lt-english-{y}/', m:2015 },
+                    { n:'الفرنسية', nFr:'Français', i:'🇫🇷', u:'/bac-lt-francais-{y}/', m:2015 }
                   ]},
-                { id:'ge', name:'تسيير واقتصاد', icon:'💰',
+                { id:'ge', name:'تسيير واقتصاد', nameFr:'Gestion & Économie', icon:'💰',
                   subs:[
-                    { n:'الرياضيات', i:'📐', u:'/bac-ge-maths-{y}/', m:2015 },
-                    { n:'تسيير محاسبي ومالي', i:'📊', u:'/bac-ge-accounting-{y}/', m:2015 },
-                    { n:'اقتصاد ومناجمنت', i:'📈', u:'/bac-ge-economique-{y}/', m:2015 },
-                    { n:'قانون', i:'⚖️', u:'/bac-ge-law-{y}/', m:2015 },
-                    { n:'اللغة العربية', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
-                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
-                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
-                    { n:'الفلسفة', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
-                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
-                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
+                    { n:'الرياضيات', nFr:'Mathématiques', i:'📐', u:'/bac-ge-maths-{y}/', m:2015 },
+                    { n:'تسيير محاسبي ومالي', nFr:'Comptabilité', i:'📊', u:'/bac-ge-accounting-{y}/', m:2015 },
+                    { n:'اقتصاد ومناجمنت', nFr:'Économie & Management', i:'📈', u:'/bac-ge-economique-{y}/', m:2015 },
+                    { n:'قانون', nFr:'Droit', i:'⚖️', u:'/bac-ge-law-{y}/', m:2015 },
+                    { n:'اللغة العربية', nFr:'Arabe', i:'📖', u:'/bac-arabe-{y}-se/', m:2015 },
+                    { n:'التاريخ والجغرافيا', nFr:'Histoire-Géo', i:'🌍', u:'/bac-sci-his-geo-{y}/', m:2015 },
+                    { n:'العلوم الإسلامية', nFr:'Sciences islamiques', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'الفلسفة', nFr:'Philosophie', i:'💭', u:'/bac-sc-philosophy-{y}/', m:2022 },
+                    { n:'الإنجليزية', nFr:'Anglais', i:'🇬🇧', u:'/bac-se-english-{y}/', m:2022 },
+                    { n:'الفرنسية', nFr:'Français', i:'🇫🇷', u:'/bac-sci-francais-{y}/', m:2015 }
                   ]},
-                { id:'langu', name:'لغات أجنبية', icon:'🌐',
+                { id:'langu', name:'لغات أجنبية', nameFr:'Langues Étrangères', icon:'🌐',
                   subs:[
-                    { n:'الرياضيات', i:'📐', u:'/bac-langu-maths-{y}/', m:2015 },
-                    { n:'اللغة العربية', i:'📖', u:'/bac-langu-ara-{y}/', m:2015 },
-                    { n:'الفلسفة', i:'💭', u:'/bac-langu-philosophy-{y}/', m:2015 },
-                    { n:'التاريخ والجغرافيا', i:'🌍', u:'/bac-langu-his-geo-{y}/', m:2015 },
-                    { n:'العلوم الإسلامية', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
-                    { n:'الإنجليزية', i:'🇬🇧', u:'/bac-langu-english-{y}/', m:2015 },
-                    { n:'الفرنسية', i:'🇫🇷', u:'/bac-langu-francais-{y}/', m:2015 },
-                    { n:'الألمانية', i:'🇩🇪', u:'/bac-langu-deutsch-{y}/', m:2015 },
-                    { n:'الإسبانية', i:'🇪🇸', u:'/bac-langu-espanol-{y}/', m:2015 },
-                    { n:'الإيطالية', i:'🇮🇹', u:'/bac-langu-italien-{y}/', m:2015 }
+                    { n:'الرياضيات', nFr:'Mathématiques', i:'📐', u:'/bac-langu-maths-{y}/', m:2015 },
+                    { n:'اللغة العربية', nFr:'Arabe', i:'📖', u:'/bac-langu-ara-{y}/', m:2015 },
+                    { n:'الفلسفة', nFr:'Philosophie', i:'💭', u:'/bac-langu-philosophy-{y}/', m:2015 },
+                    { n:'التاريخ والجغرافيا', nFr:'Histoire-Géo', i:'🌍', u:'/bac-langu-his-geo-{y}/', m:2015 },
+                    { n:'العلوم الإسلامية', nFr:'Sciences islamiques', i:'☪️', u:'/bac-islamic-{y}/', m:2018 },
+                    { n:'الإنجليزية', nFr:'Anglais', i:'🇬🇧', u:'/bac-langu-english-{y}/', m:2015 },
+                    { n:'الفرنسية', nFr:'Français', i:'🇫🇷', u:'/bac-langu-francais-{y}/', m:2015 },
+                    { n:'الألمانية', nFr:'Allemand', i:'🇩🇪', u:'/bac-langu-deutsch-{y}/', m:2015 },
+                    { n:'الإسبانية', nFr:'Espagnol', i:'🇪🇸', u:'/bac-langu-espanol-{y}/', m:2015 },
+                    { n:'الإيطالية', nFr:'Italien', i:'🇮🇹', u:'/bac-langu-italien-{y}/', m:2015 }
                   ]}
             ];
 
@@ -4335,7 +4783,8 @@
                     const btn = document.createElement('button');
                     btn.className = 'tab-btn' + (idx === 0 ? ' active' : '');
                     btn.dataset.stream = st.id;
-                    btn.innerHTML = st.icon + ' ' + st.name;
+                    const stName = currentLang === 'fr' ? st.nameFr : st.name;
+                    btn.innerHTML = st.icon + ' ' + stName;
                     tabs.appendChild(btn);
                 });
             }
@@ -4344,12 +4793,16 @@
 
             function render(y) {
                 const st = streams.find(s => s.id === curStream) || streams[0];
+                const dict = translations[currentLang];
+                const isFr = currentLang === 'fr';
                 g.innerHTML = st.subs.map(s => {
                     const avail = y >= s.m;
+                    const sName = isFr ? s.nFr : s.n;
+                    const btnLabel = avail ? dict.btn_browse : dict.btn_not_available;
                     return `<div class="subject-card" style="${avail ? '' : 'opacity:0.5'}">
                         <div class="subject-icon">${s.i}</div>
-                        <div class="subject-name">${s.n}</div>
-                        <a href="${avail ? SITE + s.u.replace('{y}', y) : '#'}" target="${avail ? '_blank' : '_self'}" class="btn-visit" style="${avail ? '' : 'pointer-events:none;background:var(--border);'}">${avail ? '📂 تصفح' : '❌ غير متاح'}</a>
+                        <div class="subject-name">${sName}</div>
+                        <a href="${avail ? SITE + s.u.replace('{y}', y) : '#'}" target="${avail ? '_blank' : '_self'}" class="btn-visit" style="${avail ? '' : 'pointer-events:none;background:var(--border);'}">${btnLabel}</a>
                     </div>`;
                 }).join('');
             }
@@ -4391,7 +4844,7 @@
             const KEY = 'azou_loucif_math_notes';
 
             function update() {
-                if (count) count.textContent = `${area.value.length} حرف`;
+                if (count) count.textContent = `${area.value.length} ${translations[currentLang].notes_chars}`;
             }
 
             const saved = localStorage.getItem(KEY);
@@ -4584,9 +5037,10 @@
             const input = document.getElementById('inputText');
             const result = document.getElementById('processorResult');
             const text = input.value.trim();
+            const dict = translations[currentLang];
 
             if (!text) {
-                result.innerHTML = '<h4>⚠️</h4><p>أدخل النص أولاً.</p>';
+                result.innerHTML = '<h4>⚠️</h4><p>' + dict.proc_no_text + '</p>';
                 return;
             }
 
@@ -4597,10 +5051,10 @@
                 const words = text.split(/\s+/);
                 const summary = sentences.slice(0, Math.min(3, sentences.length)).join(' ');
                 output = `
-                            <h4>📌 التلخيص</h4>
+                            <h4>${dict.proc_summary_title}</h4>
                             <p>${summary}</p>
                             <br>
-                            <p style="font-size:12px;color:var(--ink-soft);">عدد الجمل: ${sentences.length} | عدد الكلمات: ${words.length}</p>
+                            <p style="font-size:12px;color:var(--ink-soft);">${dict.proc_sentences}: ${sentences.length} | ${dict.proc_words}: ${words.length}</p>
                         `;
             } else if (mode === 'terms') {
                 const words = text.split(/\s+/);
@@ -4613,7 +5067,7 @@
                 });
                 const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 15);
                 output = `
-                            <h4>🏷️ المصطلحات المهمة</h4>
+                            <h4>${dict.proc_key_terms}</h4>
                             <div class="tag-cloud">
                                 ${sorted.map(([w,c]) => `<span>${w} (${c})</span>`).join(' ')}
                             </div>
@@ -4621,15 +5075,15 @@
             } else if (mode === 'questions') {
                 const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
                 const qs = sentences.slice(0, 3).map((s, i) =>
-                    `<li>❓ السؤال ${i+1}: ما هي الفكرة الرئيسية في: "${s.trim().slice(0,60)}..."؟</li>`
+                    `<li>❓ ${dict.proc_question_label} ${i+1}: ${dict.proc_question_main}: "${s.trim().slice(0,60)}..."?</li>`
                 ).join('');
                 output = `
-                            <h4>❓ أسئلة مقترحة</h4>
+                            <h4>${dict.proc_question_title}</h4>
                             <ul style="list-style:none;padding:0;text-align:right;">
                                 ${qs}
                             </ul>
                             <br>
-                            <p style="font-size:12px;color:var(--ink-soft);">تم توليد ${sentences.slice(0,3).length} سؤال.</p>
+                            <p style="font-size:12px;color:var(--ink-soft);">${dict.proc_generated} ${sentences.slice(0,3).length} ${dict.proc_questions_suffix}</p>
                         `;
             }
 
@@ -4645,14 +5099,15 @@
             const input = document.getElementById('inputText');
             const result = document.getElementById('processorResult');
             const text = input.value.trim();
+            const dict = translations[currentLang];
 
             if (!text) {
-                result.innerHTML = '<h4>⚠️</h4><p>أدخل النص أولاً.</p>';
+                result.innerHTML = '<h4>⚠️</h4><p>' + dict.proc_no_text + '</p>';
                 return;
             }
 
             result.innerHTML =
-                '<div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin" style="font-size:30px;color:var(--accent-gold);"></i><br><br>جاري التحليل الذكي... يرجى الانتظار.</div>';
+                '<div style="text-align:center;padding:30px;"><i class="fas fa-spinner fa-spin" style="font-size:30px;color:var(--accent-gold);"></i><br><br>' + dict.proc_analyzing + '</div>';
 
             try {
                 const response = await fetch('https://text.pollinations.ai/openai', {
@@ -4661,22 +5116,10 @@
                     body: JSON.stringify({
                         messages: [{
                             role: 'system',
-                            content: `أنت مساعد تعليمي ذكي متخصص في تحليل النصوص الدراسية. مهمتك:
-                                        1. تلخيص النص في 3-4 جمل.
-                                        2. استخراج 5-8 مصطلحات رئيسية.
-                                        3. توليد 3 أسئلة مهمة حول النص.
-                                        قم بتنسيق الرد كالتالي:
-                                        📌 التلخيص:
-                                        [النص الملخص]
-                                        
-                                        🏷️ المصطلحات الرئيسية:
-                                        [قائمة المصطلحات]
-                                        
-                                        ❓ أسئلة للمراجعة:
-                                        [قائمة الأسئلة]`
+                            content: dict.proc_ai_system + '\n1. Résumez le texte en 3-4 phrases.\n2. Extrayez 5-8 termes clés.\n3. Générez 3 questions importantes.\nFormat: 📌 Résumé: [texte] 🏷️ Termes: [liste] ❓ Questions: [liste]'
                         }, {
                             role: 'user',
-                            content: `حلل هذا النص الدراسي: ${text}`
+                            content: dict.proc_ai_prompt + ' ' + text
                         }],
                         model: 'openai',
                         temperature: 0.5,
@@ -4684,7 +5127,7 @@
                     })
                 });
 
-                if (!response.ok) throw new Error('خطأ في الاتصال');
+                if (!response.ok) throw new Error(dict.proc_ai_error);
 
                 const data = await response.json();
                 const reply = data.choices[0].message.content;
@@ -5079,7 +5522,8 @@
                 const mins = Math.floor(timeLeft / 60);
                 const secs = timeLeft % 60;
                 display.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-                phase.textContent = isWork ? '🎯 وقت الدراسة' : '☕ وقت الراحة';
+                const dict = translations[currentLang];
+                phase.textContent = isWork ? dict.pomodoro_work : dict.pomodoro_break;
                 phase.style.color = isWork ? 'var(--accent-gold)' : 'var(--accent-green)';
                 saveState();
             }
@@ -5090,30 +5534,32 @@
                     clearInterval(interval);
                     interval = null;
                     isRunning = false;
+                    const dict = translations[currentLang];
                     if (isWork) {
                         savePomodoroStats();
-                        toast('✅ أحسنت! انتهت جلسة الدراسة. خذ راحة.');
+                        toast(dict.pomodoro_session_done);
                     } else {
-                        toast('⏰ انتهت الراحة! عد للدراسة.');
+                        toast(dict.pomodoro_break_done);
                     }
                     isWork = !isWork;
                     timeLeft = isWork ? WORK : BREAK;
                     state = 'idle';
                     isRunning = false;
                     updateDisplay();
-                    startBtn.innerHTML = '<i class="fas fa-play"></i> بدء';
+                    startBtn.innerHTML = '<i class="fas fa-play"></i> ' + dict.pomodoro_start;
                     return;
                 }
                 updateDisplay();
             }
 
             startBtn.addEventListener('click', () => {
+                const dict = translations[currentLang];
                 if (isRunning) {
                     clearInterval(interval);
                     interval = null;
                     isRunning = false;
                     state = 'paused';
-                    startBtn.innerHTML = '<i class="fas fa-play"></i> استئناف';
+                    startBtn.innerHTML = '<i class="fas fa-play"></i> ' + dict.pomodoro_resume;
                 } else {
                     if (state === 'idle' && timeLeft <= 0) {
                         timeLeft = isWork ? WORK : BREAK;
@@ -5121,7 +5567,7 @@
                     interval = setInterval(tick, 1000);
                     isRunning = true;
                     state = 'running';
-                    startBtn.innerHTML = '<i class="fas fa-pause"></i> إيقاف مؤقت';
+                    startBtn.innerHTML = '<i class="fas fa-pause"></i> ' + dict.pomodoro_pause;
                 }
                 saveState();
             });
@@ -5134,30 +5580,32 @@
                 timeLeft = WORK;
                 state = 'idle';
                 updateDisplay();
-                startBtn.innerHTML = '<i class="fas fa-play"></i> بدء';
-                toast('🔄 تم إعادة المؤقت');
+                const dict = translations[currentLang];
+                startBtn.innerHTML = '<i class="fas fa-play"></i> ' + dict.pomodoro_start;
+                toast(dict.pomodoro_reset_toast);
             });
 
             skipBtn.addEventListener('click', () => {
                 clearInterval(interval);
                 interval = null;
                 isRunning = false;
+                const dict = translations[currentLang];
                 if (isWork) {
                     savePomodoroStats();
-                    toast('⏭️ تم تخطي جلسة الدراسة');
+                    toast(dict.pomodoro_skip_study);
                 }
                 isWork = !isWork;
                 timeLeft = isWork ? WORK : BREAK;
                 state = 'idle';
                 updateDisplay();
-                startBtn.innerHTML = '<i class="fas fa-play"></i> بدء';
+                startBtn.innerHTML = '<i class="fas fa-play"></i> ' + dict.pomodoro_start;
             });
 
             updateDisplay();
             updatePomodoroStats();
             if (isRunning) {
                 interval = setInterval(tick, 1000);
-                startBtn.innerHTML = '<i class="fas fa-pause"></i> إيقاف مؤقت';
+                startBtn.innerHTML = '<i class="fas fa-pause"></i> ' + translations[currentLang].pomodoro_pause;
             }
         }
 
@@ -5174,80 +5622,80 @@
             const DOWNLOAD_KEY = 'azou_downloads_cache';
 
             const streams = [
-                { id:'math', name:'رياضيات',
+                { id:'math', name:'رياضيات', nameFr:'Maths',
                   items:[
-                    { name:'رياضيات', slug:'/bac-math-maths-{y}/', min:2015 },
-                    { name:'فيزياء', slug:'/bac-math-physique-{y}/', min:2015 },
-                    { name:'علوم طبيعية', slug:'/bac-math-sciences-{y}/', min:2015 },
-                    { name:'عربية', slug:'/bac-arabe-{y}-se/', min:2015 },
-                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
-                    { name:'تاريخ وجغرافيا', slug:'/bac-sci-his-geo-{y}/', min:2015 },
-                    { name:'فلسفة', slug:'/bac-sc-philosophy-{y}/', min:2022 },
-                    { name:'إنجليزية', slug:'/bac-se-english-{y}/', min:2022 },
-                    { name:'فرنسية', slug:'/bac-sci-francais-{y}/', min:2015 }
+                    { name:'رياضيات', nameFr:'Maths', slug:'/bac-math-maths-{y}/', min:2015 },
+                    { name:'فيزياء', nameFr:'Physique', slug:'/bac-math-physique-{y}/', min:2015 },
+                    { name:'علوم طبيعية', nameFr:'SVT', slug:'/bac-math-sciences-{y}/', min:2015 },
+                    { name:'عربية', nameFr:'Arabe', slug:'/bac-arabe-{y}-se/', min:2015 },
+                    { name:'إسلامية', nameFr:'Islamiques', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'تاريخ وجغرافيا', nameFr:'Hist-Géo', slug:'/bac-sci-his-geo-{y}/', min:2015 },
+                    { name:'فلسفة', nameFr:'Philo', slug:'/bac-sc-philosophy-{y}/', min:2022 },
+                    { name:'إنجليزية', nameFr:'Anglais', slug:'/bac-se-english-{y}/', min:2022 },
+                    { name:'فرنسية', nameFr:'Français', slug:'/bac-sci-francais-{y}/', min:2015 }
                   ]},
-                { id:'se', name:'علوم تجريبية',
+                { id:'se', name:'علوم تجريبية', nameFr:'Sciences Exp.',
                   items:[
-                    { name:'رياضيات', slug:'/bac-se-maths-{y}/', min:2015 },
-                    { name:'فيزياء', slug:'/bac-se-physique-{y}/', min:2015 },
-                    { name:'علوم طبيعية', slug:'/bac-se-svt-{y}/', min:2015 },
-                    { name:'عربية', slug:'/bac-arabe-{y}-se/', min:2015 },
-                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
-                    { name:'تاريخ وجغرافيا', slug:'/bac-sci-his-geo-{y}/', min:2015 },
-                    { name:'فلسفة', slug:'/bac-sc-philosophy-{y}/', min:2022 },
-                    { name:'إنجليزية', slug:'/bac-se-english-{y}/', min:2022 },
-                    { name:'فرنسية', slug:'/bac-sci-francais-{y}/', min:2015 }
+                    { name:'رياضيات', nameFr:'Maths', slug:'/bac-se-maths-{y}/', min:2015 },
+                    { name:'فيزياء', nameFr:'Physique', slug:'/bac-se-physique-{y}/', min:2015 },
+                    { name:'علوم طبيعية', nameFr:'SVT', slug:'/bac-se-svt-{y}/', min:2015 },
+                    { name:'عربية', nameFr:'Arabe', slug:'/bac-arabe-{y}-se/', min:2015 },
+                    { name:'إسلامية', nameFr:'Islamiques', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'تاريخ وجغرافيا', nameFr:'Hist-Géo', slug:'/bac-sci-his-geo-{y}/', min:2015 },
+                    { name:'فلسفة', nameFr:'Philo', slug:'/bac-sc-philosophy-{y}/', min:2022 },
+                    { name:'إنجليزية', nameFr:'Anglais', slug:'/bac-se-english-{y}/', min:2022 },
+                    { name:'فرنسية', nameFr:'Français', slug:'/bac-sci-francais-{y}/', min:2015 }
                   ]},
-                { id:'tch', name:'تقني رياضي',
+                { id:'tch', name:'تقني رياضي', nameFr:'Tech. Math',
                   items:[
-                    { name:'رياضيات', slug:'/bac-tch-maths-{y}/', min:2015 },
-                    { name:'فيزياء', slug:'/bac-math-physique-{y}/', min:2015 },
-                    { name:'هندسة مدنية', slug:'/bac-tch-gcivil-{y}/', min:2015 },
-                    { name:'هندسة كهربائية', slug:'/bac-tch-gelectrical-{y}/', min:2015 },
-                    { name:'هندسة ميكانيكية', slug:'/bac-tch-gmecanique-{y}/', min:2015 },
-                    { name:'هندسة طرائق', slug:'/bac-tch-gprocess-{y}/', min:2015 },
-                    { name:'عربية', slug:'/bac-arabe-{y}-se/', min:2015 },
-                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
-                    { name:'تاريخ وجغرافيا', slug:'/bac-sci-his-geo-{y}/', min:2015 },
-                    { name:'فلسفة', slug:'/bac-sc-philosophy-{y}/', min:2022 },
-                    { name:'إنجليزية', slug:'/bac-se-english-{y}/', min:2022 },
-                    { name:'فرنسية', slug:'/bac-sci-francais-{y}/', min:2015 }
+                    { name:'رياضيات', nameFr:'Maths', slug:'/bac-tch-maths-{y}/', min:2015 },
+                    { name:'فيزياء', nameFr:'Physique', slug:'/bac-math-physique-{y}/', min:2015 },
+                    { name:'هندسة مدنية', nameFr:'Génie Civil', slug:'/bac-tch-gcivil-{y}/', min:2015 },
+                    { name:'هندسة كهربائية', nameFr:'Génie Électrique', slug:'/bac-tch-gelectrical-{y}/', min:2015 },
+                    { name:'هندسة ميكانيكية', nameFr:'Génie Mécanique', slug:'/bac-tch-gmecanique-{y}/', min:2015 },
+                    { name:'هندسة طرائق', nameFr:'Génie Procédés', slug:'/bac-tch-gprocess-{y}/', min:2015 },
+                    { name:'عربية', nameFr:'Arabe', slug:'/bac-arabe-{y}-se/', min:2015 },
+                    { name:'إسلامية', nameFr:'Islamiques', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'تاريخ وجغرافيا', nameFr:'Hist-Géo', slug:'/bac-sci-his-geo-{y}/', min:2015 },
+                    { name:'فلسفة', nameFr:'Philo', slug:'/bac-sc-philosophy-{y}/', min:2022 },
+                    { name:'إنجليزية', nameFr:'Anglais', slug:'/bac-se-english-{y}/', min:2022 },
+                    { name:'فرنسية', nameFr:'Français', slug:'/bac-sci-francais-{y}/', min:2015 }
                   ]},
-                { id:'lt', name:'آداب وفلسفة',
+                { id:'lt', name:'آداب وفلسفة', nameFr:'Lettres & Philo',
                   items:[
-                    { name:'رياضيات', slug:'/bac-lt-maths-{y}/', min:2015 },
-                    { name:'عربية', slug:'/bac-lt-arabe-{y}/', min:2015 },
-                    { name:'فلسفة', slug:'/bac-lt-philosophy-{y}/', min:2015 },
-                    { name:'تاريخ وجغرافيا', slug:'/bac-lt-his-geo-{y}/', min:2015 },
-                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
-                    { name:'إنجليزية', slug:'/bac-lt-english-{y}/', min:2015 },
-                    { name:'فرنسية', slug:'/bac-lt-francais-{y}/', min:2015 }
+                    { name:'رياضيات', nameFr:'Maths', slug:'/bac-lt-maths-{y}/', min:2015 },
+                    { name:'عربية', nameFr:'Arabe', slug:'/bac-lt-arabe-{y}/', min:2015 },
+                    { name:'فلسفة', nameFr:'Philo', slug:'/bac-lt-philosophy-{y}/', min:2015 },
+                    { name:'تاريخ وجغرافيا', nameFr:'Hist-Géo', slug:'/bac-lt-his-geo-{y}/', min:2015 },
+                    { name:'إسلامية', nameFr:'Islamiques', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'إنجليزية', nameFr:'Anglais', slug:'/bac-lt-english-{y}/', min:2015 },
+                    { name:'فرنسية', nameFr:'Français', slug:'/bac-lt-francais-{y}/', min:2015 }
                   ]},
-                { id:'ge', name:'تسيير واقتصاد',
+                { id:'ge', name:'تسيير واقتصاد', nameFr:'Gestion & Éco.',
                   items:[
-                    { name:'رياضيات', slug:'/bac-ge-maths-{y}/', min:2015 },
-                    { name:'تسيير محاسبي', slug:'/bac-ge-accounting-{y}/', min:2015 },
-                    { name:'اقتصاد ومناجمنت', slug:'/bac-ge-economique-{y}/', min:2015 },
-                    { name:'قانون', slug:'/bac-ge-law-{y}/', min:2015 },
-                    { name:'عربية', slug:'/bac-arabe-{y}-se/', min:2015 },
-                    { name:'تاريخ وجغرافيا', slug:'/bac-sci-his-geo-{y}/', min:2015 },
-                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
-                    { name:'فلسفة', slug:'/bac-sc-philosophy-{y}/', min:2022 },
-                    { name:'إنجليزية', slug:'/bac-se-english-{y}/', min:2022 },
-                    { name:'فرنسية', slug:'/bac-sci-francais-{y}/', min:2015 }
+                    { name:'رياضيات', nameFr:'Maths', slug:'/bac-ge-maths-{y}/', min:2015 },
+                    { name:'تسيير محاسبي', nameFr:'Comptabilité', slug:'/bac-ge-accounting-{y}/', min:2015 },
+                    { name:'اقتصاد ومناجمنت', nameFr:'Économie', slug:'/bac-ge-economique-{y}/', min:2015 },
+                    { name:'قانون', nameFr:'Droit', slug:'/bac-ge-law-{y}/', min:2015 },
+                    { name:'عربية', nameFr:'Arabe', slug:'/bac-arabe-{y}-se/', min:2015 },
+                    { name:'تاريخ وجغرافيا', nameFr:'Hist-Géo', slug:'/bac-sci-his-geo-{y}/', min:2015 },
+                    { name:'إسلامية', nameFr:'Islamiques', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'فلسفة', nameFr:'Philo', slug:'/bac-sc-philosophy-{y}/', min:2022 },
+                    { name:'إنجليزية', nameFr:'Anglais', slug:'/bac-se-english-{y}/', min:2022 },
+                    { name:'فرنسية', nameFr:'Français', slug:'/bac-sci-francais-{y}/', min:2015 }
                   ]},
-                { id:'langu', name:'لغات أجنبية',
+                { id:'langu', name:'لغات أجنبية', nameFr:'Langues Étrangères',
                   items:[
-                    { name:'رياضيات', slug:'/bac-langu-maths-{y}/', min:2015 },
-                    { name:'عربية', slug:'/bac-langu-ara-{y}/', min:2015 },
-                    { name:'فلسفة', slug:'/bac-langu-philosophy-{y}/', min:2015 },
-                    { name:'تاريخ وجغرافيا', slug:'/bac-langu-his-geo-{y}/', min:2015 },
-                    { name:'إسلامية', slug:'/bac-islamic-{y}/', min:2018 },
-                    { name:'إنجليزية', slug:'/bac-langu-english-{y}/', min:2015 },
-                    { name:'فرنسية', slug:'/bac-langu-francais-{y}/', min:2015 },
-                    { name:'ألمانية', slug:'/bac-langu-deutsch-{y}/', min:2015 },
-                    { name:'إسبانية', slug:'/bac-langu-espanol-{y}/', min:2015 },
-                    { name:'إيطالية', slug:'/bac-langu-italien-{y}/', min:2015 }
+                    { name:'رياضيات', nameFr:'Maths', slug:'/bac-langu-maths-{y}/', min:2015 },
+                    { name:'عربية', nameFr:'Arabe', slug:'/bac-langu-ara-{y}/', min:2015 },
+                    { name:'فلسفة', nameFr:'Philo', slug:'/bac-langu-philosophy-{y}/', min:2015 },
+                    { name:'تاريخ وجغرافيا', nameFr:'Hist-Géo', slug:'/bac-langu-his-geo-{y}/', min:2015 },
+                    { name:'إسلامية', nameFr:'Islamiques', slug:'/bac-islamic-{y}/', min:2018 },
+                    { name:'إنجليزية', nameFr:'Anglais', slug:'/bac-langu-english-{y}/', min:2015 },
+                    { name:'فرنسية', nameFr:'Français', slug:'/bac-langu-francais-{y}/', min:2015 },
+                    { name:'ألمانية', nameFr:'Allemand', slug:'/bac-langu-deutsch-{y}/', min:2015 },
+                    { name:'إسبانية', nameFr:'Espagnol', slug:'/bac-langu-espanol-{y}/', min:2015 },
+                    { name:'إيطالية', nameFr:'Italien', slug:'/bac-langu-italien-{y}/', min:2015 }
                   ]}
             ];
 
@@ -5274,7 +5722,10 @@
             container.innerHTML = cur.items.map(d => {
                 const avail = y >= d.min;
                 const url = avail ? SITE + d.slug.replace('{y}', y) : '#';
-                const fullName = avail ? `بكالوريا ${d.name} ${y}` : `بكالوريا ${d.name} ${y} (غير متاح)`;
+                const isFr = currentLang === 'fr';
+                const dName = isFr ? d.nameFr : d.name;
+                const dict = translations[currentLang];
+                const fullName = avail ? `${dict.dl_bac_of} ${dName} ${y}` : `${dict.dl_bac_of} ${dName} ${y} ${dict.dl_not_available_suffix}`;
                 const downloaded = getDownloaded().includes(fullName);
                 return `
                     <div class="download-item" data-name="${fullName}">
@@ -5285,8 +5736,8 @@
                                 <div class="dsize">PDF</div>
                             </div>
                         </div>
-                        <button class="dbtn ${downloaded ? 'downloaded' : ''}" data-url="${url}" data-name="${fullName}" ${avail ? '' : 'disabled style="opacity:0.4"'}">
-                            ${avail ? (downloaded ? '<i class="fas fa-check"></i> تم التحميل' : '<i class="fas fa-download"></i> تحميل') : '❌ غير متاح'}
+                        <button class="dbtn ${downloaded ? 'downloaded' : ''}" data-url="${url}" data-name="${fullName}" ${avail ? '' : 'disabled style="opacity:0.4"'}>
+                            ${avail ? (downloaded ? '<i class="fas fa-check"></i> ' + dict.dl_downloaded : '<i class="fas fa-download"></i> ' + dict.dl_download) : dict.btn_not_available}
                         </button>
                     </div>
                 `;
@@ -5298,9 +5749,9 @@
                     const name = this.dataset.name;
                     window.open(url, '_blank');
                     markDownloaded(name);
-                    this.innerHTML = '<i class="fas fa-check"></i> تم التحميل';
+                    this.innerHTML = '<i class="fas fa-check"></i> ' + translations[currentLang].dl_downloaded;
                     this.classList.add('downloaded');
-                    toast('✅ تم تسجيل التحميل');
+                    toast(translations[currentLang].dl_reg_done);
                 });
             });
         }
@@ -5473,11 +5924,12 @@
             if (!container) return;
             if (container.dataset.rendered) return;
             container.dataset.rendered = '1';
+            const dict = translations[currentLang];
 
             let html = `
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-                    <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas ${data.iconClass}" style="color:var(--accent-gold);"></i> فضاء ${data.title}</h1>
-                    <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> العودة</a>
+                    <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fas ${data.iconClass}" style="color:var(--accent-gold);"></i> ${dict.subject_space} ${data.title}</h1>
+                    <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> ${dict.btn_back}</a>
                 </div>
                 <p style="color:var(--ink-soft);margin-bottom:24px;">${data.desc}</p>`;
 
@@ -5489,19 +5941,19 @@
                             <img src="${data.youtube.image}" class="teacher-img">
                             <div class="teacher-info">
                                 <h3>${data.youtube.name}</h3>
-                                <span>${data.youtube.subs} مشترك</span>
+                                <span>${data.youtube.subs} ${dict.subject_subscribers}</span>
                             </div>
                         </div>
                         <p class="ticket-desc">${data.youtube.desc}</p>
                     </div>
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
-                        <a href="${data.youtube.url}" target="_blank" class="btn-channel" style="background:#ff0000;color:#fff;"><i class="fab fa-youtube"></i> زيارة القناة</a>
+                        <a href="${data.youtube.url}" target="_blank" class="btn-channel" style="background:#ff0000;color:#fff;"><i class="fab fa-youtube"></i> ${dict.subject_visit_channel}</a>
                     </div>
                 </div>`;
             }
 
-            html += `<h2 class="section-title" style="font-size:22px;margin-bottom:16px;"><i class="fas fa-download" style="color:var(--accent-gold);"></i> مواضيع وتمارين</h2><div class="grid-topics">`;
+            html += `<h2 class="section-title" style="font-size:22px;margin-bottom:16px;"><i class="fas fa-download" style="color:var(--accent-gold);"></i> ${dict.subject_topics}</h2><div class="grid-topics">`;
 
             data.topics.forEach(t => {
                 html += `
@@ -5511,7 +5963,7 @@
                         </div>
                         <div class="ticket-perf"></div>
                         <div class="ticket-stub">
-                            <a href="${t.url}" target="_blank" class="btn-channel" style="background:var(--accent-gold);color:#0f172a;"><i class="fas fa-download"></i> تحميل</a>
+                            <a href="${t.url}" target="_blank" class="btn-channel" style="background:var(--accent-gold);color:#0f172a;"><i class="fas fa-download"></i> ${dict.subject_download}</a>
                         </div>
                     </div>`;
             });
@@ -5537,6 +5989,504 @@
             t._hideTimer = setTimeout(() => t.classList.remove('show'), 3000);
         }
         window.toast = toast;
+
+        // ============================================================
+        //  19. نظام تسجيل الدخول (Firebase)
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-hJqVIIUnB2Q3xWXBhvue-SvEWvQhKHA",
+            authDomain: "azou-loucif.firebaseapp.com",
+            projectId: "azou-loucif",
+            storageBucket: "azou-loucif.firebasestorage.app",
+            messagingSenderId: "503738337864",
+            appId: "1:503738337864:web:b2cb1f2087fd0f7220667d"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        let currentUser = null;
+
+        function openAuthPage() {
+            document.getElementById('authPage')?.classList.add('show');
+        }
+
+        function closeAuthPage() {
+            document.getElementById('authPage')?.classList.remove('show');
+        }
+
+        function updateUserBtn() {
+            const btn = document.getElementById('userBtn');
+            if (!btn) return;
+            if (currentUser) {
+                const name = currentUser.displayName || currentUser.email || '?';
+                const initial = name[0].toUpperCase();
+                const photo = currentUser.photoURL;
+                btn.innerHTML = photo
+                    ? `<img src="${photo}" style="width:26px;height:26px;border-radius:50%;object-fit:cover;">`
+                    : `<div class="user-avatar-sm">${initial}</div>`;
+            } else {
+                btn.innerHTML = '<i class="fas fa-user"></i>';
+            }
+        }
+
+        function updateProfilePage() {
+            if (!currentUser) return;
+            const avatar = document.getElementById('profileAvatar');
+            const name = document.getElementById('profileName');
+            const email = document.getElementById('profileEmail');
+            const displayName = currentUser.displayName || currentUser.email.split('@')[0];
+            if (avatar) {
+                if (currentUser.photoURL) {
+                    avatar.innerHTML = `<img src="${currentUser.photoURL}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent-gold);">`;
+                } else {
+                    avatar.textContent = displayName[0].toUpperCase();
+                }
+            }
+            if (name) name.textContent = displayName;
+            if (email) email.textContent = currentUser.email || '';
+
+            const streakData = JSON.parse(localStorage.getItem('azou_streak_data') || '{"streak":0,"total":0}');
+            const pomodoroData = JSON.parse(localStorage.getItem('azou_pomodoro_data') || '{"total":0}');
+            const streakEl = document.getElementById('profileStreak');
+            const totalEl = document.getElementById('profileTotal');
+            const pomodoroEl = document.getElementById('profilePomodoro');
+            if (streakEl) streakEl.textContent = streakData.streak || 0;
+            if (totalEl) totalEl.textContent = streakData.total || 0;
+            if (pomodoroEl) pomodoroEl.textContent = pomodoroData.total || 0;
+
+            if (currentUser.uid) {
+                db.collection('users').doc(currentUser.uid).get().then(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        if (streakEl && data.streak !== undefined) streakEl.textContent = data.streak;
+                        if (totalEl && data.totalDays !== undefined) totalEl.textContent = data.totalDays;
+                        if (pomodoroEl && data.pomodoroTotal !== undefined) pomodoroEl.textContent = data.pomodoroTotal;
+                    }
+                }).catch(() => {});
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Close auth
+            document.getElementById('authClose')?.addEventListener('click', closeAuthPage);
+
+            // Google Sign-In
+            document.getElementById('googleSignInBtn')?.addEventListener('click', () => {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                auth.signInWithPopup(provider)
+                    .then(() => {
+                        closeAuthPage();
+                        toast(translations[currentLang].auth_success_login || '✅ تم تسجيل الدخول');
+                    })
+                    .catch(err => {
+                        if (err.code !== 'auth/popup-closed-by-user') {
+                            const errorEl = document.getElementById('authError');
+                            if (errorEl) {
+                                errorEl.textContent = '❌ ' + (err.message || 'خطأ غير متوقع');
+                                errorEl.classList.add('show');
+                            }
+                        }
+                    });
+            });
+
+            // Logout
+            document.getElementById('profileLogout')?.addEventListener('click', () => {
+                auth.signOut().then(() => {
+                    navigateTo('home');
+                    toast(translations[currentLang].auth_success_logout || '✅ تم تسجيل الخروج');
+                });
+            });
+
+            // User button
+            document.getElementById('userBtn')?.addEventListener('click', () => {
+                if (currentUser) {
+                    updateProfilePage();
+                    navigateTo('profile');
+                } else {
+                    openAuthPage();
+                }
+            });
+
+            // Firebase auth state listener
+            auth.onAuthStateChanged(user => {
+                currentUser = user;
+                updateUserBtn();
+                if (user) {
+                    db.collection('users').doc(user.uid).get().then(doc => {
+                        if (!doc.exists) {
+                            db.collection('users').doc(user.uid).set({
+                                name: user.displayName || user.email.split('@')[0],
+                                email: user.email,
+                                photoURL: user.photoURL || '',
+                                streak: 0,
+                                totalDays: 0,
+                                pomodoroTotal: 0,
+                                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        }
+                    }).catch(() => {});
+                }
+            });
+        });
+
+        // ============================================================
+        //  20. نظام تغيير اللغة (i18n)
+        // ============================================================
+        const LANG_KEY = 'azou-loucif-lang';
+        let currentLang = 'ar';
+
+        const translations = {
+            ar: {
+                // Navigation
+                nav_home: 'الرئيسية', nav_math: 'رياضيات', nav_physics: 'فيزياء',
+                nav_timer: 'مؤقت', nav_azkar: 'أذكار', nav_bac: 'بكالوريات',
+                nav_quran: 'المصحف', nav_processor: 'معالج النصوص', nav_more: 'المزيد',
+                more_title: 'المزيد من الأدوات',
+                // Hero
+                hero_version: 'نسخة ٢٠٢٦', hero_title: 'بطاقتك الرسمية للنجاح في البكالوريا',
+                hero_desc: 'تجميع لأفضل الأساتذة الجزائريين، معاملات، حاسبة معدل، ومساعد azou ai الذكي مجاناً.',
+                hero_btn_teachers: 'الأساتذة', hero_btn_avg: 'المعدل', hero_btn_bac: 'بكالوريات',
+                stat_teachers: 'أستاذ', stat_videos: 'فيديو', stat_students: 'طالب',
+                // Countdown
+                countdown_label: 'متبقي على البكالوريا 2027:',
+                unit_days: 'يوم', unit_hours: 'ساعة', unit_minutes: 'دقيقة', unit_seconds: 'ثانية',
+                // Streak
+                streak_label: 'أيام متتالية من الدراسة', streak_total: 'إجمالي',
+                // Sections
+                sec_teachers: 'اختر مادتك، تابع أستاذك', sec_coeffs: 'معاملات المواد',
+                sec_calculator: 'حاسبة المعدل العام', sec_bac_exams: 'بكالوريات سابقة',
+                sec_bac_exams_sub: 'اختر المادة للاطلاع على امتحانات السنوات السابقة',
+                // Streams
+                stream_tech_math: 'تقني رياضي', stream_sciences_exp: 'علوم تجريبية', stream_math: 'شعبة رياضيات',
+                // Table headers
+                th_subject: 'المادة', th_coeff: 'المعامل', th_exam_type: 'طبيعة الامتحان',
+                th_grade: 'العلامة (0-20)', th_partial: 'المعدل الجزئي',
+                coeff_note: 'المعاملات حسب المنهاج الرسمي. الأمازيغية اختيارية.',
+                // Calculator
+                btn_calculate: 'احسب المعدل', calc_placeholder: 'أدخل العلامات ثم اضغط زر الحساب',
+                calc_result: 'المعدل العام', calc_enter_grades: '⚠️ أدخل العلامات أولاً',
+                // AI
+                ai_free: 'مجاني', ai_title: 'azou ai مساعدك الذكي',
+                ai_subtitle: 'اسأل عن أي شيء في دراستك. استخدم النص فقط.',
+                ai_status_online: 'متصل وجاهز', ai_welcome: 'مرحباً! أنا <strong>azou ai</strong>، اسألني أي شيء.',
+                ai_input_placeholder: 'اكتب سؤالك...', ai_send: 'إرسال',
+                chip_math: 'دالة رياضية', chip_science: 'المنهج العلمي', chip_philo: 'مقالة فلسفية',
+                // Page titles
+                page_math: 'فضاء الرياضيات', page_math_sub: 'شعبة علوم تجريبية | رياضيات | تقني رياضي',
+                math_units: 'الوحدات', page_physics: 'فضاء الفيزياء',
+                page_physics_sub: 'برنامج التوزيع السنوي للدروس والتمارين - السنة الثالثة ثانوي.',
+                page_timer: 'المؤقت والتاريخ', page_azkar: 'أذكار الصباح والمساء',
+                azkar_desc: 'أذكار كاملة من الكتاب والسنة النبوية.',
+                azkar_morning: 'أذكار الصباح (15)', azkar_evening: 'أذكار المساء (15)',
+                quotes_title: 'اقتباسات تحفيزية', page_bac: 'بكالوريات سابقة',
+                bac_desc: 'اختر المادة للاطلاع على امتحانات السنوات السابقة.',
+                bac_select_year: 'اختر السنة:',
+                page_quran: 'المصحف المرتل - المكتبة الصوتية',
+                quran_desc: 'استمع إلى تلاوات خاشعة لجميع سور القرآن الكريم (برواية حفص عن عاصم) - خالية من الموسيقى تماماً.',
+                quran_search_num: 'رقم السورة (1-114)', quran_search_name: 'اسم السورة (مثال: الرحمن)',
+                btn_search: 'بحث', btn_show_all: 'عرض الكل',
+                page_processor: 'معالج النصوص الذكي',
+                processor_desc: 'الصق نصاً أو ارفع ملف PDF لاستخراج النص منه، واستخدم الأدوات لتحليله (تلخيص، مصطلحات، أسئلة، وتحليل ذكي بالذكاء الاصطناعي).',
+                processor_ai_note: 'الزر <strong>"تحليل ذكي (AI)"</strong> يستخدم الذكاء الاصطناعي لتحليل النص بالكامل دفعة واحدة.',
+                processor_input_placeholder: 'الصق النص هنا (درس، مقال، موضوع، نص تاريخي)...',
+                processor_extract: 'استخراج النص', processor_summary: 'تلخيص', processor_terms: 'المصطلحات',
+                processor_questions: 'أسئلة', processor_ai: 'تحليل ذكي (AI)',
+                processor_note: '<i class="fas fa-info-circle"></i> الأزرار الثلاثة الأولى تعمل محلياً (سريعة)، زر <strong>AI</strong> يستخدم الذكاء الاصطناعي للتحليل الشامل.',
+                processor_result: 'النتيجة', processor_result_placeholder: 'سيعرض هنا ناتج المعالجة...',
+                // Buttons
+                btn_back: 'العودة',
+                // Footer
+                footer_rights: 'جميع الحقوق محفوظة',
+                // Terms
+                term_1: '📌 الفصل الدراسي الأول', term_2: '📌 الفصل الدراسي الثاني', term_3: '📌 الفصل الدراسي الثالث',
+                physics_exams: 'بكالوريات تجريبية', physics_books: 'كتب تأشيرة النجاح',
+                // Pomodoro
+                pomodoro_title: 'مؤقت الدراسة (بومودورو)',
+                pomodoro_desc: 'تقنية بومودورو: 25 دقيقة تركيز + 5 دقائق راحة',
+                pomodoro_work: '🎯 وقت الدراسة', pomodoro_break: '☕ وقت الراحة',
+                pomodoro_start: 'بدء', pomodoro_reset: 'إعادة', pomodoro_skip: 'تخطي',
+                pomodoro_current: 'الدورة الحالية:', pomodoro_today: 'إجمالي اليوم:',
+                // Notes
+                notes_title: 'تدوين القوانين', notes_desc: 'احفظ القوانين الذهبية محلياً.',
+                notes_placeholder: 'مثال: مشتقة ln(u) = u\'/u', notes_chars: 'حرف', notes_saved: '✓ تم الحفظ',
+                // Download manager
+                dl_manager_title: 'مدير التحميلات - بكالوريات سابقة',
+                dl_manager_desc: 'اضغط على "تحميل" لحفظ الامتحان للتصفح دون اتصال',
+                // Coefficients
+                coeff_total: 'المجموع العام', coeff_optional: '(اختياري)',
+                // Calculate
+                calc_avg_result: '🎯 المعدل العام:', calc_pass: ' ✅', calc_fail: ' ❌',
+                // Date
+                date_amazigh: 'ⵣ السنة الأمازيغية',
+                // Chat
+                ai_clear_chat: '🗑️ تم مسح المحادثة', ai_error: 'عذراً، حدث خطأ تقني. حاول مرة أخرى.',
+                ai_unexpected_error: 'حدث خطأ غير متوقع.', ai_write_question: '✏️ اكتب سؤالك أولاً',
+                ai_system_prompt: 'أنت azou ai، مساعد تعليمي جزائري.',
+                // Bac subjects
+                btn_browse: '📂 تصفح', btn_not_available: '❌ غير متاح',
+                // Download manager
+                dl_bac_of: 'بكالوريا', dl_not_available_suffix: '(غير متاح)',
+                dl_downloaded: '✅ تم التحميل', dl_download: 'تحميل',
+                dl_reg_done: '✅ تم تسجيل التحميل',
+                // Text processor
+                proc_no_text: 'أدخل النص أولاً.', proc_summary_title: '📌 التلخيص',
+                proc_sentences: 'عدد الجمل', proc_words: 'عدد الكلمات',
+                proc_key_terms: '🏷️ المصطلحات المهمة',
+                proc_question_title: '❓ أسئلة مقترحة', proc_question_label: '❓ السؤال',
+                proc_question_main: 'ما هي الفكرة الرئيسية في',
+                proc_generated: 'تم توليد', proc_questions_suffix: 'سؤال.',
+                proc_analyzing: 'جاري التحليل الذكي... يرجى الانتظار.',
+                proc_ai_system: 'أنت مساعد تعليمي ذكي متخصص في تحليل النصوص الدراسية.',
+                proc_ai_prompt: 'حلل هذا النص الدراسي:',
+                proc_ai_error: 'خطأ في الاتصال',
+                // Pomodoro dynamic
+                pomodoro_session_done: '✅ أحسنت! انتهت جلسة الدراسة. خذ راحة.',
+                pomodoro_break_done: '⏰ انتهت الراحة! عد للدراسة.',
+                pomodoro_resume: 'استئناف', pomodoro_pause: 'إيقاف مؤقت',
+                pomodoro_reset_toast: '🔄 تم إعادة المؤقت', pomodoro_skip_study: '⏭️ تم تخطي جلسة الدراسة',
+                // Subject content
+                subject_space: 'فضاء', subject_topics: 'مواضيع وتمارين',
+                subject_visit_channel: 'زيارة القناة', subject_download: 'تحميل',
+                subject_subscribers: 'مشترك',
+                // Misc
+                lang_label: 'FR',
+                // Auth
+                auth_welcome: 'مرحباً بك', auth_subtitle: 'سجل دخولك لحفظ تقدمك',
+                auth_login_tab: 'تسجيل الدخول', auth_register_tab: 'حساب جديد',
+                auth_email: 'البريد الإلكتروني', auth_email_placeholder: 'example@email.com',
+                auth_password: 'كلمة المرور', auth_password_placeholder: '••••••••',
+                auth_password_min: '6 أحرف على الأقل', auth_confirm_password: 'تأكيد كلمة المرور',
+                auth_confirm_placeholder: 'أعد كتابة كلمة المرور',
+                auth_login_btn: 'دخول', auth_register_btn: 'إنشاء حساب',
+                auth_error_email: 'أدخل بريداً صحيحاً', auth_error_password: 'كلمة المرور غير صحيحة',
+                auth_error_not_found: 'الحساب غير موجود. سجّل أولاً.',
+                auth_error_email_exists: 'هذا البريد مسجّل مسبقاً',
+                auth_error_password_short: '6 أحرف على الأقل',
+                auth_error_password_mismatch: 'كلمتا المرور غير متطابقتين',
+                auth_success_login: '✅ تم تسجيل الدخول', auth_success_register: '✅ تم إنشاء الحساب',
+                auth_success_logout: '✅ تم تسجيل الخروج', auth_logout: 'تسجيل الخروج',
+                auth_google_btn: 'تسجيل الدخول بـ Google',
+                // Profile
+                profile_streak: 'أيام متتالية', profile_total: 'إجمالي الأيام',
+                profile_pomodoro: 'جلسة بومودورو', profile_settings: 'الإعدادات',
+                profile_progress: 'التقدم', profile_theme: 'تبديل المظهر', profile_language: 'تغيير اللغة',
+            },
+            fr: {
+                // Navigation
+                nav_home: 'Accueil', nav_math: 'Maths', nav_physics: 'Physique',
+                nav_timer: 'Minuteur', nav_azkar: 'Adhkar', nav_bac: 'Bacs',
+                nav_quran: 'Coran', nav_processor: 'Traitement de texte', nav_more: 'Plus',
+                more_title: 'Plus d\'outils',
+                // Hero
+                hero_version: 'Version 2026', hero_title: 'Votre carte officielle pour réussir le Bac',
+                hero_desc: 'Réunion des meilleurs professeurs algériens, coefficients, calculatrice de moyenne, et assistant azou ai intelligent gratuitement.',
+                hero_btn_teachers: 'Professeurs', hero_btn_avg: 'Moyenne', hero_btn_bac: 'Bacs',
+                stat_teachers: 'Prof', stat_videos: 'Vidéos', stat_students: 'Élèves',
+                // Countdown
+                countdown_label: 'Restant avant le Bac 2027:',
+                unit_days: 'jours', unit_hours: 'heures', unit_minutes: 'min', unit_seconds: 'sec',
+                // Streak
+                streak_label: 'jours consécutifs d\'étude', streak_total: 'Total',
+                // Sections
+                sec_teachers: 'Choisissez votre matière, suivez votre professeur', sec_coeffs: 'Coefficients des matières',
+                sec_calculator: 'Calculatrice de moyenne générale', sec_bac_exams: 'Bacs précédents',
+                sec_bac_exams_sub: 'Choisissez la matière pour consulter les examens des années précédentes',
+                // Streams
+                stream_tech_math: 'Tech. Math', stream_sciences_exp: 'Sciences Expérimentales', stream_math: 'Mathématiques',
+                // Table headers
+                th_subject: 'Matière', th_coeff: 'Coef.', th_exam_type: 'Type d\'examen',
+                th_grade: 'Note (0-20)', th_partial: 'Moyenne partielle',
+                coeff_note: 'Coefficients selon le programme officiel. Le tamazight est optionnel.',
+                // Calculator
+                btn_calculate: 'Calculer la moyenne', calc_placeholder: 'Entrez les notes puis cliquez sur calculer',
+                calc_result: 'Moyenne générale', calc_enter_grades: '⚠️ Entrez les notes d\'abord',
+                // AI
+                ai_free: 'Gratuit', ai_title: 'azou ai votre assistant intelligent',
+                ai_subtitle: 'Posez des questions sur vos études. Texte uniquement.',
+                ai_status_online: 'En ligne et prêt', ai_welcome: 'Bonjour! Je suis <strong>azou ai</strong>, posez-moi n\'importe quelle question.',
+                ai_input_placeholder: 'Tapez votre question...', ai_send: 'Envoyer',
+                chip_math: 'Fonction math', chip_science: 'Méthode scientifique', chip_philo: 'Dissertation philo',
+                // Page titles
+                page_math: 'Espace Mathématiques', page_math_sub: 'Sciences expérimentales | Maths | Tech. Math',
+                math_units: 'Unités', page_physics: 'Espace Physique',
+                page_physics_sub: 'Programme annuel de distribution des cours et exercices - 3ème année secondaire.',
+                page_timer: 'Minuteur et Date', page_azkar: 'Adhkar du matin et du soir',
+                azkar_desc: 'Adhkar complets du Coran et de la Sunna prophétique.',
+                azkar_morning: 'Adhkar du matin (15)', azkar_evening: 'Adhkar du soir (15)',
+                quotes_title: 'Citations motivantes', page_bac: 'Bacs précédents',
+                bac_desc: 'Choisissez la matière pour consulter les examens des années précédentes.',
+                bac_select_year: 'Choisir l\'année:',
+                page_quran: 'Coran récité - Bibliothèque audio',
+                quran_desc: 'Écoutez des récitations apaisantes de toutes les sourates du Coran (récitation Hafs) - sans musique.',
+                quran_search_num: 'Numéro de sourate (1-114)', quran_search_name: 'Nom de la sourate (ex: Ar-Rahman)',
+                btn_search: 'Rechercher', btn_show_all: 'Tout afficher',
+                page_processor: 'Traitement de texte intelligent',
+                processor_desc: 'Collez du texte ou importez un PDF pour en extraire le texte, et utilisez les outils pour l\'analyser (résumé, termes, questions, et analyse IA).',
+                processor_ai_note: 'Le bouton <strong>"Analyse IA"</strong> utilise l\'intelligence artificielle pour analyser tout le texte en une seule fois.',
+                processor_input_placeholder: 'Collez le texte ici (cours, essai, sujet, texte historique)...',
+                processor_extract: 'Extraire le texte', processor_summary: 'Résumé', processor_terms: 'Termes',
+                processor_questions: 'Questions', processor_ai: 'Analyse IA',
+                processor_note: '<i class="fas fa-info-circle"></i> Les trois premiers boutons fonctionnent localement (rapide), le bouton <strong>IA</strong> utilise l\'intelligence artificielle pour une analyse complète.',
+                processor_result: 'Résultat', processor_result_placeholder: 'Le résultat du traitement apparaîtra ici...',
+                // Buttons
+                btn_back: 'Retour',
+                // Footer
+                footer_rights: 'Tous droits réservés',
+                // Terms
+                term_1: '📌 1er Trimestre', term_2: '📌 2ème Trimestre', term_3: '📌 3ème Trimestre',
+                physics_exams: 'Bacs blancs', physics_books: 'Livres de réussite',
+                // Pomodoro
+                pomodoro_title: 'Minuteur d\'étude (Pomodoro)',
+                pomodoro_desc: 'Technique Pomodoro: 25 min de concentration + 5 min de pause',
+                pomodoro_work: '🎯 Temps d\'étude', pomodoro_break: '☕ Temps de pause',
+                pomodoro_start: 'Démarrer', pomodoro_reset: 'Réinitialiser', pomodoro_skip: 'Passer',
+                pomodoro_current: 'Cycle actuel:', pomodoro_today: 'Total aujourd\'hui:',
+                // Notes
+                notes_title: 'Noter les formules', notes_desc: 'Enregistrez les formules clés localement.',
+                notes_placeholder: 'Ex: dérivée de ln(u) = u\'/u', notes_chars: 'caractères', notes_saved: '✓ Enregistré',
+                // Download manager
+                dl_manager_title: 'Gestionnaire de téléchargements - Bacs précédents',
+                dl_manager_desc: 'Cliquez sur "Télécharger" pour enregistrer l\'examen pour consultation hors ligne',
+                // Misc
+                lang_label: 'AR',
+                // Coefficients
+                coeff_total: 'Total général', coeff_optional: '(optionnel)',
+                // Calculate
+                calc_avg_result: '🎯 Moyenne générale:', calc_pass: ' ✅', calc_fail: ' ❌',
+                // Date
+                date_amazigh: 'ⵣ Année amazighe',
+                // Chat
+                ai_clear_chat: '🗑️ Conversation effacée', ai_error: 'Désolé, une erreur technique s\'est produite. Réessayez.',
+                ai_unexpected_error: 'Une erreur inattendue s\'est produite.', ai_write_question: '✏️ Tapez votre question d\'abord',
+                ai_system_prompt: 'Tu es azou ai, un assistant éducatif algérien.',
+                // Bac subjects
+                btn_browse: '📂 Parcourir', btn_not_available: '❌ Non disponible',
+                // Download manager
+                dl_bac_of: 'Bac', dl_not_available_suffix: '(non disponible)',
+                dl_downloaded: '✅ Téléchargé', dl_download: 'Télécharger',
+                dl_reg_done: '✅ Téléchargement enregistré',
+                // Text processor
+                proc_no_text: 'Entrez le texte d\'abord.', proc_summary_title: '📌 Résumé',
+                proc_sentences: 'Nombre de phrases', proc_words: 'Nombre de mots',
+                proc_key_terms: '🏷️ Termes importants',
+                proc_question_title: '❓ Questions suggérées', proc_question_label: '❓ Question',
+                proc_question_main: 'Quelle est l\'idée principale de',
+                proc_generated: 'Générées', proc_questions_suffix: 'questions.',
+                proc_analyzing: 'Analyse en cours... Veuillez patienter.',
+                proc_ai_system: 'Tu es un assistant éducatif intelligent spécialisé dans l\'analyse de textes académiques.',
+                proc_ai_prompt: 'Analyse ce texte académique:',
+                proc_ai_error: 'Erreur de connexion',
+                // Pomodoro dynamic
+                pomodoro_session_done: '✅ Bravo! Session d\'étude terminée. Faites une pause.',
+                pomodoro_break_done: '⏰ Pause terminée! Retour à l\'étude.',
+                pomodoro_resume: 'Reprendre', pomodoro_pause: 'Pause',
+                pomodoro_reset_toast: '🔄 Minuteur réinitialisé', pomodoro_skip_study: '⏭️ Session d\'étude passée',
+                // Subject content
+                subject_space: 'Espace', subject_topics: 'Sujets et exercices',
+                subject_visit_channel: 'Visiter la chaîne', subject_download: 'Télécharger',
+                subject_subscribers: 'abonnés',
+                // Auth
+                auth_welcome: 'Bienvenue', auth_subtitle: 'Connectez-vous pour sauvegarder vos progrès',
+                auth_login_tab: 'Connexion', auth_register_tab: 'Nouveau compte',
+                auth_email: 'Email', auth_email_placeholder: 'exemple@email.com',
+                auth_password: 'Mot de passe', auth_password_placeholder: '••••••••',
+                auth_password_min: '6 caractères minimum', auth_confirm_password: 'Confirmer le mot de passe',
+                auth_confirm_placeholder: 'Retapez le mot de passe',
+                auth_login_btn: 'Se connecter', auth_register_btn: 'Créer un compte',
+                auth_error_email: 'Entrez un email valide', auth_error_password: 'Mot de passe incorrect',
+                auth_error_not_found: 'Compte non trouvé. Inscrivez-vous d\'abord.',
+                auth_error_email_exists: 'Cet email est déjà utilisé',
+                auth_error_password_short: '6 caractères minimum',
+                auth_error_password_mismatch: 'Les mots de passe ne correspondent pas',
+                auth_success_login: '✅ Connexion réussie', auth_success_register: '✅ Compte créé',
+                auth_success_logout: '✅ Déconnecté', auth_logout: 'Se déconnecter',
+                auth_google_btn: 'Se connecter avec Google',
+                // Profile
+                profile_streak: 'Jours consécutifs', profile_total: 'Total jours',
+                profile_pomodoro: 'Sessions Pomodoro', profile_settings: 'Paramètres',
+                profile_progress: 'Progrès', profile_theme: 'Changer de thème', profile_language: 'Changer la langue'
+            }
+        };
+
+        function getLang() {
+            return localStorage.getItem(LANG_KEY) || 'ar';
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem(LANG_KEY, lang);
+            const dict = translations[lang];
+            const isRTL = (lang === 'ar');
+            document.documentElement.lang = lang;
+            document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+
+            // Mettre à jour les éléments avec data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.innerHTML = dict[key];
+            });
+
+            // Mettre à jour les placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key]) el.placeholder = dict[key];
+            });
+
+            // Mettre à jour le label du bouton de langue
+            const langLabel = document.getElementById('langLabel');
+            if (langLabel) langLabel.textContent = dict.lang_label;
+
+            // Re-rendre les contenus dynamiques
+            const activePage = document.querySelector('.page-content.active');
+            if (activePage) {
+                const pageId = activePage.id.replace('page-', '');
+                if (pageId === 'home') {
+                    const activeTab = document.querySelector('#tabNav .tab-btn.active');
+                    if (activeTab) renderCoefficients(activeTab.dataset.tab);
+                    const activeCalcTab = document.querySelector('#calcTabNav .tab-btn.active');
+                    if (activeCalcTab) renderCalculator(activeCalcTab.dataset.calcTab);
+                }
+                if (pageId === 'bac') {
+                    const sg = document.getElementById('subjectsGrid');
+                    if (sg) sg.innerHTML = '';
+                    const bTabs = document.getElementById('bacStreamTabs');
+                    if (bTabs) bTabs.innerHTML = '';
+                    renderBacSubjects();
+                    const dl = document.getElementById('downloadList');
+                    if (dl) dl.innerHTML = '';
+                    renderDownloadManager();
+                }
+                if (pageId === 'math' || pageId === 'physics') {
+                    const contentEl = document.getElementById(pageId + 'Content');
+                    if (contentEl) {
+                        delete contentEl.dataset.rendered;
+                        renderSubjectContent(pageId);
+                    }
+                }
+                if (pageId === 'timer') {
+                    updateDateDisplay(new Date());
+                }
+                if (pageId === 'processor') {
+                    const resultEl = document.getElementById('processorResult');
+                    if (resultEl) resultEl.innerHTML = '<p style="color:var(--ink-soft);text-align:center;">' + dict.processor_result_placeholder + '</p>';
+                }
+            }
+        }
+
+        // Initialiser la langue au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            currentLang = getLang();
+            setLanguage(currentLang);
+
+            const langToggle = document.getElementById('langToggle');
+            if (langToggle) {
+                langToggle.addEventListener('click', () => {
+                    const newLang = currentLang === 'ar' ? 'fr' : 'ar';
+                    setLanguage(newLang);
+                    toast(newLang === 'fr' ? '🌐 Langue: Français' : '🌐 اللغة: العربية');
+                });
+            }
+        });
     </script>
 
 </body>
