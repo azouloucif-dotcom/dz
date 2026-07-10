@@ -3216,6 +3216,98 @@
             background: #e74c3c; flex-shrink: 0;
         }
 
+        /* ====== Flashcards ====== */
+        .fc-deck-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px; border-radius: 14px; margin-bottom: 8px;
+            background: var(--card); border: 1px solid var(--line);
+            cursor: pointer; transition: 0.15s;
+        }
+        .fc-deck-item:hover { border-color: var(--accent-purple); box-shadow: var(--shadow-sm); }
+        .fc-deck-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--accent-purple), #a855f7); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .fc-deck-info { flex: 1; }
+        .fc-deck-name { font-size: 15px; font-weight: 600; color: var(--ink); }
+        .fc-deck-count { font-size: 12px; color: var(--ink-soft); }
+        .fc-card {
+            width: 100%; max-width: 360px; height: 220px; margin: 0 auto;
+            perspective: 1000px; cursor: pointer;
+        }
+        .fc-card-inner {
+            width: 100%; height: 100%; position: relative;
+            transition: transform 0.5s; transform-style: preserve-3d;
+        }
+        .fc-card-inner.flipped { transform: rotateY(180deg); }
+        .fc-front, .fc-back {
+            position: absolute; inset: 0; backface-visibility: hidden;
+            border-radius: 18px; display: flex; align-items: center; justify-content: center;
+            padding: 24px; text-align: center; font-size: 16px; font-weight: 500;
+            line-height: 1.6; overflow-y: auto;
+        }
+        .fc-front { background: linear-gradient(135deg, var(--primary-mid), var(--accent-purple)); color: #fff; }
+        .fc-back { background: var(--card); color: var(--ink); border: 2px solid var(--accent-green); transform: rotateY(180deg); }
+        .fc-nav-btn { background: var(--card); border: 1px solid var(--line); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 16px; color: var(--ink); }
+        .fc-result-btn { padding: 10px 24px; border-radius: 12px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+        .fc-know { background: var(--accent-green); color: #fff; }
+        .fc-dont-know { background: var(--accent-red); color: #fff; }
+
+        /* ====== Exam Calendar ====== */
+        .cal-tabs { padding-bottom: 4px; }
+        .cal-tab { background: none; border: none; padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--ink-soft); cursor: pointer; font-family: inherit; white-space: nowrap; }
+        .cal-tab.active { background: var(--primary-mid); color: #fff; }
+        .cal-exam-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px; border-radius: 14px; margin-bottom: 8px;
+            background: var(--card); border: 1px solid var(--line); transition: 0.15s;
+        }
+        .cal-exam-item:hover { border-color: var(--accent-green); }
+        .cal-exam-item.cal-passed { opacity: 0.5; }
+        .cal-exam-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .cal-exam-dot.urgent { background: var(--accent-red); animation: pulse 1.5s infinite; }
+        .cal-exam-dot.soon { background: var(--accent-gold); }
+        .cal-exam-dot.later { background: var(--accent-green); }
+        .cal-exam-dot.done { background: var(--ink-soft); }
+        .cal-exam-info { flex: 1; }
+        .cal-exam-subject { font-size: 15px; font-weight: 600; color: var(--ink); }
+        .cal-exam-date { font-size: 12px; color: var(--ink-soft); }
+        .cal-exam-note { font-size: 11px; color: var(--primary-mid); }
+        .cal-exam-days { font-size: 13px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+        .cal-exam-delete { background: none; border: none; color: var(--accent-red); cursor: pointer; font-size: 14px; opacity: 0.5; }
+        .cal-exam-delete:hover { opacity: 1; }
+
+        /* ====== Study Planner ====== */
+        .plan-day-btn { background: none; border: none; padding: 8px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; color: var(--ink-soft); cursor: pointer; font-family: inherit; white-space: nowrap; }
+        .plan-day-btn.active { background: var(--accent-gold); color: #fff; }
+        .plan-session-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px; border-radius: 12px; margin-bottom: 8px;
+            background: var(--card); border: 1px solid var(--line); transition: 0.15s;
+        }
+        .plan-session-time { font-size: 13px; font-weight: 700; color: var(--primary-mid); white-space: nowrap; direction: ltr; }
+        .plan-session-subject { font-size: 14px; font-weight: 600; color: var(--ink); }
+        .plan-session-note { font-size: 11px; color: var(--ink-soft); }
+        .plan-session-dur { font-size: 11px; color: var(--accent-gold); font-weight: 600; }
+        .plan-session-delete { background: none; border: none; color: var(--accent-red); cursor: pointer; font-size: 12px; opacity: 0.5; }
+        .plan-session-delete:hover { opacity: 1; }
+
+        /* ====== Leaderboard ====== */
+        .lb-tab { background: none; border: none; padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--ink-soft); cursor: pointer; font-family: inherit; white-space: nowrap; }
+        .lb-tab.active { background: var(--accent-gold); color: #fff; }
+        .lb-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px; border-radius: 14px; margin-bottom: 6px;
+            background: var(--card); border: 1px solid var(--line);
+        }
+        .lb-item.lb-top3 { border-color: var(--accent-gold); background: var(--accent-gold-soft); }
+        .lb-rank { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+        .lb-rank.lb-gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .lb-rank.lb-silver { background: linear-gradient(135deg, #94a3b8, #64748b); color: #fff; }
+        .lb-rank.lb-bronze { background: linear-gradient(135deg, #d97706, #92400e); color: #fff; }
+        .lb-rank.lb-other { background: var(--line); color: var(--ink-soft); }
+        .lb-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-mid); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; overflow: hidden; }
+        .lb-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .lb-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+        .lb-score { font-size: 18px; font-weight: 800; color: var(--accent-gold); margin-right: auto; }
+
         /* ====== Recent Chats (Home, Compact) ====== */
         .rc-item {
             display: flex;
@@ -3433,6 +3525,10 @@
                         <li><a href="#audio" data-page="audio"><i class="fas fa-quran"></i> <span data-i18n="nav_quran">المصحف</span></a></li>
                         <li><a href="#processor" data-page="processor"><i class="fas fa-file-alt"></i> <span data-i18n="nav_processor">معالج النصوص</span></a></li>
                         <li><a href="#friends" data-page="friends"><i class="fas fa-users"></i> <span data-i18n="nav_friends">الأصدقاء</span></a></li>
+                        <li><a href="#flashcards" data-page="flashcards"><i class="fas fa-clone"></i> <span data-i18n="nav_flashcards">البطاقات</span></a></li>
+                        <li><a href="#calendar" data-page="calendar"><i class="fas fa-calendar-alt"></i> <span data-i18n="nav_calendar">التقويم</span></a></li>
+                        <li><a href="#planner" data-page="planner"><i class="fas fa-calendar-check"></i> <span data-i18n="nav_planner">الجدول</span></a></li>
+                        <li><a href="#leaderboard" data-page="leaderboard"><i class="fas fa-trophy"></i> <span data-i18n="nav_leaderboard">الترتيب</span></a></li>
                     </ul>
                 </nav>
                 <button class="notif-btn" id="notifBtn" onclick="navigateTo('notifications')" style="position:relative;background:none;border:none;font-size:18px;color:var(--ink);cursor:pointer;padding:6px;">
@@ -4578,6 +4674,165 @@
         </div>
     </div>
 
+    <!-- ====== Flashcards Page ====== -->
+    <div id="page-flashcards" class="page-content">
+        <div class="section-container" style="margin-top:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <h2 style="margin:0;font-size:20px;color:var(--ink);"><i class="fas fa-clone" style="color:var(--accent-purple);"></i> <span data-i18n="fc_title">البطاقات التعليمية</span></h2>
+                <button onclick="showAddCardModal()" style="background:var(--primary-mid);color:#fff;border:none;padding:8px 14px;border-radius:10px;font-size:13px;cursor:pointer;font-family:inherit;"><i class="fas fa-plus"></i> <span data-i18n="fc_add">بطاقة جديدة</span></button>
+            </div>
+            <div id="fcDeckList" style="margin-bottom:16px;"></div>
+            <div id="fcViewer" style="display:none;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                    <button onclick="fcPrev()" class="fc-nav-btn"><i class="fas fa-chevron-right"></i></button>
+                    <span id="fcCounter" style="font-size:14px;color:var(--ink-soft);">1 / 1</span>
+                    <button onclick="fcNext()" class="fc-nav-btn"><i class="fas fa-chevron-left"></i></button>
+                </div>
+                <div class="fc-card" id="fcCard" onclick="fcFlip()">
+                    <div class="fc-card-inner" id="fcCardInner">
+                        <div class="fc-front" id="fcFront"></div>
+                        <div class="fc-back" id="fcBack"></div>
+                    </div>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:12px;justify-content:center;">
+                    <button onclick="fcKnow()" class="fc-result-btn fc-know"><i class="fas fa-check"></i> <span data-i18n="fc_know">أعرف</span></button>
+                    <button onclick="fcDontKnow()" class="fc-result-btn fc-dont-know"><i class="fas fa-times"></i> <span data-i18n="fc_dont_know">لا أعرف</span></button>
+                </div>
+                <div style="text-align:center;margin-top:10px;">
+                    <button onclick="fcShuffle()" style="background:none;border:none;color:var(--primary-mid);font-size:13px;cursor:pointer;font-family:inherit;"><i class="fas fa-random"></i> <span data-i18n="fc_shuffle">خلط</span></button>
+                    <button onclick="fcReset()" style="background:none;border:none;color:var(--accent-red);font-size:13px;cursor:pointer;font-family:inherit;margin-left:10px;"><i class="fas fa-redo"></i> <span data-i18n="fc_reset">إعادة</span></button>
+                </div>
+                <div style="text-align:center;margin-top:10px;">
+                    <button onclick="fcDeleteDeck()" style="background:none;border:none;color:var(--accent-red);font-size:12px;cursor:pointer;font-family:inherit;"><i class="fas fa-trash"></i> <span data-i18n="fc_delete_deck">حذف المجموعة</span></button>
+                </div>
+            </div>
+            <div id="fcEmpty" style="text-align:center;padding:40px 20px;color:var(--ink-soft);">
+                <i class="fas fa-clone" style="font-size:48px;margin-bottom:12px;display:block;color:var(--accent-purple);opacity:0.4;"></i>
+                <p data-i18n="fc_empty">أنشئ مجموعتك الأولى من البطاقات للمراجعة</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Exam Calendar Page ====== -->
+    <div id="page-calendar" class="page-content">
+        <div class="section-container" style="margin-top:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <h2 style="margin:0;font-size:20px;color:var(--ink);"><i class="fas fa-calendar-alt" style="color:var(--accent-green);"></i> <span data-i18n="cal_title">تقويم الامتحانات</span></h2>
+                <button onclick="showAddExamModal()" style="background:var(--primary-mid);color:#fff;border:none;padding:8px 14px;border-radius:10px;font-size:13px;cursor:pointer;font-family:inherit;"><i class="fas fa-plus"></i> <span data-i18n="cal_add">إضافة</span></button>
+            </div>
+            <div class="cal-tabs" style="display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;">
+                <button class="cal-tab active" onclick="filterCal('all',this)" data-i18n="cal_all">الكل</button>
+                <button class="cal-tab" onclick="filterCal('upcoming',this)" data-i18n="cal_upcoming">القادمة</button>
+                <button class="cal-tab" onclick="filterCal('passed',this)" data-i18n="cal_passed">المنجزة</button>
+            </div>
+            <div id="calExamList"></div>
+            <div id="calEmpty" style="text-align:center;padding:40px 20px;color:var(--ink-soft);">
+                <i class="fas fa-calendar-plus" style="font-size:48px;margin-bottom:12px;display:block;color:var(--accent-green);opacity:0.4;"></i>
+                <p data-i18n="cal_empty">لا توجد امتحانات بعد. أضف أول امتحان!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Study Planner Page ====== -->
+    <div id="page-planner" class="page-content">
+        <div class="section-container" style="margin-top:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <h2 style="margin:0;font-size:20px;color:var(--ink);"><i class="fas fa-calendar-check" style="color:var(--accent-gold);"></i> <span data-i18n="plan_title">الجدول الدراسي</span></h2>
+                <button onclick="showAddSessionModal()" style="background:var(--primary-mid);color:#fff;border:none;padding:8px 14px;border-radius:10px;font-size:13px;cursor:pointer;font-family:inherit;"><i class="fas fa-plus"></i> <span data-i18n="plan_add">إضافة جلسة</span></button>
+            </div>
+            <div style="display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;">
+                <button class="plan-day-btn active" onclick="planSelectDay(0,this)" data-i18n="plan_sunday">الأحد</button>
+                <button class="plan-day-btn" onclick="planSelectDay(1,this)" data-i18n="plan_monday">الإثنين</button>
+                <button class="plan-day-btn" onclick="planSelectDay(2,this)" data-i18n="plan_tuesday">الثلاثاء</button>
+                <button class="plan-day-btn" onclick="planSelectDay(3,this)" data-i18n="plan_wednesday">الأربعاء</button>
+                <button class="plan-day-btn" onclick="planSelectDay(4,this)" data-i18n="plan_thursday">الخميس</button>
+                <button class="plan-day-btn" onclick="planSelectDay(5,this)" data-i18n="plan_friday">الجمعة</button>
+                <button class="plan-day-btn" onclick="planSelectDay(6,this)" data-i18n="plan_saturday">السبت</button>
+            </div>
+            <div id="planSessionList"></div>
+            <div id="planEmpty" style="text-align:center;padding:40px 20px;color:var(--ink-soft);">
+                <i class="fas fa-calendar-check" style="font-size:48px;margin-bottom:12px;display:block;color:var(--accent-gold);opacity:0.4;"></i>
+                <p data-i18n="plan_empty">أضف جلسة مذاكرة لهذا اليوم</p>
+            </div>
+            <div style="margin-top:16px;padding:12px;background:var(--card);border-radius:12px;border:1px solid var(--line);">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                    <i class="fas fa-chart-bar" style="color:var(--accent-purple);"></i>
+                    <strong style="font-size:14px;color:var(--ink);" data-i18n="plan_stats">إحصائيات الأسبوع</strong>
+                </div>
+                <div id="planStats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:13px;text-align:center;">
+                    <div><div id="planTotalH" style="font-size:20px;font-weight:700;color:var(--primary-mid);">0</div><div style="color:var(--ink-soft);" data-i18n="plan_hours">ساعات</div></div>
+                    <div><div id="planSessions" style="font-size:20px;font-weight:700;color:var(--accent-gold);">0</div><div style="color:var(--ink-soft);" data-i18n="plan_sessions">جلسات</div></div>
+                    <div><div id="planSubjects" style="font-size:20px;font-weight:700;color:var(--accent-green);">0</div><div style="color:var(--ink-soft);" data-i18n="plan_subjects_count">مواد</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Leaderboard Page ====== -->
+    <div id="page-leaderboard" class="page-content">
+        <div class="section-container" style="margin-top:16px;">
+            <h2 style="margin:0 0 16px 0;font-size:20px;color:var(--ink);"><i class="fas fa-trophy" style="color:var(--accent-gold);"></i> <span data-i18n="lb_title">لوحة الشرف</span></h2>
+            <div style="display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;">
+                <button class="lb-tab active" onclick="switchLbTab('points',this)" data-i18n="lb_points">النقاط</button>
+                <button class="lb-tab" onclick="switchLbTab('streak',this)" data-i18n="lb_streak">أيام متتالية</button>
+                <button class="lb-tab" onclick="switchLbTab('cards',this)" data-i18n="lb_cards">البطاقات</button>
+            </div>
+            <div id="lbList"></div>
+            <div id="lbEmpty" style="text-align:center;padding:40px 20px;color:var(--ink-soft);">
+                <i class="fas fa-trophy" style="font-size:48px;margin-bottom:12px;display:block;color:var(--accent-gold);opacity:0.4;"></i>
+                <p data-i18n="lb_empty">سجّل دخولك لترى ترتيبك</p>
+            </div>
+            <div id="lbMyRank" style="display:none;margin-top:16px;padding:14px;background:var(--accent-gold-soft);border-radius:14px;border:2px solid var(--accent-gold);text-align:center;">
+                <div style="font-size:13px;color:var(--ink-soft);" data-i18n="lb_your_rank">ترتيبك</div>
+                <div id="lbMyRankNum" style="font-size:28px;font-weight:800;color:var(--accent-gold);">#1</div>
+                <div id="lbMyRankScore" style="font-size:14px;color:var(--ink);"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Add Card Modal ====== -->
+    <div class="profile-edit-modal" id="addCardModal">
+        <div class="profile-edit-card">
+            <h3 data-i18n="fc_new_card">بطاقة جديدة</h3>
+            <input type="text" id="fcDeckName" maxlength="30" placeholder="اسم المجموعة (مثال: رياضيات)" style="margin-bottom:8px;">
+            <textarea id="fcFrontInput" rows="2" maxlength="500" placeholder="الوجه الأمامي (السؤال)" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;resize:none;margin-bottom:8px;"></textarea>
+            <textarea id="fcBackInput" rows="2" maxlength="500" placeholder="الوجه الخلفي (الإجابة)" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;resize:none;"></textarea>
+            <div class="profile-edit-actions">
+                <button class="profile-edit-cancel" onclick="closeAddCardModal()" data-i18n="fc_cancel">إلغاء</button>
+                <button class="profile-edit-save" onclick="saveFlashcard()" data-i18n="fc_save">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Add Exam Modal ====== -->
+    <div class="profile-edit-modal" id="addExamModal">
+        <div class="profile-edit-card">
+            <h3 data-i18n="cal_new_exam">إضافة امتحان</h3>
+            <input type="text" id="examSubject" maxlength="50" placeholder="المادة" style="margin-bottom:8px;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;">
+            <input type="date" id="examDate" style="margin-bottom:8px;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;">
+            <input type="text" id="examNote" maxlength="100" placeholder="ملاحظة (اختياري)" style="margin-bottom:8px;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;">
+            <div class="profile-edit-actions">
+                <button class="profile-edit-cancel" onclick="closeAddExamModal()" data-i18n="cal_cancel">إلغاء</button>
+                <button class="profile-edit-save" onclick="saveExam()" data-i18n="cal_save">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Add Session Modal ====== -->
+    <div class="profile-edit-modal" id="addSessionModal">
+        <div class="profile-edit-card">
+            <h3 data-i18n="plan_new_session">إضافة جلسة مذاكرة</h3>
+            <input type="text" id="sessionSubject" maxlength="50" placeholder="المادة" style="margin-bottom:8px;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;">
+            <input type="time" id="sessionStart" style="margin-bottom:8px;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;">
+            <input type="time" id="sessionEnd" style="margin-bottom:8px;width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;">
+            <textarea id="sessionNote" rows="2" maxlength="200" placeholder="ملاحظة (اختياري)" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--input-bg);color:var(--ink);font-family:inherit;resize:none;"></textarea>
+            <div class="profile-edit-actions">
+                <button class="profile-edit-cancel" onclick="closeAddSessionModal()" data-i18n="plan_cancel">إلغاء</button>
+                <button class="profile-edit-save" onclick="saveSession()" data-i18n="plan_save">حفظ</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Edit Name Modal -->
     <div class="profile-edit-modal" id="editNameModal">
         <div class="profile-edit-card">
@@ -4608,6 +4863,10 @@
             <a href="#bac" class="more-item" data-page="bac"><i class="fas fa-book-open"></i><span data-i18n="nav_bac">بكالوريات</span></a>
             <a href="#processor" class="more-item" data-page="processor"><i class="fas fa-file-alt"></i><span data-i18n="nav_processor">معالج النصوص</span></a>
             <a href="#friends" class="more-item" data-page="friends"><i class="fas fa-users"></i><span data-i18n="nav_friends">الأصدقاء</span></a>
+            <a href="#flashcards" class="more-item" data-page="flashcards"><i class="fas fa-clone"></i><span data-i18n="nav_flashcards">البطاقات</span></a>
+            <a href="#calendar" class="more-item" data-page="calendar"><i class="fas fa-calendar-alt"></i><span data-i18n="nav_calendar">التقويم</span></a>
+            <a href="#planner" class="more-item" data-page="planner"><i class="fas fa-calendar-check"></i><span data-i18n="nav_planner">الجدول</span></a>
+            <a href="#leaderboard" class="more-item" data-page="leaderboard"><i class="fas fa-trophy"></i><span data-i18n="nav_leaderboard">الترتيب</span></a>
             <a href="#notifications" class="more-item" data-page="notifications" style="position:relative;"><i class="fas fa-bell"></i><span data-i18n="notif_title">الإشعارات</span><span class="friends-badge" id="notifBadgeMobile" style="display:none;">0</span></a>
         </div>
         <div class="more-sheet-footer">
@@ -4636,7 +4895,7 @@
                 link.classList.toggle('active', link.dataset.page === pageId);
             });
 
-            const moreSheetPages = ['timer', 'azkar', 'bac', 'processor', 'friends', 'notifications'];
+            const moreSheetPages = ['timer', 'azkar', 'bac', 'processor', 'friends', 'notifications', 'flashcards', 'calendar', 'planner', 'leaderboard'];
             document.querySelectorAll('.bn-item[data-page]').forEach(link => {
                 link.classList.toggle('active', link.dataset.page === pageId);
             });
@@ -7746,6 +8005,26 @@
                 notif_title: 'الإشعارات', notif_empty: 'لا توجد إشعارات', notif_mark_all: 'تحديد الكل كمقروء',
                 notif_view_all: 'عرض الكل', friend_request_received: 'أرسل لك طلب صداقة',
                 recent_chats_title: 'الرسائل', recent_chats_all: 'عرض الكل', recent_chats_empty: 'لا توجد محادثات بعد',
+                // Flashcards
+                nav_flashcards: 'البطاقات', fc_title: 'البطاقات التعليمية', fc_add: 'بطاقة جديدة', fc_save: 'حفظ',
+                fc_cancel: 'إلغاء', fc_know: 'أعرف', fc_dont_know: 'لا أعرف', fc_shuffle: 'خلط',
+                fc_reset: 'إعادة', fc_delete_deck: 'حذف المجموعة', fc_empty: 'أنشئ مجموعتك الأولى من البطاقات للمراجعة',
+                fc_new_card: 'بطاقة جديدة', fc_front: 'السؤال', fc_back: 'الإجابة', fc_deck: 'المجموعة',
+                // Calendar
+                nav_calendar: 'التقويم', cal_title: 'تقويم الامتحانات', cal_add: 'إضافة', cal_save: 'حفظ',
+                cal_cancel: 'إلغاء', cal_all: 'الكل', cal_upcoming: 'القادمة', cal_passed: 'المنجزة',
+                cal_empty: 'لا توجد امتحانات بعد. أضف أول امتحان!', cal_new_exam: 'إضافة امتحان',
+                cal_days_left: 'يوم', cal_today: 'اليوم', cal_passed_text: 'منجز',
+                // Planner
+                nav_planner: 'الجدول', plan_title: 'الجدول الدراسي', plan_add: 'إضافة جلسة', plan_save: 'حفظ',
+                plan_cancel: 'إلغاء', plan_empty: 'أضف جلسة مذاكرة لهذا اليوم', plan_new_session: 'إضافة جلسة مذاكرة',
+                plan_stats: 'إحصائيات الأسبوع', plan_hours: 'ساعات', plan_sessions: 'جلسات', plan_subjects_count: 'مواد',
+                plan_sunday: 'الأحد', plan_monday: 'الإثنين', plan_tuesday: 'الثلاثاء', plan_wednesday: 'الأربعاء',
+                plan_thursday: 'الخميس', plan_friday: 'الجمعة', plan_saturday: 'السبت',
+                // Leaderboard
+                nav_leaderboard: 'الترتيب', lb_title: 'لوحة الشرف', lb_points: 'النقاط',
+                lb_streak: 'أيام متتالية', lb_cards: 'البطاقات', lb_empty: 'سجّل دخولك لترى ترتيبك',
+                lb_your_rank: 'ترتيبك',
             },
             fr: {
                 // Navigation
@@ -7902,6 +8181,26 @@
                 notif_title: 'Notifications', notif_empty: 'Aucune notification', notif_mark_all: 'Tout marquer comme lu',
                 notif_view_all: 'Voir tout', friend_request_received: 'vous a envoyé une demande d\'ami',
                 recent_chats_title: 'Messages', recent_chats_all: 'Voir tout', recent_chats_empty: 'Aucune conversation',
+                // Flashcards
+                nav_flashcards: 'Cartes', fc_title: 'Cartes éducatives', fc_add: 'Nouvelle carte', fc_save: 'Enregistrer',
+                fc_cancel: 'Annuler', fc_know: 'Je sais', fc_dont_know: 'Je ne sais pas', fc_shuffle: 'Mélanger',
+                fc_reset: 'Réinitialiser', fc_delete_deck: 'Supprimer le deck', fc_empty: 'Créez votre premier deck de cartes',
+                fc_new_card: 'Nouvelle carte', fc_front: 'Question', fc_back: 'Réponse', fc_deck: 'Deck',
+                // Calendar
+                nav_calendar: 'Calendrier', cal_title: 'Calendrier des examens', cal_add: 'Ajouter', cal_save: 'Enregistrer',
+                cal_cancel: 'Annuler', cal_all: 'Tous', cal_upcoming: 'À venir', cal_passed: 'Passés',
+                cal_empty: 'Aucun examen. Ajoutez le premier !', cal_new_exam: 'Nouvel examen',
+                cal_days_left: 'jours', cal_today: "Aujourd'hui", cal_passed_text: 'Terminé',
+                // Planner
+                nav_planner: 'Emploi du temps', plan_title: 'Emploi du temps', plan_add: 'Ajouter une session', plan_save: 'Enregistrer',
+                plan_cancel: 'Annuler', plan_empty: 'Ajoutez une session d\'étude pour ce jour', plan_new_session: 'Nouvelle session',
+                plan_stats: 'Statistiques de la semaine', plan_hours: 'Heures', plan_sessions: 'Sessions', plan_subjects_count: 'Matières',
+                plan_sunday: 'Dim', plan_monday: 'Lun', plan_tuesday: 'Mar', plan_wednesday: 'Mer',
+                plan_thursday: 'Jeu', plan_friday: 'Ven', plan_saturday: 'Sam',
+                // Leaderboard
+                nav_leaderboard: 'Classement', lb_title: 'Tableau d\'honneur', lb_points: 'Points',
+                lb_streak: 'Jours consécutifs', lb_cards: 'Cartes', lb_empty: 'Connectez-vous pour voir votre classement',
+                lb_your_rank: 'Votre rang',
             }
         };
 
