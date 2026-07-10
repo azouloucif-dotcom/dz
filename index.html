@@ -2849,6 +2849,341 @@
             color: #fff;
         }
         .profile-edit-save:hover { opacity: 0.85; }
+
+        /* ====== Friends Page ====== */
+        .friends-header {
+            padding: 20px 20px 0;
+            text-align: center;
+        }
+        .friends-search-wrap {
+            padding: 16px 20px 0;
+        }
+        .friends-search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--paper);
+            border: 2px solid var(--line);
+            border-radius: 14px;
+            padding: 10px 16px;
+            transition: 0.2s;
+        }
+        .friends-search-box:focus-within {
+            border-color: var(--primary-mid);
+        }
+        .friends-search-box i {
+            color: var(--ink-soft);
+            font-size: 14px;
+        }
+        .friends-search-box input {
+            flex: 1;
+            border: none;
+            background: none;
+            font-size: 15px;
+            font-family: inherit;
+            color: var(--ink);
+            outline: none;
+        }
+        .friends-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 16px 20px 0;
+        }
+        .friends-tab {
+            flex: 1;
+            padding: 10px 8px;
+            border: 2px solid var(--line);
+            border-radius: 12px;
+            background: var(--card);
+            color: var(--ink-soft);
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            position: relative;
+        }
+        .friends-tab.active {
+            border-color: var(--primary-mid);
+            color: var(--primary-mid);
+            background: var(--primary-mid-soft);
+        }
+        .friends-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #e74c3c;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .friends-list {
+            padding: 16px 20px;
+        }
+        .friends-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--ink-soft);
+        }
+        .friends-empty p {
+            margin: 0 0 16px;
+            font-size: 14px;
+        }
+        .friends-add-btn {
+            padding: 10px 24px;
+            background: var(--primary-mid);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .friends-add-btn:hover { opacity: 0.85; }
+        .friend-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--card);
+            border-radius: 14px;
+            margin-bottom: 10px;
+            border: 1px solid var(--line);
+        }
+        .friend-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--header-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 18px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .friend-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .friend-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .friend-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .friend-email {
+            font-size: 12px;
+            color: var(--ink-soft);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .friend-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .friend-btn {
+            padding: 6px 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .friend-btn-accept {
+            background: #27ae60;
+            color: #fff;
+        }
+        .friend-btn-reject {
+            background: var(--line);
+            color: var(--ink-soft);
+        }
+        .friend-btn-add {
+            background: var(--primary-mid);
+            color: #fff;
+        }
+        .friend-btn-remove {
+            background: #e74c3c;
+            color: #fff;
+        }
+        .friend-btn-pending {
+            background: var(--line);
+            color: var(--ink-soft);
+            cursor: default;
+        }
+        .friend-btn:hover { opacity: 0.85; }
+
+        /* ====== Chat Page ====== */
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--card);
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .chat-back {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--ink);
+            cursor: pointer;
+            padding: 6px;
+        }
+        .chat-user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--header-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .chat-user-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .chat-user-status {
+            font-size: 12px;
+            color: #27ae60;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .chat-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--ink-soft);
+        }
+        .chat-empty p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .chat-msg {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            animation: msgIn 0.2s ease;
+        }
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-msg-sent {
+            align-self: flex-end;
+            background: var(--primary-mid);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-msg-recv {
+            align-self: flex-start;
+            background: var(--card);
+            color: var(--ink);
+            border: 1px solid var(--line);
+            border-bottom-left-radius: 4px;
+        }
+        .chat-msg-time {
+            font-size: 10px;
+            opacity: 0.6;
+            margin-top: 4px;
+            display: block;
+        }
+        .chat-msg-sent .chat-msg-time { text-align: left; }
+        .chat-msg-recv .chat-msg-time { text-align: right; }
+        .chat-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--card);
+            border-top: 1px solid var(--line);
+        }
+        .chat-input-wrap input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 2px solid var(--line);
+            border-radius: 20px;
+            font-size: 14px;
+            font-family: inherit;
+            background: var(--paper);
+            color: var(--ink);
+            outline: none;
+        }
+        .chat-input-wrap input:focus {
+            border-color: var(--primary-mid);
+        }
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-mid);
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .chat-send:hover { opacity: 0.85; }
+        .chat-input-wrap {
+            position: sticky;
+            bottom: 0;
+        }
         .profile-name {
             font-size: 20px;
             font-weight: 800;
@@ -4064,6 +4399,83 @@
         </div>
     </div>
 
+    <!-- ====== Friends Page ====== -->
+    <div id="page-friends" class="page-content">
+        <div class="friends-header">
+            <h2 style="margin:0;font-size:22px;color:var(--ink);"><i class="fas fa-users"></i> <span data-i18n="friends_title">الأصدقاء</span></h2>
+        </div>
+
+        <div class="friends-search-wrap">
+            <div class="friends-search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="friendSearchInput" data-i18n-placeholder="friends_search_placeholder" placeholder="ابحث بالاسم أو الإيميل...">
+            </div>
+        </div>
+
+        <div class="friends-tabs">
+            <button class="friends-tab active" data-friends-tab="list" onclick="switchFriendsTab('list')">
+                <i class="fas fa-user-friends"></i> <span data-i18n="friends_tab_list">أصدقائي</span>
+                <span class="friends-badge" id="friendsCount" style="display:none">0</span>
+            </button>
+            <button class="friends-tab" data-friends-tab="requests" onclick="switchFriendsTab('requests')">
+                <i class="fas fa-user-clock"></i> <span data-i18n="friends_tab_requests">الطلبات</span>
+                <span class="friends-badge" id="requestsCount" style="display:none">0</span>
+            </button>
+            <button class="friends-tab" data-friends-tab="search" onclick="switchFriendsTab('search')">
+                <i class="fas fa-search-plus"></i> <span data-i18n="friends_tab_search">بحث</span>
+            </button>
+        </div>
+
+        <div class="friends-list" id="friendsListTab">
+            <div class="friends-empty" id="friendsEmpty">
+                <i class="fas fa-user-friends" style="font-size:40px;color:var(--line);margin-bottom:12px;"></i>
+                <p data-i18n="friends_empty">لا توجد أصدقاء بعد</p>
+                <button class="friends-add-btn" onclick="switchFriendsTab('search')" data-i18n="friends_find">ابحث عن أصدقاء</button>
+            </div>
+        </div>
+
+        <div class="friends-list" id="friendsRequestsTab" style="display:none">
+            <div class="friends-empty" id="requestsEmpty">
+                <i class="fas fa-user-clock" style="font-size:40px;color:var(--line);margin-bottom:12px;"></i>
+                <p data-i18n="friends_no_requests">لا توجد طلبات معلقة</p>
+            </div>
+        </div>
+
+        <div class="friends-list" id="friendsSearchTab" style="display:none">
+            <div class="friends-empty" id="searchEmpty">
+                <i class="fas fa-search" style="font-size:40px;color:var(--line);margin-bottom:12px;"></i>
+                <p data-i18n="friends_search_hint">ابحث عن طلاب آخرين بالاسم أو الإيميل</p>
+            </div>
+            <div id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- ====== Chat Page ====== -->
+    <div id="page-chat" class="page-content">
+        <div class="chat-header" id="chatHeader">
+            <button class="chat-back" onclick="navigateTo('friends')"><i class="fas fa-arrow-right"></i></button>
+            <div class="chat-user-info">
+                <div class="chat-avatar" id="chatAvatar"></div>
+                <div>
+                    <div class="chat-user-name" id="chatUserName"></div>
+                    <div class="chat-user-status" data-i18n="chat_online">متصل</div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-empty">
+                <i class="fas fa-comments" style="font-size:40px;color:var(--line);margin-bottom:12px;"></i>
+                <p data-i18n="chat_start">ابدأ المحادثة</p>
+            </div>
+        </div>
+        <div class="chat-input-wrap">
+            <input type="text" id="chatInput" data-i18n-placeholder="chat_placeholder" placeholder="اكتب رسالة..." maxlength="500">
+            <button class="chat-send" id="chatSendBtn" onclick="sendChatMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- Edit Name Modal -->
     <div class="profile-edit-modal" id="editNameModal">
         <div class="profile-edit-card">
@@ -4093,6 +4505,7 @@
             <a href="#azkar" class="more-item" data-page="azkar"><i class="fas fa-pray"></i><span data-i18n="nav_azkar">أذكار</span></a>
             <a href="#bac" class="more-item" data-page="bac"><i class="fas fa-book-open"></i><span data-i18n="nav_bac">بكالوريات</span></a>
             <a href="#processor" class="more-item" data-page="processor"><i class="fas fa-file-alt"></i><span data-i18n="nav_processor">معالج النصوص</span></a>
+            <a href="#friends" class="more-item" data-page="friends"><i class="fas fa-users"></i><span data-i18n="nav_friends">الأصدقاء</span></a>
         </div>
         <div class="more-sheet-footer">
             <span style="font-size:12px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><i class="fas fa-award" style="color:var(--accent-gold);"></i> azou loucif</span>
@@ -4117,7 +4530,7 @@
                 link.classList.toggle('active', link.dataset.page === pageId);
             });
 
-            const moreSheetPages = ['timer', 'azkar', 'bac', 'processor'];
+            const moreSheetPages = ['timer', 'azkar', 'bac', 'processor', 'friends'];
             document.querySelectorAll('.bn-item[data-page]').forEach(link => {
                 link.classList.toggle('active', link.dataset.page === pageId);
             });
@@ -6294,6 +6707,286 @@
         });
 
         // ============================================================
+        //  FRIENDS SYSTEM
+        // ============================================================
+
+        function switchFriendsTab(tab) {
+            document.querySelectorAll('.friends-tab').forEach(t => t.classList.toggle('active', t.dataset.friendsTab === tab));
+            document.getElementById('friendsListTab').style.display = tab === 'list' ? '' : 'none';
+            document.getElementById('friendsRequestsTab').style.display = tab === 'requests' ? '' : 'none';
+            document.getElementById('friendsSearchTab').style.display = tab === 'search' ? '' : 'none';
+            if (tab === 'list') loadFriendsList();
+            if (tab === 'requests') loadFriendRequests();
+        }
+
+        function renderFriendCard(user, actions) {
+            const initial = (user.name || '?')[0].toUpperCase();
+            const photoHTML = user.photoURL
+                ? `<img src="${user.photoURL}">`
+                : initial;
+            return `
+                <div class="friend-card">
+                    <div class="friend-avatar">${photoHTML}</div>
+                    <div class="friend-info">
+                        <div class="friend-name">${Sanitize.text(user.name || 'مستخدم')}</div>
+                        <div class="friend-email">${Sanitize.text(user.email || '')}</div>
+                    </div>
+                    <div class="friend-actions">${actions}</div>
+                </div>`;
+        }
+
+        function loadFriendsList() {
+            if (!currentUser) return;
+            const container = document.getElementById('friendsListTab');
+            const empty = document.getElementById('friendsEmpty');
+            const badge = document.getElementById('friendsCount');
+            db.collection('friends').doc(currentUser.uid).get().then(doc => {
+                const data = doc.exists ? doc.data() : {};
+                const friendIds = Object.keys(data).filter(k => data[k] === 'accepted');
+                badge.textContent = friendIds.length;
+                badge.style.display = friendIds.length > 0 ? '' : 'none';
+                if (friendIds.length === 0) {
+                    empty.style.display = '';
+                    return;
+                }
+                empty.style.display = 'none';
+                const html = [empty.outerHTML];
+                friendIds.forEach(fid => {
+                    db.collection('users').doc(fid).get().then(snap => {
+                        if (!snap.exists) return;
+                        const u = snap.data();
+                        const card = renderFriendCard(u,
+                            `<button class="friend-btn friend-btn-remove" onclick="removeFriend('${fid}')">${translations[currentLang].friends_remove || 'إزالة'}</button>`);
+                        container.insertAdjacentHTML('beforeend', card);
+                    });
+                });
+            }).catch(() => {});
+        }
+
+        function loadFriendRequests() {
+            if (!currentUser) return;
+            const container = document.getElementById('friendsRequestsTab');
+            const empty = document.getElementById('requestsEmpty');
+            const badge = document.getElementById('requestsCount');
+            db.collection('friendRequests').doc(currentUser.uid).get().then(doc => {
+                const data = doc.exists ? doc.data() : {};
+                const requests = Object.keys(data).filter(k => data[k] === 'pending');
+                badge.textContent = requests.length;
+                badge.style.display = requests.length > 0 ? '' : 'none';
+                if (requests.length === 0) {
+                    empty.style.display = '';
+                    return;
+                }
+                empty.style.display = 'none';
+                requests.forEach(fid => {
+                    db.collection('users').doc(fid).get().then(snap => {
+                        if (!snap.exists) return;
+                        const u = snap.data();
+                        const card = renderFriendCard(u,
+                            `<button class="friend-btn friend-btn-accept" onclick="acceptFriend('${fid}')">${translations[currentLang].friends_accept || 'قبول'}</button>
+                             <button class="friend-btn friend-btn-reject" onclick="rejectFriend('${fid}')">${translations[currentLang].friends_reject || 'رفض'}</button>`);
+                        container.insertAdjacentHTML('beforeend', card);
+                    });
+                });
+            }).catch(() => {});
+        }
+
+        function searchUsers(query) {
+            if (!currentUser || !query || query.length < 2) {
+                document.getElementById('searchResults').innerHTML = '';
+                document.getElementById('searchEmpty').style.display = '';
+                return;
+            }
+            document.getElementById('searchEmpty').style.display = 'none';
+            const q = query.toLowerCase();
+            db.collection('users').get().then(snap => {
+                let html = '';
+                snap.forEach(doc => {
+                    if (doc.id === currentUser.uid) return;
+                    const u = doc.data();
+                    if ((u.name && u.name.toLowerCase().includes(q)) || (u.email && u.email.toLowerCase().includes(q))) {
+                        html += renderFriendCard(u,
+                            `<button class="friend-btn friend-btn-add" onclick="sendFriendRequest('${doc.id}')">${translations[currentLang].friends_add || 'إضافة'}</button>`);
+                    }
+                });
+                document.getElementById('searchResults').innerHTML = html || `<div class="friends-empty"><p>${translations[currentLang].friends_not_found || 'لم يتم العثور على نتائج'}</p></div>`;
+            }).catch(() => {});
+        }
+
+        function sendFriendRequest(targetId) {
+            if (!currentUser || !WriteGuard.canWrite()) return;
+            db.collection('friendRequests').doc(targetId).set({
+                [currentUser.uid]: 'pending'
+            }, { merge: true }).then(() => {
+                toast('✅ ' + (translations[currentLang].friends_request_sent || 'تم إرسال الطلب'));
+                searchUsers(document.getElementById('friendSearchInput').value);
+            }).catch(err => toast('❌ ' + err.message));
+        }
+
+        function acceptFriend(friendId) {
+            if (!currentUser || !WriteGuard.canWrite()) return;
+            const batch = db.batch();
+            batch.set(db.collection('friends').doc(currentUser.uid), { [friendId]: 'accepted' }, { merge: true });
+            batch.set(db.collection('friends').doc(friendId), { [currentUser.uid]: 'accepted' }, { merge: true });
+            batch.set(db.collection('friendRequests').doc(currentUser.uid), { [friendId]: firebase.firestore.FieldValue.delete() }, { merge: true });
+            batch.commit().then(() => {
+                toast('✅ ' + (translations[currentLang].friends_accepted || 'تمت إضافة الصديق'));
+                loadFriendRequests();
+            }).catch(err => toast('❌ ' + err.message));
+        }
+
+        function rejectFriend(friendId) {
+            if (!currentUser || !WriteGuard.canWrite()) return;
+            db.collection('friendRequests').doc(currentUser.uid).set({
+                [friendId]: firebase.firestore.FieldValue.delete()
+            }, { merge: true }).then(() => {
+                loadFriendRequests();
+            }).catch(() => {});
+        }
+
+        function removeFriend(friendId) {
+            if (!currentUser || !WriteGuard.canWrite()) return;
+            const batch = db.batch();
+            batch.set(db.collection('friends').doc(currentUser.uid), { [friendId]: firebase.firestore.FieldValue.delete() }, { merge: true });
+            batch.set(db.collection('friends').doc(friendId), { [currentUser.uid]: firebase.firestore.FieldValue.delete() }, { merge: true });
+            batch.commit().then(() => {
+                toast('✅ ' + (translations[currentLang].friends_removed || 'تمت إزالة الصديق'));
+                loadFriendsList();
+            }).catch(err => toast('❌ ' + err.message));
+        }
+
+        // Search input listener
+        document.getElementById('friendSearchInput')?.addEventListener('input', e => {
+            const val = e.target.value.trim();
+            switchFriendsTab('search');
+            searchUsers(val);
+        });
+
+        // ============================================================
+        //  CHAT SYSTEM
+        // ============================================================
+
+        let currentChatId = null;
+        let chatUnsubscribe = null;
+
+        function getChatId(uid1, uid2) {
+            return uid1 < uid2 ? uid1 + '_' + uid2 : uid2 + '_' + uid1;
+        }
+
+        function openChat(friendId, friendName, friendPhoto) {
+            if (!currentUser) return;
+            currentChatId = getChatId(currentUser.uid, friendId);
+            document.getElementById('chatUserName').textContent = friendName || 'صديق';
+            const avatarEl = document.getElementById('chatAvatar');
+            if (friendPhoto) {
+                avatarEl.innerHTML = `<img src="${friendPhoto}">`;
+            } else {
+                avatarEl.textContent = (friendName || '?')[0].toUpperCase();
+            }
+            navigateTo('chat');
+            loadChatMessages();
+        }
+
+        function loadChatMessages() {
+            if (chatUnsubscribe) chatUnsubscribe();
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = '';
+            chatUnsubscribe = db.collection('chats').doc(currentChatId).collection('messages')
+                .orderBy('timestamp', 'asc')
+                .limitToLast(100)
+                .onSnapshot(snap => {
+                    container.innerHTML = '';
+                    if (snap.empty) {
+                        container.innerHTML = `<div class="chat-empty"><i class="fas fa-comments" style="font-size:40px;color:var(--line);margin-bottom:12px;"></i><p>${translations[currentLang].chat_start || 'ابدأ المحادثة'}</p></div>`;
+                        return;
+                    }
+                    snap.forEach(doc => {
+                        const m = doc.data();
+                        const isSent = m.senderId === currentUser.uid;
+                        const time = m.timestamp ? new Date(m.timestamp.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+                        container.insertAdjacentHTML('beforeend',
+                            `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'}">
+                                ${Sanitize.text(m.text)}
+                                <span class="chat-msg-time">${time}</span>
+                            </div>`);
+                    });
+                    container.scrollTop = container.scrollHeight;
+                });
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text || !currentChatId || !currentUser) return;
+            if (!RateLimiter.canProceed('chat')) {
+                toast('❌ أرسل ببطء');
+                return;
+            }
+            input.value = '';
+            db.collection('chats').doc(currentChatId).collection('messages').add({
+                senderId: currentUser.uid,
+                text: text,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(err => toast('❌ ' + err.message));
+        }
+
+        // Enter key sends message
+        document.getElementById('chatInput')?.addEventListener('keydown', e => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        // Add chat button to friend cards
+        function renderFriendCardWithChat(user, uid) {
+            const initial = (user.name || '?')[0].toUpperCase();
+            const photoHTML = user.photoURL
+                ? `<img src="${user.photoURL}">`
+                : initial;
+            return `
+                <div class="friend-card">
+                    <div class="friend-avatar" style="cursor:pointer;" onclick="openChat('${uid}', '${Sanitize.text(user.name)}', '${user.photoURL || ''}')">${photoHTML}</div>
+                    <div class="friend-info" style="cursor:pointer;" onclick="openChat('${uid}', '${Sanitize.text(user.name)}', '${user.photoURL || ''}')">
+                        <div class="friend-name">${Sanitize.text(user.name || 'مستخدم')}</div>
+                        <div class="friend-email">${Sanitize.text(user.email || '')}</div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="friend-btn" style="background:var(--primary-mid);color:#fff;" onclick="openChat('${uid}', '${Sanitize.text(user.name)}', '${user.photoURL || ''}')">
+                            <i class="fas fa-comment"></i>
+                        </button>
+                        <button class="friend-btn friend-btn-remove" onclick="removeFriend('${uid}')">${translations[currentLang].friends_remove || 'إزالة'}</button>
+                    </div>
+                </div>`;
+        }
+
+        // Override loadFriendsList to use chat-enabled cards
+        const _origLoadFriendsList = loadFriendsList;
+        loadFriendsList = function() {
+            if (!currentUser) return;
+            const container = document.getElementById('friendsListTab');
+            const empty = document.getElementById('friendsEmpty');
+            const badge = document.getElementById('friendsCount');
+            db.collection('friends').doc(currentUser.uid).get().then(doc => {
+                const data = doc.exists ? doc.data() : {};
+                const friendIds = Object.keys(data).filter(k => data[k] === 'accepted');
+                badge.textContent = friendIds.length;
+                badge.style.display = friendIds.length > 0 ? '' : 'none';
+                container.innerHTML = '';
+                container.appendChild(empty);
+                if (friendIds.length === 0) {
+                    empty.style.display = '';
+                    return;
+                }
+                empty.style.display = 'none';
+                friendIds.forEach(fid => {
+                    db.collection('users').doc(fid).get().then(snap => {
+                        if (!snap.exists) return;
+                        const u = snap.data();
+                        container.insertAdjacentHTML('beforeend', renderFriendCardWithChat(u, fid));
+                    });
+                });
+            }).catch(() => {});
+        };
+
+        // ============================================================
         //  SECURITY MODULE
         // ============================================================
 
@@ -6443,6 +7136,7 @@
                 nav_home: 'الرئيسية', nav_math: 'رياضيات', nav_physics: 'فيزياء',
                 nav_timer: 'مؤقت', nav_azkar: 'أذكار', nav_bac: 'بكالوريات',
                 nav_quran: 'المصحف', nav_processor: 'معالج النصوص', nav_more: 'المزيد',
+                nav_friends: 'الأصدقاء',
                 more_title: 'المزيد من الأدوات',
                 // Hero
                 hero_version: 'نسخة ٢٠٢٦', hero_title: 'بطاقتك الرسمية للنجاح في البكالوريا',
@@ -6575,6 +7269,17 @@
                 profile_progress: 'التقدم', profile_theme: 'تبديل المظهر', profile_language: 'تغيير اللغة',
                 profile_edit_name: 'تعديل الاسم', profile_edit_save: 'حفظ', profile_edit_cancel: 'إلغاء',
                 profile_change_photo: 'اضغط لتغيير الصورة',
+                // Friends
+                friends_title: 'الأصدقاء', friends_search_placeholder: 'ابحث بالاسم أو الإيميل...',
+                friends_tab_list: 'أصدقائي', friends_tab_requests: 'الطلبات', friends_tab_search: 'بحث',
+                friends_empty: 'لا توجد أصدقاء بعد', friends_find: 'ابحث عن أصدقاء',
+                friends_no_requests: 'لا توجد طلبات معلقة', friends_search_hint: 'ابحث عن طلاب آخرين بالاسم أو الإيميل',
+                friends_add: 'إضافة', friends_remove: 'إزالة', friends_accept: 'قبول', friends_reject: 'رفض',
+                friends_request_sent: 'تم إرسال الطلب', friends_accepted: 'تمت إضافة الصديق',
+                friends_removed: 'تمت إزالة الصديق',                 friends_not_found: 'لم يتم العثور على نتائج',
+                // Chat
+                chat_online: 'متصل', chat_start: 'ابدأ المحادثة',
+                chat_placeholder: 'اكتب رسالة...',
             },
             fr: {
                 // Navigation
@@ -6713,6 +7418,18 @@
                 profile_progress: 'Progrès', profile_theme: 'Changer de thème', profile_language: 'Changer la langue',
                 profile_edit_name: 'Modifier le nom', profile_edit_save: 'Enregistrer', profile_edit_cancel: 'Annuler',
                 profile_change_photo: 'Appuyez pour changer la photo',
+                // Friends
+                friends_title: 'Amis', friends_search_placeholder: 'Rechercher par nom ou email...',
+                friends_tab_list: 'Mes amis', friends_tab_requests: 'Demandes', friends_tab_search: 'Rechercher',
+                friends_empty: "Pas encore d'amis", friends_find: "Trouver des amis",
+                friends_no_requests: 'Pas de demandes en attente', friends_search_hint: 'Rechercher d\'autres élèves par nom ou email',
+                friends_add: 'Ajouter', friends_remove: 'Retirer', friends_accept: 'Accepter', friends_reject: 'Refuser',
+                friends_request_sent: 'Demande envoyée', friends_accepted: 'Ami ajouté',
+                friends_removed: 'Ami retiré',                 friends_not_found: 'Aucun résultat trouvé',
+                nav_friends: 'Amis',
+                // Chat
+                chat_online: 'En ligne', chat_start: 'Commencer la conversation',
+                chat_placeholder: 'Écrivez un message...',
             }
         };
 
