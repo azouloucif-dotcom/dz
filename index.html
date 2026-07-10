@@ -2729,7 +2729,118 @@
             font-weight: 800;
             font-family: 'Amiri', serif;
             border: 3px solid var(--accent-gold);
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s;
         }
+        .profile-avatar:hover {
+            box-shadow: 0 0 0 3px var(--accent-gold);
+        }
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 26px;
+            height: 26px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #fff;
+            border: 2px solid var(--card);
+        }
+        .profile-name-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .profile-edit-btn {
+            background: none;
+            border: none;
+            color: var(--primary-mid);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .profile-edit-btn:hover {
+            background: var(--line);
+        }
+        .profile-edit-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s;
+        }
+        .profile-edit-modal.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .profile-edit-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 28px 24px;
+            width: 90%;
+            max-width: 360px;
+            box-shadow: var(--shadow-lg);
+        }
+        .profile-edit-card h3 {
+            margin: 0 0 18px;
+            font-size: 18px;
+            text-align: center;
+            color: var(--ink);
+        }
+        .profile-edit-card input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--line);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            background: var(--paper);
+            color: var(--ink);
+            margin-bottom: 14px;
+            box-sizing: border-box;
+        }
+        .profile-edit-card input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-mid);
+        }
+        .profile-edit-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .profile-edit-actions button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+        .profile-edit-cancel {
+            background: var(--line);
+            color: var(--ink-soft);
+        }
+        .profile-edit-save {
+            background: var(--primary-mid);
+            color: #fff;
+        }
+        .profile-edit-save:hover { opacity: 0.85; }
         .profile-name {
             font-size: 20px;
             font-weight: 800;
@@ -3879,8 +3990,14 @@
     <!-- ====== Profile Page ====== -->
     <div id="page-profile" class="page-content">
         <div class="profile-header">
-            <div class="profile-avatar" id="profileAvatar"></div>
-            <h2 class="profile-name" id="profileName"></h2>
+            <div class="profile-avatar" id="profileAvatar" onclick="document.getElementById('photoInput').click()">
+                <div class="profile-avatar-edit"><i class="fas fa-camera"></i></div>
+            </div>
+            <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
+            <div class="profile-name-wrap">
+                <h2 class="profile-name" id="profileName"></h2>
+                <button class="profile-edit-btn" onclick="openEditNameModal()" title="Edit name"><i class="fas fa-pen"></i></button>
+            </div>
             <p class="profile-email" id="profileEmail"></p>
             <div class="profile-stats">
                 <div class="profile-stat">
@@ -3934,6 +4051,18 @@
 
             <div class="profile-section">
                 <button class="profile-logout" id="profileLogout" data-i18n="auth_logout">تسجيل الخروج</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Name Modal -->
+    <div class="profile-edit-modal" id="editNameModal">
+        <div class="profile-edit-card">
+            <h3 data-i18n="profile_edit_name">تعديل الاسم</h3>
+            <input type="text" id="editNameInput" maxlength="50" placeholder="الاسم الجديد">
+            <div class="profile-edit-actions">
+                <button class="profile-edit-cancel" onclick="closeEditNameModal()" data-i18n="profile_edit_cancel">إلغاء</button>
+                <button class="profile-edit-save" onclick="saveEditName()" data-i18n="profile_edit_save">حفظ</button>
             </div>
         </div>
     </div>
@@ -6037,9 +6166,9 @@
             const displayName = currentUser.displayName || currentUser.email.split('@')[0];
             if (avatar) {
                 if (currentUser.photoURL) {
-                    avatar.innerHTML = `<img src="${currentUser.photoURL}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent-gold);">`;
+                    avatar.innerHTML = `<img src="${currentUser.photoURL}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent-gold);"><div class="profile-avatar-edit"><i class="fas fa-camera"></i></div>`;
                 } else {
-                    avatar.textContent = displayName[0].toUpperCase();
+                    avatar.innerHTML = `${displayName[0].toUpperCase()}<div class="profile-avatar-edit"><i class="fas fa-camera"></i></div>`;
                 }
             }
             if (name) name.textContent = displayName;
@@ -6066,15 +6195,170 @@
             }
         }
 
+        // ============================================================
+        //  PROFILE EDIT FUNCTIONS
+        // ============================================================
+
+        function openEditNameModal() {
+            if (!currentUser) return;
+            const modal = document.getElementById('editNameModal');
+            const input = document.getElementById('editNameInput');
+            input.value = currentUser.displayName || '';
+            modal.classList.add('show');
+            input.focus();
+        }
+
+        function closeEditNameModal() {
+            document.getElementById('editNameModal')?.classList.remove('show');
+        }
+
+        function saveEditName() {
+            const input = document.getElementById('editNameInput');
+            const newName = input.value.trim();
+            if (!newName || newName.length < 2) {
+                toast('❌ الاسم قصير جداً');
+                return;
+            }
+            if (!RateLimiter.canProceed('profile_edit')) {
+                toast('❌ انتظر قليلاً قبل التعديل مرة أخرى');
+                return;
+            }
+            currentUser.updateProfile({ displayName: newName })
+                .then(() => {
+                    return db.collection('users').doc(currentUser.uid).update({ name: newName });
+                })
+                .then(() => {
+                    document.getElementById('profileName').textContent = newName;
+                    updateUserBtn();
+                    closeEditNameModal();
+                    toast('✅ تم تحديث الاسم');
+                })
+                .catch(err => toast('❌ ' + err.message));
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                toast('❌ الملف ليس صورة');
+                return;
+            }
+            if (file.size > 2 * 1024 * 1024) {
+                toast('❌ الصورة كبيرة جداً (حد أقصى 2MB)');
+                return;
+            }
+            if (!RateLimiter.canProceed('profile_edit')) {
+                toast('❌ انتظر قليلاً قبل التعديل مرة أخرى');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64 = e.target.result;
+                currentUser.updateProfile({ photoURL: base64 })
+                    .then(() => {
+                        return db.collection('users').doc(currentUser.uid).update({ photoURL: base64 });
+                    })
+                    .then(() => {
+                        const avatar = document.getElementById('profileAvatar');
+                        avatar.innerHTML = `<img src="${base64}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent-gold);"><div class="profile-avatar-edit"><i class="fas fa-camera"></i></div>`;
+                        updateUserBtn();
+                        toast('✅ تم تحديث الصورة');
+                    })
+                    .catch(err => toast('❌ ' + err.message));
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        // Enter key saves name
+        document.getElementById('editNameInput')?.addEventListener('keydown', e => {
+            if (e.key === 'Enter') saveEditName();
+        });
+
+        // ============================================================
+        //  SECURITY MODULE
+        // ============================================================
+
+        // --- Rate Limiter ---
+        const RateLimiter = {
+            attempts: {},
+            maxAttempts: 5,
+            windowMs: 60000,
+            canProceed(key) {
+                const now = Date.now();
+                if (!this.attempts[key]) this.attempts[key] = [];
+                this.attempts[key] = this.attempts[key].filter(t => now - t < this.windowMs);
+                if (this.attempts[key].length >= this.maxAttempts) return false;
+                this.attempts[key].push(now);
+                return true;
+            },
+            reset(key) { delete this.attempts[key]; }
+        };
+
+        // --- XSS Sanitizer ---
+        const Sanitize = {
+            div: document.createElement('div'),
+            text(str) {
+                if (typeof str !== 'string') return '';
+                this.div.textContent = str;
+                return this.div.innerHTML;
+            },
+            attr(str) {
+                return String(str).replace(/[^a-zA-Z0-9\-_./]/g, '');
+            }
+        };
+
+        // --- Session Timeout (30 min inactivity) ---
+        const SessionGuard = {
+            timeoutMs: 30 * 60 * 1000,
+            timer: null,
+            reset() {
+                clearTimeout(this.timer);
+                this.timer = setTimeout(() => {
+                    if (currentUser) {
+                        auth.signOut();
+                        toast(translations[currentLang].auth_session_expired || '⏰ انتهت الجلسة بسبب عدم النشاط');
+                        navigateTo('home');
+                    }
+                }, this.timeoutMs);
+            },
+            init() {
+                ['click', 'keydown', 'mousemove', 'touchstart'].forEach(evt => {
+                    document.addEventListener(evt, () => this.reset(), { passive: true });
+                });
+                this.reset();
+            }
+        };
+
+        // --- Firestore Write Limiter ---
+        const WriteGuard = {
+            lastWrite: 0,
+            minInterval: 2000,
+            canWrite() {
+                const now = Date.now();
+                if (now - this.lastWrite < this.minInterval) return false;
+                this.lastWrite = now;
+                return true;
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize session guard
+            SessionGuard.init();
+
             // Close auth
             document.getElementById('authClose')?.addEventListener('click', closeAuthPage);
 
-            // Google Sign-In
+            // Google Sign-In with rate limiting
             document.getElementById('googleSignInBtn')?.addEventListener('click', () => {
+                if (!RateLimiter.canProceed('auth')) {
+                    toast('❌ محاولات كثيرة جداً، انتظر دقيقة');
+                    return;
+                }
                 const provider = new firebase.auth.GoogleAuthProvider();
                 auth.signInWithPopup(provider)
                     .then(() => {
+                        RateLimiter.reset('auth');
                         closeAuthPage();
                         toast(translations[currentLang].auth_success_login || '✅ تم تسجيل الدخول');
                     })
@@ -6266,10 +6550,12 @@
                 auth_success_login: '✅ تم تسجيل الدخول', auth_success_register: '✅ تم إنشاء الحساب',
                 auth_success_logout: '✅ تم تسجيل الخروج', auth_logout: 'تسجيل الخروج',
                 auth_google_btn: 'تسجيل الدخول بـ Google',
+                auth_session_expired: '⏰ انتهت الجلسة بسبب عدم النشاط',
                 // Profile
                 profile_streak: 'أيام متتالية', profile_total: 'إجمالي الأيام',
                 profile_pomodoro: 'جلسة بومودورو', profile_settings: 'الإعدادات',
                 profile_progress: 'التقدم', profile_theme: 'تبديل المظهر', profile_language: 'تغيير اللغة',
+                profile_edit_name: 'تعديل الاسم', profile_edit_save: 'حفظ', profile_edit_cancel: 'إلغاء',
             },
             fr: {
                 // Navigation
@@ -6401,10 +6687,12 @@
                 auth_success_login: '✅ Connexion réussie', auth_success_register: '✅ Compte créé',
                 auth_success_logout: '✅ Déconnecté', auth_logout: 'Se déconnecter',
                 auth_google_btn: 'Se connecter avec Google',
+                auth_session_expired: '⏰ Session expirée par inactivité',
                 // Profile
                 profile_streak: 'Jours consécutifs', profile_total: 'Total jours',
                 profile_pomodoro: 'Sessions Pomodoro', profile_settings: 'Paramètres',
-                profile_progress: 'Progrès', profile_theme: 'Changer de thème', profile_language: 'Changer la langue'
+                profile_progress: 'Progrès', profile_theme: 'Changer de thème', profile_language: 'Changer la langue',
+                profile_edit_name: 'Modifier le nom', profile_edit_save: 'Enregistrer', profile_edit_cancel: 'Annuler',
             }
         };
 
