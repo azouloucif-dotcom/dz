@@ -4603,7 +4603,10 @@
 
             window.location.hash = pageId;
 
-            if (pageId === 'home' && typeof loadRecentChats === 'function') loadRecentChats();
+            if (pageId === 'home') {
+                const section = document.getElementById('recent-chats');
+                if (section) section.style.display = '';
+            }
             if (pageId === 'timer' && typeof initTimer === 'function') initTimer();
             if (pageId === 'azkar' && typeof initAzkar === 'function') initAzkar();
             if (pageId === 'math' && typeof loadMathNotes === 'function') loadMathNotes();
@@ -6789,6 +6792,7 @@
             if (tab === 'list') loadFriendsList();
             if (tab === 'requests') loadFriendRequests();
             if (tab === 'online') loadOnlineUsers();
+            else if (onlineUnsubscribe) { onlineUnsubscribe(); onlineUnsubscribe = null; }
         }
 
         function renderFriendCard(user, actions) {
@@ -7002,41 +7006,44 @@
             }, { merge: true }).catch(() => {});
         }
 
+        function renderMsgHTML(m, isSent, time, msgId) {
+            if (m.deleted) {
+                return `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'} chat-msg-deleted" data-id="${msgId}">
+                    <div class="chat-msg-text" style="font-style:italic;opacity:0.5;"><i class="fas fa-trash"></i> ${translations[currentLang].chat_deleted || 'تم حذف الرسالة'}</div>
+                </div>`;
+            }
+            return `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'}" data-id="${msgId}">
+                <div class="chat-msg-text">${Sanitize.text(m.text)}</div>
+                <div class="chat-msg-footer">
+                    <span class="chat-msg-time">${time}</span>
+                    <span class="chat-msg-status">${isSent ? `<i class="fas fa-check${m.read ? '-double' : ''}"></i>` : ''}</span>
+                </div>
+                ${isSent ? `<span class="chat-msg-del" data-chat="${currentChatId}" data-msg="${msgId}"><i class="fas fa-trash-alt"></i></span>` : ''}
+            </div>`;
+        }
+
         function loadChatMessages() {
             if (chatUnsubscribe) chatUnsubscribe();
             const container = document.getElementById('chatMessages');
-            container.innerHTML = '';
             chatUnsubscribe = db.collection('chats').doc(currentChatId).collection('messages')
                 .orderBy('timestamp', 'asc')
                 .limitToLast(100)
                 .onSnapshot(snap => {
-                    container.innerHTML = '';
                     if (snap.empty) {
                         container.innerHTML = `<div class="chat-empty"><i class="fas fa-comments" style="font-size:40px;color:var(--line);margin-bottom:12px;"></i><p>${translations[currentLang].chat_start || 'ابدأ المحادثة'}</p></div>`;
                         return;
                     }
                     snap.docChanges().forEach(change => {
-                        if (change.type !== 'added') return;
                         const m = change.doc.data();
                         const isSent = m.senderId === currentUser.uid;
                         const time = m.timestamp ? new Date(m.timestamp.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
                         const msgId = change.doc.id;
-                        if (m.deleted) {
-                            container.insertAdjacentHTML('beforeend',
-                                `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'} chat-msg-deleted">
-                                    <div class="chat-msg-text" style="font-style:italic;opacity:0.5;"><i class="fas fa-trash"></i> ${translations[currentLang].chat_deleted || 'تم حذف الرسالة'}</div>
-                                </div>`);
-                            return;
+                        if (change.type === 'added') {
+                            container.insertAdjacentHTML('beforeend', renderMsgHTML(m, isSent, time, msgId));
+                        } else if (change.type === 'modified') {
+                            const existing = container.querySelector(`[data-id="${msgId}"]`);
+                            if (existing) existing.outerHTML = renderMsgHTML(m, isSent, time, msgId);
                         }
-                        container.insertAdjacentHTML('beforeend',
-                            `<div class="chat-msg ${isSent ? 'chat-msg-sent' : 'chat-msg-recv'}" data-msg-id="${msgId}">
-                                <div class="chat-msg-text">${Sanitize.text(m.text)}</div>
-                                <div class="chat-msg-footer">
-                                    <span class="chat-msg-time">${time}</span>
-                                    ${isSent ? `<span class="chat-msg-status"><i class="fas fa-check${m.read ? '-double' : ''}"></i></span>` : ''}
-                                    ${isSent ? `<span class="chat-msg-del" onclick="deleteMessage('${currentChatId}','${msgId}')"><i class="fas fa-trash-alt"></i></span>` : ''}
-                                </div>
-                            </div>`);
                         if (!isSent && !m.read) {
                             db.collection('chats').doc(currentChatId).collection('messages').doc(msgId).update({ read: true }).catch(() => {});
                         }
@@ -7067,7 +7074,6 @@
                     lastTime: firebase.firestore.FieldValue.serverTimestamp(),
                     lastSender: currentUser.uid
                 }, { merge: true }).catch(() => {});
-                loadRecentChats();
             }).catch(err => toast('❌ ' + err.message));
         }
 
@@ -7080,88 +7086,81 @@
             }
         }
 
-        // Delete message
-        function deleteMessage(chatId, msgId) {
-            if (!currentUser || !WriteGuard.canWrite()) return;
+        // Delete message via delegated click
+        document.addEventListener('click', e => {
+            const delBtn = e.target.closest('.chat-msg-del');
+            if (!delBtn) return;
+            const chatId = delBtn.dataset.chat;
+            const msgId = delBtn.dataset.msg;
+            if (!chatId || !msgId || !currentUser) return;
+            if (!WriteGuard.canWrite()) return;
             if (!confirm(translations[currentLang].chat_delete_confirm || 'حذف هذه الرسالة؟')) return;
             db.collection('chats').doc(chatId).collection('messages').doc(msgId).update({ deleted: true, text: '' })
                 .catch(err => toast('❌ ' + err.message));
-        }
+        });
 
         // Enter key sends message
         document.getElementById('chatInput')?.addEventListener('keydown', e => {
             if (e.key === 'Enter') sendChatMessage();
         });
 
-        // --- Recent Chats (Home page) ---
-        let recentChatsUnsub = null;
+        // --- Combined Chat Listener (recent chats + notifications) ---
+        let chatListenerUnsub = null;
+        const seenMessages = {};
 
-        function loadRecentChats() {
-            if (!currentUser) return;
+        function updateRecentChatsUI(snap) {
             const section = document.getElementById('recent-chats');
             const list = document.getElementById('recentChatsList');
             if (!section || !list) return;
-            section.style.display = '';
-            if (recentChatsUnsub) { recentChatsUnsub(); recentChatsUnsub = null; }
-            recentChatsUnsub = db.collection('chats')
-                .where('participants.' + currentUser.uid, '==', true)
-                .onSnapshot(snap => {
-                    if (snap.empty) {
-                        list.innerHTML = '';
-                        section.style.display = 'none';
-                        return;
-                    }
-                    const chats = [];
-                    snap.forEach(doc => {
-                        const data = doc.data();
-                        const chatId = doc.id;
-                        const parts = chatId.split('_');
-                        const friendId = parts[0] === currentUser.uid ? parts[1] : parts[0];
-                        const isLastFromMe = data.lastSender === currentUser.uid;
-                        const lastTime = data.lastTime ? data.lastTime.seconds : 0;
-                        chats.push({ chatId, friendId, data, isLastFromMe, lastTime });
-                    });
-                    chats.sort((a, b) => b.lastTime - a.lastTime);
-                    const topChats = chats.slice(0, 5);
-                    let html = '';
-                    let loaded = 0;
-                    topChats.forEach(c => {
-                        db.collection('users').doc(c.friendId).get().then(snap => {
-                            loaded++;
-                            const u = snap.exists ? snap.data() : { name: 'مستخدم', photoURL: '' };
-                            const initial = (u.name || '?')[0].toUpperCase();
-                            const photoHTML = u.photoURL
-                                ? `<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;">`
-                                : initial;
-                            const preview = c.data.lastMessage ? (c.data.lastMessage.length > 25 ? c.data.lastMessage.substring(0, 25) + '...' : c.data.lastMessage) : '';
-                            html += `
-                                <div class="rc-item" onclick="openChat('${c.friendId}', '${Sanitize.text(u.name)}', '${u.photoURL || ''}')">
-                                    <div class="rc-avatar-sm">${photoHTML}</div>
-                                    <div class="rc-body">
-                                        <div class="rc-name">${Sanitize.text(u.name || 'مستخدم')}</div>
-                                        <div class="rc-preview">${c.isLastFromMe ? 'أنت: ' : ''}${Sanitize.text(preview)}</div>
-                                    </div>
-                                </div>`;
-                            if (loaded === topChats.length) list.innerHTML = html;
-                        });
-                    });
-                }, () => {});
+            if (!snap || snap.empty) {
+                list.innerHTML = '';
+                section.style.display = 'none';
+                return;
+            }
+            const chats = [];
+            snap.forEach(doc => {
+                const data = doc.data();
+                const chatId = doc.id;
+                const parts = chatId.split('_');
+                const friendId = parts[0] === currentUser.uid ? parts[1] : parts[0];
+                const isLastFromMe = data.lastSender === currentUser.uid;
+                const lastTime = data.lastTime ? data.lastTime.seconds : 0;
+                chats.push({ chatId, friendId, data, isLastFromMe, lastTime });
+            });
+            chats.sort((a, b) => b.lastTime - a.lastTime);
+            const topChats = chats.slice(0, 5);
+            let html = '';
+            let loaded = 0;
+            topChats.forEach(c => {
+                db.collection('users').doc(c.friendId).get().then(snap => {
+                    loaded++;
+                    const u = snap.exists ? snap.data() : { name: 'مستخدم', photoURL: '' };
+                    const initial = (u.name || '?')[0].toUpperCase();
+                    const photoHTML = u.photoURL
+                        ? `<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;">`
+                        : initial;
+                    const preview = c.data.lastMessage ? (c.data.lastMessage.length > 25 ? c.data.lastMessage.substring(0, 25) + '...' : c.data.lastMessage) : '';
+                    html += `
+                        <div class="rc-item" onclick="openChat('${c.friendId}', '${Sanitize.text(u.name)}', '${u.photoURL || ''}')">
+                            <div class="rc-avatar-sm">${photoHTML}</div>
+                            <div class="rc-body">
+                                <div class="rc-name">${Sanitize.text(u.name || 'مستخدم')}</div>
+                                <div class="rc-preview">${c.isLastFromMe ? 'أنت: ' : ''}${Sanitize.text(preview)}</div>
+                            </div>
+                        </div>`;
+                    if (loaded === topChats.length) list.innerHTML = html;
+                });
+            });
         }
 
-        // Load recent chats on home page
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && currentUser) loadRecentChats();
-        });
-
-        // Global new message notification listener
-        let notifUnsub = null;
-        const seenMessages = {};
-
-        function startMessageNotifier() {
-            if (!currentUser || notifUnsub) return;
-            notifUnsub = db.collection('chats')
+        function startChatListener() {
+            if (!currentUser || chatListenerUnsub) return;
+            chatListenerUnsub = db.collection('chats')
                 .where('participants.' + currentUser.uid, '==', true)
                 .onSnapshot(snap => {
+                    // 1. Update recent chats UI (home page)
+                    updateRecentChatsUI(snap);
+                    // 2. Check for new message notifications
                     snap.docChanges().forEach(change => {
                         if (change.type === 'modified') {
                             const data = change.doc.data();
@@ -7395,11 +7394,10 @@
                             badge.style.display = 'none';
                         }
                     });
-                    loadRecentChats();
-                    startMessageNotifier();
+                    startChatListener();
                 } else {
                     if (onlineUnsubscribe) { onlineUnsubscribe(); onlineUnsubscribe = null; }
-                    if (recentChatsUnsub) { recentChatsUnsub(); recentChatsUnsub = null; }
+                    if (chatListenerUnsub) { chatListenerUnsub(); chatListenerUnsub = null; }
                     document.getElementById('recent-chats').style.display = 'none';
                 }
             });
