@@ -3233,65 +3233,37 @@
             bottom: 0;
         }
 
-        /* ====== Recent Chats (Home) ====== */
-        .recent-chat-item {
+        /* ====== Recent Chats (Home, Compact) ====== */
+        .rc-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 10px;
+            padding: 8px 12px;
             background: var(--card);
-            border-radius: 14px;
-            margin-bottom: 8px;
+            border-radius: 12px;
+            margin-bottom: 6px;
             border: 1px solid var(--line);
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.15s;
         }
-        .recent-chat-item:hover {
-            border-color: var(--primary-mid);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-        .rc-avatar {
-            width: 48px;
-            height: 48px;
+        .rc-item:hover { border-color: var(--primary-mid); }
+        .rc-avatar-sm {
+            width: 36px; height: 36px;
             border-radius: 50%;
             background: var(--header-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 800;
-            font-size: 18px;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-        .rc-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .rc-avatar-initial {
-            width: 48px; height: 48px;
             display: flex; align-items: center; justify-content: center;
-            background: var(--header-gradient);
-            border-radius: 50%;
-            color: #fff; font-weight: 800; font-size: 18px;
+            color: #fff; font-weight: 800; font-size: 14px;
+            flex-shrink: 0; overflow: hidden;
         }
-        .rc-info { flex: 1; min-width: 0; }
+        .rc-body { flex: 1; min-width: 0; }
         .rc-name {
-            font-size: 14px; font-weight: 700; color: var(--ink);
+            font-size: 13px; font-weight: 600; color: var(--ink);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .rc-preview {
-            font-size: 12px; color: var(--ink-soft);
+            font-size: 11px; color: var(--ink-soft);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            margin-top: 2px;
         }
-        .rc-meta {
-            text-align: left; flex-shrink: 0;
-        }
-        .rc-time {
-            font-size: 10px; color: var(--ink-soft);
-        }
-        .rc-status {
-            font-size: 10px; margin-top: 4px; color: var(--ink-soft);
-        }
-        .rc-status.rc-read { color: var(--primary-mid); }
 
         .profile-name {
             font-size: 20px;
@@ -3533,18 +3505,9 @@
             </div>
         </section>
 
-        <!-- === قسم المحادثات الأخيرة === -->
-        <section id="recent-chats" class="section-container" style="display:none;">
-            <div class="section-head" style="cursor:pointer;" onclick="navigateTo('friends')">
-                <h2 class="section-title"><i class="fas fa-comment-dots" style="color:var(--primary-mid);"></i> <span data-i18n="recent_chats_title">الرسائل</span></h2>
-                <a href="#friends" onclick="navigateTo('friends');return false;" style="font-size:13px;color:var(--primary-mid);"><span data-i18n="recent_chats_all">عرض الكل</span> <i class="fas fa-chevron-left"></i></a>
-            </div>
-            <div id="recentChatsList">
-                <div class="recent-chat-empty" style="text-align:center;padding:20px;color:var(--ink-soft);font-size:14px;">
-                    <i class="fas fa-comments" style="font-size:28px;display:block;margin-bottom:8px;"></i>
-                    <p data-i18n="recent_chats_empty">لا توجد محادثات بعد</p>
-                </div>
-            </div>
+        <!-- === قسم المحادثات === -->
+        <section id="recent-chats" style="display:none;margin:0 16px 12px;">
+            <div id="recentChatsList"></div>
         </section>
 
         <!-- === قسم الأساتذة === -->
@@ -6893,22 +6856,21 @@
                 const friendIds = Object.keys(data).filter(k => data[k] === 'accepted');
                 badge.textContent = friendIds.length;
                 badge.style.display = friendIds.length > 0 ? '' : 'none';
+                container.innerHTML = '';
+                container.appendChild(empty);
                 if (friendIds.length === 0) {
                     empty.style.display = '';
                     return;
                 }
                 empty.style.display = 'none';
-                const html = [empty.outerHTML];
                 friendIds.forEach(fid => {
                     db.collection('users').doc(fid).get().then(snap => {
                         if (!snap.exists) return;
                         const u = snap.data();
-                        const card = renderFriendCard(u,
-                            `<button class="friend-btn friend-btn-remove" onclick="removeFriend('${fid}')">${translations[currentLang].friends_remove || 'إزالة'}</button>`);
-                        container.insertAdjacentHTML('beforeend', card);
+                        container.insertAdjacentHTML('beforeend', renderFriendCardWithChat(u, fid));
                     });
                 });
-            }).catch(() => {});
+            }).catch(err => toast('❌ فشل تحميل الأصدقاء: ' + err.message));
         }
 
         function loadFriendRequests() {
@@ -6980,7 +6942,8 @@
             batch.commit().then(() => {
                 toast('✅ ' + (translations[currentLang].friends_accepted || 'تمت إضافة الصديق'));
                 loadFriendRequests();
-            }).catch(err => toast('❌ ' + err.message));
+                loadFriendsList();
+            }).catch(err => toast('❌ فشل قبول الطلب - تأكد من قواعد Firestore: ' + err.message));
         }
 
         function rejectFriend(friendId) {
@@ -7167,10 +7130,8 @@
                 .where('participants.' + currentUser.uid, '==', true)
                 .onSnapshot(snap => {
                     if (snap.empty) {
-                        list.innerHTML = `<div class="recent-chat-empty" style="text-align:center;padding:20px;color:var(--ink-soft);font-size:14px;">
-                            <i class="fas fa-comments" style="font-size:28px;display:block;margin-bottom:8px;"></i>
-                            <p>${translations[currentLang].recent_chats_empty || 'لا توجد محادثات بعد'}</p>
-                        </div>`;
+                        list.innerHTML = '';
+                        section.style.display = 'none';
                         return;
                     }
                     const chats = [];
@@ -7180,13 +7141,11 @@
                         const parts = chatId.split('_');
                         const friendId = parts[0] === currentUser.uid ? parts[1] : parts[0];
                         const isLastFromMe = data.lastSender === currentUser.uid;
-                        const time = data.lastTime ? new Date(data.lastTime.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
                         const lastTime = data.lastTime ? data.lastTime.seconds : 0;
-                        chats.push({ chatId, friendId, data, time, isLastFromMe, lastTime });
+                        chats.push({ chatId, friendId, data, isLastFromMe, lastTime });
                     });
                     chats.sort((a, b) => b.lastTime - a.lastTime);
-                    const topChats = chats.slice(0, 10);
-                    // Fetch friend info for each chat
+                    const topChats = chats.slice(0, 5);
                     let html = '';
                     let loaded = 0;
                     topChats.forEach(c => {
@@ -7195,31 +7154,21 @@
                             const u = snap.exists ? snap.data() : { name: 'مستخدم', photoURL: '' };
                             const initial = (u.name || '?')[0].toUpperCase();
                             const photoHTML = u.photoURL
-                                ? `<img src="${u.photoURL}">`
-                                : `<div class="rc-avatar-initial">${initial}</div>`;
-                            const preview = c.data.lastMessage ? (c.data.lastMessage.length > 30 ? c.data.lastMessage.substring(0, 30) + '...' : c.data.lastMessage) : '';
+                                ? `<img src="${u.photoURL}" style="width:100%;height:100%;object-fit:cover;">`
+                                : initial;
+                            const preview = c.data.lastMessage ? (c.data.lastMessage.length > 25 ? c.data.lastMessage.substring(0, 25) + '...' : c.data.lastMessage) : '';
                             html += `
-                                <div class="recent-chat-item" onclick="openChat('${c.friendId}', '${Sanitize.text(u.name)}', '${u.photoURL || ''}')">
-                                    <div class="rc-avatar">${photoHTML}</div>
-                                    <div class="rc-info">
+                                <div class="rc-item" onclick="openChat('${c.friendId}', '${Sanitize.text(u.name)}', '${u.photoURL || ''}')">
+                                    <div class="rc-avatar-sm">${photoHTML}</div>
+                                    <div class="rc-body">
                                         <div class="rc-name">${Sanitize.text(u.name || 'مستخدم')}</div>
-                                        <div class="rc-preview">${c.isLastFromMe ? '<span style="color:var(--primary-mid);">أنت: </span>' : ''}${Sanitize.text(preview)}</div>
-                                    </div>
-                                    <div class="rc-meta">
-                                        <div class="rc-time">${c.time}</div>
-                                        <div class="rc-status ${c.isLastFromMe ? 'rc-read' : ''}"><i class="fas fa-check-double"></i></div>
+                                        <div class="rc-preview">${c.isLastFromMe ? 'أنت: ' : ''}${Sanitize.text(preview)}</div>
                                     </div>
                                 </div>`;
                             if (loaded === topChats.length) list.innerHTML = html;
                         });
                     });
-                }, err => {
-                    if (err.code === 'failed-precondition') {
-                        list.innerHTML = `<div class="recent-chat-empty" style="text-align:center;padding:20px;color:var(--ink-soft);font-size:14px;">
-                            <p>⚠️ يلزم إنشاء فهرس في Firebase Console للمجموعة chats</p>
-                        </div>`;
-                    }
-                });
+                }, () => {});
         }
 
         // Load recent chats on home page
@@ -7275,7 +7224,7 @@
                         container.insertAdjacentHTML('beforeend', renderFriendCardWithChat(u, fid));
                     });
                 });
-            }).catch(() => {});
+            }).catch(err => toast('❌ فشل تحميل الأصدقاء: ' + err.message));
         };
 
         // ============================================================
