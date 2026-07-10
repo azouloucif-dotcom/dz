@@ -3191,6 +3191,31 @@
             .chat-messages { padding: 10px 12px; }
         }
 
+        /* ====== Notifications ====== */
+        .notif-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px; border-bottom: 1px solid var(--line);
+        }
+        .notif-mark-read {
+            background: none; border: none; color: var(--primary-mid);
+            font-size: 13px; cursor: pointer; font-family: inherit;
+        }
+        .notif-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; border-radius: 12px;
+            margin-bottom: 6px; cursor: pointer; transition: 0.15s;
+            background: var(--card); border: 1px solid var(--line);
+        }
+        .notif-item:hover { border-color: var(--primary-mid); }
+        .notif-unread { border-color: var(--primary-mid); background: var(--accent-gold-soft); }
+        .notif-icon { font-size: 18px; flex-shrink: 0; }
+        .notif-text { flex: 1; font-size: 13px; color: var(--ink); min-width: 0; }
+        .notif-time { font-size: 10px; color: var(--ink-soft); flex-shrink: 0; }
+        .notif-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #e74c3c; flex-shrink: 0;
+        }
+
         /* ====== Recent Chats (Home, Compact) ====== */
         .rc-item {
             display: flex;
@@ -3410,6 +3435,10 @@
                         <li><a href="#friends" data-page="friends"><i class="fas fa-users"></i> <span data-i18n="nav_friends">الأصدقاء</span></a></li>
                     </ul>
                 </nav>
+                <button class="notif-btn" id="notifBtn" onclick="navigateTo('notifications')" style="position:relative;background:none;border:none;font-size:18px;color:var(--ink);cursor:pointer;padding:6px;">
+                    <i class="fas fa-bell"></i>
+                    <span class="friends-badge" id="notifBadge" style="display:none;">0</span>
+                </button>
                 <button class="lang-toggle" id="langToggle" aria-label="Changer la langue"><i class="fas fa-globe"></i> <span id="langLabel">FR</span></button>
                 <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
                 <button class="user-btn" id="userBtn" aria-label="Profile"><i class="fas fa-user"></i></button>
@@ -3466,6 +3495,11 @@
         <!-- === قسم المحادثات === -->
         <section id="recent-chats" style="display:none;margin:0 16px 12px;">
             <div id="recentChatsList"></div>
+        </section>
+
+        <!-- === قسم الإشعارات === -->
+        <section id="home-notifs" style="display:none;margin:0 16px 12px;">
+            <div id="homeNotifsList"></div>
         </section>
 
         <!-- === قسم الأساتذة === -->
@@ -4533,6 +4567,17 @@
         </div>
     </div>
 
+    <!-- ====== Notifications Page ====== -->
+    <div id="page-notifications" class="page-content">
+        <div class="notif-header">
+            <h2 style="margin:0;font-size:20px;color:var(--ink);"><i class="fas fa-bell"></i> <span data-i18n="notif_title">الإشعارات</span></h2>
+            <button class="notif-mark-read" onclick="markAllNotifsRead()" data-i18n="notif_mark_all">تحديد الكل كمقروء</button>
+        </div>
+        <div id="allNotifsList" style="padding:12px 16px;">
+            <div style="text-align:center;padding:40px;color:var(--ink-soft);font-size:14px;" data-i18n="notif_empty">لا توجد إشعارات</div>
+        </div>
+    </div>
+
     <!-- Edit Name Modal -->
     <div class="profile-edit-modal" id="editNameModal">
         <div class="profile-edit-card">
@@ -4563,6 +4608,7 @@
             <a href="#bac" class="more-item" data-page="bac"><i class="fas fa-book-open"></i><span data-i18n="nav_bac">بكالوريات</span></a>
             <a href="#processor" class="more-item" data-page="processor"><i class="fas fa-file-alt"></i><span data-i18n="nav_processor">معالج النصوص</span></a>
             <a href="#friends" class="more-item" data-page="friends"><i class="fas fa-users"></i><span data-i18n="nav_friends">الأصدقاء</span></a>
+            <a href="#notifications" class="more-item" data-page="notifications" style="position:relative;"><i class="fas fa-bell"></i><span data-i18n="notif_title">الإشعارات</span><span class="friends-badge" id="notifBadgeMobile" style="display:none;">0</span></a>
         </div>
         <div class="more-sheet-footer">
             <span style="font-size:12px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;"><i class="fas fa-award" style="color:var(--accent-gold);"></i> azou loucif</span>
@@ -4590,7 +4636,7 @@
                 link.classList.toggle('active', link.dataset.page === pageId);
             });
 
-            const moreSheetPages = ['timer', 'azkar', 'bac', 'processor', 'friends'];
+            const moreSheetPages = ['timer', 'azkar', 'bac', 'processor', 'friends', 'notifications'];
             document.querySelectorAll('.bn-item[data-page]').forEach(link => {
                 link.classList.toggle('active', link.dataset.page === pageId);
             });
@@ -4604,8 +4650,10 @@
             window.location.hash = pageId;
 
             if (pageId === 'home') {
-                const section = document.getElementById('recent-chats');
-                if (section) section.style.display = '';
+                const rc = document.getElementById('recent-chats');
+                if (rc) rc.style.display = '';
+                const hn = document.getElementById('home-notifs');
+                if (hn) hn.style.display = '';
             }
             if (pageId === 'timer' && typeof initTimer === 'function') initTimer();
             if (pageId === 'azkar' && typeof initAzkar === 'function') initAzkar();
@@ -6811,33 +6859,6 @@
                 </div>`;
         }
 
-        function loadFriendsList() {
-            if (!currentUser) return;
-            const container = document.getElementById('friendsListTab');
-            const empty = document.getElementById('friendsEmpty');
-            const badge = document.getElementById('friendsCount');
-            db.collection('friends').doc(currentUser.uid).get().then(doc => {
-                const data = doc.exists ? doc.data() : {};
-                const friendIds = Object.keys(data).filter(k => data[k] === 'accepted');
-                badge.textContent = friendIds.length;
-                badge.style.display = friendIds.length > 0 ? '' : 'none';
-                container.innerHTML = '';
-                container.appendChild(empty);
-                if (friendIds.length === 0) {
-                    empty.style.display = '';
-                    return;
-                }
-                empty.style.display = 'none';
-                friendIds.forEach(fid => {
-                    db.collection('users').doc(fid).get().then(snap => {
-                        if (!snap.exists) return;
-                        const u = snap.data();
-                        container.insertAdjacentHTML('beforeend', renderFriendCardWithChat(u, fid));
-                    });
-                });
-            }).catch(err => toast('❌ فشل تحميل الأصدقاء: ' + err.message));
-        }
-
         function loadFriendRequests() {
             if (!currentUser) return;
             const container = document.getElementById('friendsRequestsTab');
@@ -6853,15 +6874,17 @@
                     return;
                 }
                 empty.style.display = 'none';
-                requests.forEach(fid => {
-                    db.collection('users').doc(fid).get().then(snap => {
-                        if (!snap.exists) return;
-                        const u = snap.data();
-                        const card = renderFriendCard(u,
-                            `<button class="friend-btn friend-btn-accept" onclick="acceptFriend('${fid}')">${translations[currentLang].friends_accept || 'قبول'}</button>
-                             <button class="friend-btn friend-btn-reject" onclick="rejectFriend('${fid}')">${translations[currentLang].friends_reject || 'رفض'}</button>`);
-                        container.insertAdjacentHTML('beforeend', card);
+                Promise.all(requests.map(fid =>
+                    db.collection('users').doc(fid).get().then(s => s.exists ? ({ id: fid, data: s.data() }) : null)
+                )).then(results => {
+                    let html = '';
+                    results.forEach(r => {
+                        if (!r) return;
+                        html += renderFriendCard(r.data,
+                            `<button class="friend-btn friend-btn-accept" onclick="acceptFriend('${r.id}')">${translations[currentLang].friends_accept || 'قبول'}</button>
+                             <button class="friend-btn friend-btn-reject" onclick="rejectFriend('${r.id}')">${translations[currentLang].friends_reject || 'رفض'}</button>`);
                     });
+                    container.insertAdjacentHTML('beforeend', html);
                 });
             }).catch(() => {});
         }
@@ -6908,6 +6931,10 @@
                 toast('✅ ' + (translations[currentLang].friends_accepted || 'تمت إضافة الصديق'));
                 loadFriendRequests();
                 loadFriendsList();
+                db.collection('users').doc(friendId).get().then(s => {
+                    const name = s.exists ? (s.data().name || 'صديق') : 'صديق';
+                    addNotif('friend_accepted', '🎉 ' + name + ' ' + (translations[currentLang].friends_accepted || 'تم قبول طلب الصداقة'), friendId);
+                });
             }).catch(err => toast('❌ فشل قبول الطلب - تأكد من قواعد Firestore: ' + err.message));
         }
 
@@ -7174,7 +7201,9 @@
                                 db.collection('users').doc(friendId).get().then(snap => {
                                     if (!snap.exists) return;
                                     const u = snap.data();
-                                    toast('💬 ' + (u.name || 'صديق') + ': ' + (data.lastMessage.length > 40 ? data.lastMessage.substring(0, 40) + '...' : data.lastMessage));
+                                    const preview = data.lastMessage.length > 40 ? data.lastMessage.substring(0, 40) + '...' : data.lastMessage;
+                                    toast('💬 ' + (u.name || 'صديق') + ': ' + preview);
+                                    addNotif('message', '💬 ' + (u.name || 'صديق') + ': ' + preview, friendId);
                                 });
                             }
                             seenMessages[chatId] = newTime;
@@ -7184,6 +7213,116 @@
                         }
                     });
                 }, () => {});
+        }
+
+        /* ====== Notifications System ====== */
+        const seenNotifKeys = new Set();
+        let notifsUnsub = null;
+
+        function trans(key) {
+            return translations[currentLang][key] || key;
+        }
+
+        function addNotif(type, text, relatedUid) {
+            if (!currentUser) return;
+            const ref = db.collection('users').doc(currentUser.uid).collection('notifications').doc();
+            ref.set({
+                type: type,
+                text: text,
+                relatedUid: relatedUid || '',
+                read: false,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(() => {});
+        }
+
+        function startNotifsListener() {
+            if (!currentUser || notifsUnsub) return;
+            notifsUnsub = db.collection('users').doc(currentUser.uid).collection('notifications')
+                .onSnapshot(snap => {
+                    const homeList = document.getElementById('homeNotifsList');
+                    const allList = document.getElementById('allNotifsList');
+                    if (!snap || snap.empty) {
+                        if (homeList) homeList.innerHTML = '';
+                        if (allList) {
+                            allList.innerHTML = '<div style="text-align:center;padding:40px;color:var(--ink-soft);font-size:14px;">' + trans('notif_empty') + '</div>';
+                        }
+                        document.getElementById('home-notifs').style.display = 'none';
+                        return;
+                    }
+                    const items = [];
+                    snap.forEach(doc => {
+                        const d = doc.data();
+                        if (!d.createdAt) return;
+                        items.push({ id: doc.id, ...d });
+                    });
+                    const unreadCount = items.filter(i => !i.read).length;
+                    ['notifBadge', 'notifBadgeMobile'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (!el) return;
+                        if (unreadCount > 0) {
+                            el.textContent = unreadCount;
+                            el.style.display = '';
+                        } else {
+                            el.style.display = 'none';
+                        }
+                    });
+                    // Home notifs (recent 3 unread)
+                    const homeNotifs = items.filter(i => !i.read).slice(0, 3);
+                    if (homeNotifs.length > 0) {
+                        document.getElementById('home-notifs').style.display = '';
+                        const sectionTitle = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-size:14px;font-weight:600;color:var(--ink);"><i class="fas fa-bell" style="color:var(--accent-gold);"></i> ' + trans('notif_title') + '</span><a href="#notifications" onclick="navigateTo(\'notifications\');return false;" style="font-size:12px;color:var(--primary-mid);text-decoration:none;">' + trans('notif_view_all') + ' ›</a></div>';
+                        homeList.innerHTML = sectionTitle + homeNotifs.map(n => renderNotifItem(n)).join('');
+                    } else {
+                        document.getElementById('home-notifs').style.display = 'none';
+                    }
+                    // All notifs page
+                    if (allList) {
+                        allList.innerHTML = items.map(n => renderNotifItem(n)).join('');
+                    }
+                }, () => {});
+        }
+
+        function renderNotifItem(n) {
+            const time = n.createdAt && n.createdAt.seconds
+                ? timeAgo(n.createdAt.seconds * 1000)
+                : '';
+            const clickAction = n.relatedUid
+                ? (n.type === 'message'
+                    ? "openChat('" + Sanitize.text(n.relatedUid) + "','','')"
+                    : "navigateTo('friends')")
+                : '';
+            return '<div class="notif-item' + (n.read ? '' : ' notif-unread') + '" data-nid="' + Sanitize.text(n.id) + '" onclick="markNotifRead(\'' + Sanitize.text(n.id) + '\');' + clickAction + '">' +
+                '<span class="notif-icon">' + n.text.charAt(0) + '</span>' +
+                '<span class="notif-text">' + Sanitize.text(n.text.replace(/^[^\s]+\s/, '')) + '</span>' +
+                '<span class="notif-time">' + time + '</span>' +
+                (n.read ? '' : '<span class="notif-dot"></span>') +
+                '</div>';
+        }
+
+        function markNotifRead(id) {
+            if (!currentUser) return;
+            db.collection('users').doc(currentUser.uid).collection('notifications').doc(id).update({ read: true }).catch(() => {});
+        }
+
+        function markAllNotifsRead() {
+            if (!currentUser) return;
+            db.collection('users').doc(currentUser.uid).collection('notifications')
+                .where('read', '==', false).get().then(snap => {
+                    const batch = db.batch();
+                    snap.forEach(d => batch.update(d.ref, { read: true }));
+                    batch.commit().catch(() => {});
+                }).catch(() => {});
+        }
+
+        function timeAgo(ts) {
+            const diff = Date.now() - ts;
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'الآن';
+            if (mins < 60) return mins + ' د';
+            const hrs = Math.floor(mins / 60);
+            if (hrs < 24) return hrs + ' س';
+            const days = Math.floor(hrs / 24);
+            return days + ' ي';
         }
 
         // Add chat button to friend cards
@@ -7227,12 +7366,16 @@
                     return;
                 }
                 empty.style.display = 'none';
-                friendIds.forEach(fid => {
-                    db.collection('users').doc(fid).get().then(snap => {
-                        if (!snap.exists) return;
-                        const u = snap.data();
-                        container.insertAdjacentHTML('beforeend', renderFriendCardWithChat(u, fid));
+                // Batch all user queries and render once
+                Promise.all(friendIds.map(fid =>
+                    db.collection('users').doc(fid).get().then(s => s.exists ? ({ id: fid, data: s.data() }) : null)
+                )).then(results => {
+                    let html = '';
+                    results.forEach(r => {
+                        if (!r) return;
+                        html += renderFriendCardWithChat(r.data, r.id);
                     });
+                    container.insertAdjacentHTML('beforeend', html);
                 });
             }).catch(err => toast('❌ فشل تحميل الأصدقاء: ' + err.message));
         };
@@ -7378,27 +7521,42 @@
                         }
                     }).catch(() => {});
                     // Friend request badge
+                    const seenRequests = new Set();
                     db.collection('friendRequests').doc(user.uid).onSnapshot(doc => {
                         const badge = document.getElementById('moreBadge');
                         if (!badge) return;
-                        if (doc.exists) {
-                            const data = doc.data();
-                            const count = Object.keys(data).filter(k => data[k] === 'pending').length;
-                            if (count > 0) {
-                                badge.textContent = count;
-                                badge.style.display = '';
-                            } else {
-                                badge.style.display = 'none';
+                        let data = {};
+                        if (doc.exists) data = doc.data();
+                        const pendingKeys = Object.keys(data).filter(k => data[k] === 'pending');
+                        // Add notification for each new pending request
+                        pendingKeys.forEach(k => {
+                            if (!seenRequests.has(k)) {
+                                seenRequests.add(k);
+                                db.collection('users').doc(k).get().then(s => {
+                                    const name = s.exists ? (s.data().name || 'صديق') : 'صديق';
+                                    addNotif('friend_request', '👤 ' + name + ' ' + trans('friend_request_received'), k);
+                                });
                             }
+                        });
+                        // Clean up seenRequests that are no longer pending
+                        seenRequests.forEach(k => {
+                            if (data[k] !== 'pending') seenRequests.delete(k);
+                        });
+                        if (pendingKeys.length > 0) {
+                            badge.textContent = pendingKeys.length;
+                            badge.style.display = '';
                         } else {
                             badge.style.display = 'none';
                         }
                     });
                     startChatListener();
+                    startNotifsListener();
                 } else {
                     if (onlineUnsubscribe) { onlineUnsubscribe(); onlineUnsubscribe = null; }
                     if (chatListenerUnsub) { chatListenerUnsub(); chatListenerUnsub = null; }
+                    if (notifsUnsub) { notifsUnsub(); notifsUnsub = null; }
                     document.getElementById('recent-chats').style.display = 'none';
+                    document.getElementById('home-notifs').style.display = 'none';
                 }
             });
         });
@@ -7586,6 +7744,8 @@
                 chat_placeholder: 'اكتب رسالة...',
                 chat_notification: 'رسالة جديدة من', chat_notifications: 'رسائل جديدة من',
                 chat_deleted: 'تم حذف الرسالة', chat_delete_confirm: 'حذف هذه الرسالة؟',
+                notif_title: 'الإشعارات', notif_empty: 'لا توجد إشعارات', notif_mark_all: 'تحديد الكل كمقروء',
+                notif_view_all: 'عرض الكل', friend_request_received: 'أرسل لك طلب صداقة',
                 recent_chats_title: 'الرسائل', recent_chats_all: 'عرض الكل', recent_chats_empty: 'لا توجد محادثات بعد',
             },
             fr: {
@@ -7740,6 +7900,8 @@
                 chat_placeholder: 'Écrivez un message...',
                 chat_notification: 'Nouveau message de', chat_notifications: 'Nouveaux messages de',
                 chat_deleted: 'Message supprimé', chat_delete_confirm: 'Supprimer ce message ?',
+                notif_title: 'Notifications', notif_empty: 'Aucune notification', notif_mark_all: 'Tout marquer comme lu',
+                notif_view_all: 'Voir tout', friend_request_received: 'vous a envoyé une demande d\'ami',
                 recent_chats_title: 'Messages', recent_chats_all: 'Voir tout', recent_chats_empty: 'Aucune conversation',
             }
         };
