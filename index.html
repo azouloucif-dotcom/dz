@@ -4493,7 +4493,7 @@
         <a href="#math" class="bn-item" data-page="math"><i class="fas fa-calculator"></i><span data-i18n="nav_math">رياضيات</span></a>
         <a href="#physics" class="bn-item" data-page="physics"><i class="fas fa-bolt"></i><span data-i18n="nav_physics">فيزياء</span></a>
         <a href="#audio" class="bn-item" data-page="audio"><i class="fas fa-quran"></i><span data-i18n="nav_quran">المصحف</span></a>
-        <button type="button" class="bn-item" id="moreNavBtn"><i class="fas fa-ellipsis"></i><span data-i18n="nav_more">المزيد</span></button>
+        <button type="button" class="bn-item" id="moreNavBtn" style="position:relative;"><i class="fas fa-ellipsis"></i><span data-i18n="nav_more">المزيد</span><span class="friends-badge" id="moreBadge" style="display:none;position:absolute;top:2px;right:2px;">0</span></button>
     </nav>
 
     <div class="more-sheet-backdrop" id="moreSheetBackdrop"></div>
@@ -7120,6 +7120,23 @@
                             });
                         }
                     }).catch(() => {});
+                    // Friend request badge
+                    db.collection('friendRequests').doc(user.uid).onSnapshot(doc => {
+                        const badge = document.getElementById('moreBadge');
+                        if (!badge) return;
+                        if (doc.exists) {
+                            const data = doc.data();
+                            const count = Object.keys(data).filter(k => data[k] === 'pending').length;
+                            if (count > 0) {
+                                badge.textContent = count;
+                                badge.style.display = '';
+                            } else {
+                                badge.style.display = 'none';
+                            }
+                        } else {
+                            badge.style.display = 'none';
+                        }
+                    });
                 }
             });
         });
