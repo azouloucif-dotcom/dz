@@ -52,7 +52,7 @@
     <!-- ====== الخطوط والأيقونات ====== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;800&family=Reem+Kufi:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;800&family=Reem+Kufi:wght@400;500;700&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- ====== PDF.js ====== -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -3463,6 +3463,406 @@
             font-size: 12px;
             font-weight: 800;
         }
+
+        /* ============================================================
+           الجزء 29: إعادة الهيكلة العصرية (Modern UI Overhaul)
+           نظام تصميم عصري: زجاجية، تدرجات ناعمة، ظلال مميزة، انتقالات
+           ============================================================ */
+        :root {
+            --ui-primary: #2563eb;
+            --ui-primary-2: #7c3aed;
+            --ui-gold: #f59e0b;
+            --ui-grad-main: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            --ui-grad-header: linear-gradient(135deg, #0f172a 0%, #1d4ed8 55%, #6d28d9 100%);
+            --ui-grad-gold: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            --ui-grad-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --ui-grad-red: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            --ui-radius: 20px;
+            --ui-glow: 0 20px 50px -12px rgba(37, 99, 235, 0.35);
+            --ui-glow-gold: 0 20px 50px -12px rgba(245, 158, 11, 0.35);
+        }
+
+        /* ====== الخلفية العامة: تدرجات ناعمة خفيفة ====== */
+        body {
+            background:
+                radial-gradient(1200px 600px at 85% -10%, rgba(124, 58, 237, 0.10), transparent 60%),
+                radial-gradient(900px 500px at 10% 10%, rgba(37, 99, 235, 0.10), transparent 55%),
+                var(--paper);
+        }
+        [data-theme="dark"] body {
+            background:
+                radial-gradient(1200px 600px at 85% -10%, rgba(124, 58, 237, 0.14), transparent 60%),
+                radial-gradient(900px 500px at 10% 10%, rgba(37, 99, 235, 0.14), transparent 55%),
+                var(--paper);
+        }
+
+        /* ====== الهيدر: زجاجي مع تدرج عصري ====== */
+        header {
+            background: var(--ui-grad-header);
+            box-shadow: 0 12px 40px -12px rgba(79, 70, 229, 0.5);
+        }
+        header .header-clock {
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* ====== عناوين الأقسام: مميزة وحديثة ====== */
+        .section-title {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-weight: 800;
+            letter-spacing: 0;
+        }
+        .section-title::after {
+            content: "";
+            height: 4px;
+            width: 44px;
+            border-radius: 99px;
+            background: var(--ui-grad-main);
+            position: absolute;
+            bottom: -8px;
+            right: 30px;
+        }
+        .section-head {
+            position: relative;
+            padding-bottom: 14px;
+        }
+
+        /* ====== البطاقات: ظلال وتدرجات عصرية ====== */
+        .ticket-card,
+        .subject-card,
+        .unit-card,
+        .playlist-item,
+        .chapter-card,
+        .note-card,
+        .download-card,
+        .coeff-section,
+        .calc-section,
+        .ai-container,
+        .more-item {
+            box-shadow: 0 10px 35px -12px rgba(2, 6, 23, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .ticket-card:hover,
+        .subject-card:hover,
+        .unit-card:hover,
+        .playlist-item:hover,
+        .chapter-card:hover,
+        .note-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 50px -16px rgba(2, 6, 23, 0.28);
+        }
+
+        /* ====== أزرار عامة: حديثة وتدرجات ناعمة ====== */
+        .btn-primary,
+        .btn-send {
+            background: var(--ui-grad-main);
+            box-shadow: 0 12px 30px -10px rgba(37, 99, 235, 0.55);
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover,
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 40px -12px rgba(37, 99, 235, 0.7);
+        }
+        .btn-gold {
+            background: var(--ui-grad-gold);
+            box-shadow: 0 12px 30px -10px rgba(245, 158, 11, 0.55);
+            border: none;
+            transition: transform 0.2s;
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+        }
+        .btn-ghost {
+            border-color: var(--ui-primary);
+            color: var(--ui-primary);
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-ghost:hover {
+            background: var(--ui-primary);
+            color: #fff;
+        }
+
+        /* ====== علامات التبويب (المعاملات والحاسبة): حديثة ====== */
+        .tab-btn {
+            border-radius: 12px;
+            transition: 0.25s;
+            font-weight: 700;
+        }
+        .tab-btn.active {
+            background: var(--ui-grad-main);
+            color: #fff;
+            box-shadow: 0 10px 24px -8px rgba(37, 99, 235, 0.55);
+            border: none;
+        }
+
+        /* ====== شريط التنقل السفلي: عائم زجاجي ====== */
+        @media (max-width: 768px) {
+            .bottom-nav {
+                width: calc(100% - 20px);
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                border-radius: 22px;
+                background: rgba(255, 255, 255, 0.86);
+                backdrop-filter: blur(18px) saturate(160%);
+                -webkit-backdrop-filter: blur(18px) saturate(160%);
+                border: 1px solid rgba(255, 255, 255, 0.7);
+                box-shadow: 0 16px 40px -12px rgba(2, 6, 23, 0.35), inset 0 1px 0 rgba(255,255,255,0.6);
+                padding: 8px 6px;
+            }
+            [data-theme="dark"] .bottom-nav {
+                background: rgba(30, 41, 59, 0.82);
+                border-color: rgba(148, 163, 184, 0.18);
+                box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+            }
+            body {
+                padding-bottom: calc(var(--bottom-nav-h) + 26px);
+            }
+            .bn-item.active {
+                color: var(--ui-primary);
+            }
+            .bn-item.active i {
+                color: var(--ui-primary);
+                filter: drop-shadow(0 4px 8px rgba(37, 99, 235, 0.4));
+            }
+            .bn-item {
+                border-radius: 16px;
+                transition: 0.25s;
+            }
+            .bn-item:active {
+                transform: scale(0.92);
+            }
+        }
+
+        /* ====== ورقة "المزيد": زجاجية وحديثة ====== */
+        .more-sheet {
+            background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.98));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        [data-theme="dark"] .more-sheet {
+            background: linear-gradient(180deg, rgba(30,41,59,0.97), rgba(15,23,42,0.98));
+        }
+
+        /* ====== الهيرو: عدّاد وإحصائيات بإطارات عصرية ====== */
+        #page-home .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: var(--ui-grad-gold);
+            color: #fff;
+            box-shadow: 0 10px 25px -8px rgba(245, 158, 11, 0.5);
+        }
+        #page-home .eyebrow i {
+            color: #fff !important;
+        }
+        #page-home .eyebrow span {
+            font-weight: 800;
+        }
+
+        /* ====== حقول الإدخال في الحاسبة: أنيقة ====== */
+        .calc-input {
+            border-radius: 12px;
+            border: 1.5px solid var(--line);
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+        .calc-input:focus {
+            border-color: var(--ui-primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+            outline: none;
+        }
+
+        /* ====== أزرار الفروع (قناة/فضاء): تدرجات ملونة ====== */
+        .btn-channel.gold {
+            background: var(--ui-grad-gold);
+            box-shadow: 0 8px 20px -8px rgba(245, 158, 11, 0.5);
+        }
+        .btn-channel {
+            border-radius: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-channel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px -10px rgba(2, 6, 23, 0.4);
+        }
+
+        /* ====== شارة الجنس (السلسلة): تحقيق عصري ====== */
+        .series-player,
+        .teacher-videos-grid .series-list > div {
+            box-shadow: 0 16px 40px -14px rgba(2, 6, 23, 0.22) !important;
+            border-radius: 18px !important;
+        }
+        .tv-item.active {
+            background: var(--ui-grad-main) !important;
+            color: #fff !important;
+        }
+        .tv-item.active .tv-num {
+            background: #fff !important;
+            color: var(--ui-primary) !important;
+        }
+
+        /* ====== زر الحساب: تدرج عصري مميز ====== */
+        .btn-calculate {
+            background: var(--ui-grad-main) !important;
+            border: none;
+            box-shadow: 0 14px 32px -10px rgba(37, 99, 235, 0.6);
+            border-radius: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ====== أزرار تبديل الثيم/اللغة: دائرية زجاجية ====== */
+        .theme-toggle,
+        .lang-toggle,
+        .user-btn,
+        .notif-btn {
+            border-radius: 50%;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .theme-toggle:hover,
+        .lang-toggle:hover,
+        .user-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        /* ====== إعادة هيكلة تخطيط الأقسام: شبكة عصرية متجاوبة ====== */
+        .section-container {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+        .grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ====== ترتيب بطاقات الأساتذة: تدرجات خلفية ملونة خفيفة ====== */
+        .ticket-card {
+            overflow: hidden;
+            position: relative;
+        }
+        .ticket-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 6px;
+            background: var(--ui-grad-main);
+            opacity: 0.85;
+        }
+        .ticket-card:nth-child(3n)::before {
+            background: var(--ui-grad-gold);
+        }
+        .ticket-card:nth-child(3n+1)::before {
+            background: var(--ui-grad-green);
+        }
+        .ticket-category {
+            display: inline-block;
+            margin-bottom: 8px;
+            font-weight: 800;
+            color: var(--ui-primary);
+        }
+
+        /* ====== زر الليزر الشريطي العلوي: تدرج مخفي على الموبايل ====== */
+        header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 3px;
+            background: var(--ui-grad-gold);
+            opacity: 0.9;
+        }
+
+        /* ====== صندوق النتيجة (المعدل): تدرج مميز ====== */
+        .average-box.success {
+            background: var(--ui-grad-green);
+            color: #fff;
+            box-shadow: 0 14px 30px -10px rgba(16, 185, 129, 0.55);
+        }
+        .average-box.fail {
+            background: var(--ui-grad-red);
+            color: #fff;
+            box-shadow: 0 14px 30px -10px rgba(239, 68, 68, 0.5);
+        }
+        .average-box {
+            border-radius: 16px;
+            border: none;
+        }
+
+        /* ====== الهيرو: محاذاة وأزرار عصريّة ====== */
+        #page-home section:first-child {
+            padding-top: 44px;
+            padding-bottom: 34px;
+        }
+        #page-home .btn {
+            border-radius: 999px;
+            padding: 12px 26px;
+            font-weight: 800;
+        }
+        #page-home .btn i {
+            margin-left: 6px;
+        }
+        [dir="rtl"] #page-home .btn i,
+        html[lang] #page-home .btn i {
+            margin-left: 6px;
+            margin-right: 0;
+        }
+
+        /* ====== إحصائيات الهيرو: أرقام كبيرة بتدرج نصّي ====== */
+        #page-home section:first-child div[style*="justify-content:center"] > div span[style*="font-size:26px"] {
+            background: var(--ui-grad-main);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 32px;
+        }
+
+        /* ====== مدخل النقاط في الحاسبة: رأس جدول متدرج ====== */
+        .calc-table thead th,
+        .coeff-table thead th {
+            background: var(--ui-grad-header);
+            color: #fff;
+            border: none;
+        }
+        .calc-table,
+        .coeff-table {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px -14px rgba(2, 6, 23, 0.25);
+        }
+
+        /* ====== عدّاد البكالوريا: تدرج ذهبي حديث ====== */
+        #page-home div[style*="accent-gold-soft"] {
+            background: var(--ui-grad-gold) !important;
+            border-color: transparent !important;
+            box-shadow: 0 16px 40px -12px rgba(245, 158, 11, 0.5);
+        }
+        #page-home div[style*="accent-gold-soft"] > span[style*="font-weight:700"] {
+            color: #fff !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        }
+        #page-home div[style*="accent-gold-soft"] > span[style*="font-family:'Reem Kufi'"],
+        #page-home div[style*="accent-gold-soft"] > span[style*="font-family: 'Reem Kufi'"] {
+            color: #1f2937 !important;
+        }
     </style>
 </head>
 
@@ -3621,7 +4021,7 @@
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
                         <a href="#math" class="btn-channel gold" onclick="navigateTo('math');return false;"><i class="fas fa-chart-pie"></i> فضاء الرياضيات</a>
-                        <a href="https://www.youtube.com/@noureddine2013" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-math" class="btn-channel" onclick="navigateTo('teacher-math');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3641,7 +4041,7 @@
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
                         <a href="#physics" class="btn-channel gold" onclick="navigateTo('physics');return false;"><i class="fas fa-atom"></i> فضاء الفيزياء</a>
-                        <a href="https://www.youtube.com/@abdelatif_phyDZ" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-physics" class="btn-channel" onclick="navigateTo('teacher-physics');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3661,7 +4061,7 @@
                     </div>
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
-                        <a href="https://www.youtube.com/@prof-ketfi.cherif-zina" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-sciences" class="btn-channel" onclick="navigateTo('teacher-sciences');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3681,7 +4081,7 @@
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
                         <a href="#arabic" class="btn-channel gold" onclick="navigateTo('arabic');return false;"><i class="fas fa-book"></i> فضاء العربية</a>
-                        <a href="https://www.youtube.com/@prof_haigoune" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-arabic" class="btn-channel" onclick="navigateTo('teacher-arabic');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3701,7 +4101,7 @@
                     </div>
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
-                        <a href="https://www.youtube.com/@BOUSSAADI" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-islamic" class="btn-channel" onclick="navigateTo('teacher-islamic');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3721,7 +4121,7 @@
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
                         <a href="#history" class="btn-channel gold" onclick="navigateTo('history');return false;"><i class="fas fa-landmark"></i> فضاء التاريخ</a>
-                        <a href="https://www.youtube.com/@profbournane" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-history" class="btn-channel" onclick="navigateTo('teacher-history');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3741,7 +4141,7 @@
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
                         <a href="#geography" class="btn-channel gold" onclick="navigateTo('geography');return false;"><i class="fas fa-map"></i> فضاء الجغرافيا</a>
-                        <a href="https://www.youtube.com/@profbournane" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-geography" class="btn-channel" onclick="navigateTo('teacher-geography');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3761,7 +4161,7 @@
                     </div>
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
-                        <a href="https://www.youtube.com/@%D8%A3%D8%B3%D8%AA%D8%A7%D8%B0%D8%A7%D9%84%D9%81%D9%84%D8%B3%D9%81%D8%A9%D9%85%D8%B9%D8%A7%D8%AF%D9%84%D9%85%D9%82%D8%B1%D9%88%D8%AF" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-philosophy" class="btn-channel" onclick="navigateTo('teacher-philosophy');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3781,7 +4181,7 @@
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
                         <a href="#english" class="btn-channel gold" onclick="navigateTo('english');return false;"><i class="fas fa-language"></i> فضاء الإنجليزية</a>
-                        <a href="https://www.youtube.com/@mr.mansouri-english.fran%C3%A7ais" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-english" class="btn-channel" onclick="navigateTo('teacher-english');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3801,7 +4201,7 @@
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
                         <a href="#french" class="btn-channel gold" onclick="navigateTo('french');return false;"><i class="fas fa-language"></i> فضاء الفرنسية</a>
-                        <a href="https://www.youtube.com/@mr.mansouri-english.fran%C3%A7ais" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-french" class="btn-channel" onclick="navigateTo('teacher-french');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
 
@@ -3821,7 +4221,7 @@
                     <div class="ticket-perf"></div>
                     <div class="ticket-stub">
                         <a href="#process" class="btn-channel gold" onclick="navigateTo('process');return false;"><i class="fas fa-industry"></i> فضاء هندسة الطرائق</a>
-                        <a href="https://www.youtube.com/@RAHOUANI-SOFIANE-GP" target="_blank" class="btn-channel"><i class="fab fa-youtube"></i> القناة</a>
+                        <a href="#teacher-process" class="btn-channel" onclick="navigateTo('teacher-process');return false;"><i class="fab fa-youtube"></i> سلاسل الأستاذ</a>
                     </div>
                 </div>
             </div>
@@ -3834,9 +4234,13 @@
             </div>
             <div class="coeff-section">
                 <div class="tab-nav" id="tabNav">
-                    <button class="tab-btn active" data-tab="tech-math"><i class="fas fa-tools"></i> <span data-i18n="stream_tech_math">تقني رياضي</span></button>
-                    <button class="tab-btn" data-tab="sciences-exp"><i class="fas fa-flask"></i> <span data-i18n="stream_sciences_exp">علوم تجريبية</span></button>
-                    <button class="tab-btn" data-tab="math"><i class="fas fa-square-root-alt"></i> <span data-i18n="stream_math">شعبة رياضيات</span></button>
+                    <button class="tab-btn active" data-tab="sciences-exp"><i class="fas fa-flask"></i> <span data-i18n="stream_sciences_exp">علوم تجريبية</span></button>
+                    <button class="tab-btn" data-tab="math"><i class="fas fa-square-root-alt"></i> <span data-i18n="stream_math">رياضيات</span></button>
+                    <button class="tab-btn" data-tab="engineering"><i class="fas fa-tools"></i> <span data-i18n="stream_engineering">هندسة</span></button>
+                    <button class="tab-btn" data-tab="adab"><i class="fas fa-book"></i> <span data-i18n="stream_adab">آداب وفلسفة</span></button>
+                    <button class="tab-btn" data-tab="languages"><i class="fas fa-language"></i> <span data-i18n="stream_languages">لغات أجنبية</span></button>
+                    <button class="tab-btn" data-tab="economy"><i class="fas fa-chart-line"></i> <span data-i18n="stream_economy">تسيير واقتصاد</span></button>
+                    <button class="tab-btn" data-tab="arts"><i class="fas fa-palette"></i> <span data-i18n="stream_arts">فنون</span></button>
                 </div>
                 <table class="coeff-table">
                     <thead><tr><th data-i18n="th_subject">المادة</th><th data-i18n="th_coeff">المعامل</th><th data-i18n="th_exam_type">طبيعة الامتحان</th></tr></thead>
@@ -3853,9 +4257,13 @@
             </div>
             <div class="calc-section">
                 <div class="tab-nav" id="calcTabNav">
-                    <button class="tab-btn active" data-calc-tab="tech-math"><i class="fas fa-tools"></i> <span data-i18n="stream_tech_math">تقني رياضي</span></button>
-                    <button class="tab-btn" data-calc-tab="sciences-exp"><i class="fas fa-flask"></i> <span data-i18n="stream_sciences_exp">علوم تجريبية</span></button>
-                    <button class="tab-btn" data-calc-tab="math"><i class="fas fa-square-root-alt"></i> <span data-i18n="stream_math">شعبة رياضيات</span></button>
+                    <button class="tab-btn active" data-calc-tab="sciences-exp"><i class="fas fa-flask"></i> <span data-i18n="stream_sciences_exp">علوم تجريبية</span></button>
+                    <button class="tab-btn" data-calc-tab="math"><i class="fas fa-square-root-alt"></i> <span data-i18n="stream_math">رياضيات</span></button>
+                    <button class="tab-btn" data-calc-tab="engineering"><i class="fas fa-tools"></i> <span data-i18n="stream_engineering">هندسة</span></button>
+                    <button class="tab-btn" data-calc-tab="adab"><i class="fas fa-book"></i> <span data-i18n="stream_adab">آداب وفلسفة</span></button>
+                    <button class="tab-btn" data-calc-tab="languages"><i class="fas fa-language"></i> <span data-i18n="stream_languages">لغات أجنبية</span></button>
+                    <button class="tab-btn" data-calc-tab="economy"><i class="fas fa-chart-line"></i> <span data-i18n="stream_economy">تسيير واقتصاد</span></button>
+                    <button class="tab-btn" data-calc-tab="arts"><i class="fas fa-palette"></i> <span data-i18n="stream_arts">فنون</span></button>
                 </div>
                 <table class="calc-table">
                     <thead><tr><th data-i18n="th_subject">المادة</th><th data-i18n="th_coeff">المعامل</th><th data-i18n="th_grade">العلامة (0-20)</th><th data-i18n="th_partial">المعدل الجزئي</th></tr></thead>
@@ -4243,6 +4651,11 @@
     <div id="page-french" class="page-content"><div class="section-container" style="margin-top:20px;" id="frenchContent"></div></div>
     <!-- هندسة الطرائق -->
     <div id="page-process" class="page-content"><div class="section-container" style="margin-top:20px;" id="processContent"></div></div>
+
+    <!-- ============================================================
+    صفحة قناة الأستاذ (تُبنى ديناميكياً عبر renderTeacher)
+    ============================================================ -->
+    <div id="page-teacher" class="page-content"><div class="section-container" style="margin-top:20px;max-width:1000px;" id="teacherContent"></div></div>
 
     <!-- ============================================================
     الجزء 22: صفحة المؤقت (تم إضافة الساعة الآن)
@@ -4888,7 +5301,7 @@
             if (!isChatDesktop) {
                 document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
             }
-            const target = document.getElementById('page-' + pageId);
+            const target = document.getElementById('page-' + (pageId.indexOf('teacher-') === 0 ? 'teacher' : pageId));
             if (target) target.classList.add('active');
 
             document.querySelectorAll('nav ul li a').forEach(link => {
@@ -4922,6 +5335,8 @@
 
             const subjectPages = ['sciences','arabic','islamic','history','geography','philosophy','english','french','process'];
             if (subjectPages.includes(pageId) && typeof renderSubjectContent === 'function') renderSubjectContent(pageId);
+
+            if (pageId.indexOf('teacher-') === 0 && typeof renderTeacher === 'function') renderTeacher(pageId);
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -5047,8 +5462,8 @@
             initChat();
 
             // تهيئة الحاسبة والمعاملات
-            renderCoefficients('tech-math');
-            renderCalculator('tech-math');
+            renderCoefficients('sciences-exp');
+            renderCalculator('sciences-exp');
         });
 
         // ============================================================
@@ -5078,54 +5493,104 @@
         // ============================================================
         //  5. المعاملات والحاسبة
         // ============================================================
+        // المعاملات الرسمية الجديدة (بكالوريا 2027) - القرار الوزاري لـ 28 جويلية 2026
         const coeffData = {
-            'tech-math': {
-                subjects: [
-                    { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 6 },
-                    { name: 'الفيزياء', nameFr: 'Physique', coeff: 6 },
-                    { name: 'الهندسة (تخصص)', nameFr: 'Génie (spécialité)', coeff: 7 },
-                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 3 },
-                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 2 },
-                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 2 },
-                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
-                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
-                    { name: 'الفلسفة', nameFr: 'Philosophie', coeff: 2 },
-                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
-                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
-                ],
-                total: 33
-            },
             'sciences-exp': {
                 subjects: [
-                    { name: 'العلوم الطبيعية', nameFr: 'Sciences de la Vie', coeff: 6 },
+                    { name: 'علوم الطبيعة والحياة', nameFr: 'Sciences de la Vie et de la Terre', coeff: 6 },
                     { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 5 },
-                    { name: 'الفيزياء', nameFr: 'Physique', coeff: 5 },
-                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 3 },
-                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 2 },
-                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 2 },
-                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'العلوم الفيزيائية', nameFr: 'Sciences Physiques', coeff: 4 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 3 },
+                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 2 },
                     { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
-                    { name: 'الفلسفة', nameFr: 'Philosophie', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
                     { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
                     { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
                 ],
-                total: 30
+                total: 25
             },
             'math': {
                 subjects: [
-                    { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 7 },
-                    { name: 'الفيزياء', nameFr: 'Physique', coeff: 6 },
-                    { name: 'العلوم الطبيعية', nameFr: 'Sciences de la Vie', coeff: 2 },
-                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 3 },
-                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 2 },
-                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 2 },
-                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 8 },
+                    { name: 'العلوم الفيزيائية', nameFr: 'Sciences Physiques', coeff: 6 },
+                    { name: 'علوم الطبيعة والحياة', nameFr: 'Sciences de la Vie', coeff: 2 },
+                    { name: 'الإعلام الآلي', nameFr: 'Informatique', coeff: 3 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 3 },
                     { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
-                    { name: 'الفلسفة', nameFr: 'Philosophie', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
                     { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
                     { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
                 ],
-                total: 29
+                total: 27
+            },
+            'engineering': {
+                subjects: [
+                    { name: 'التكنولوجيا (تخصص)', nameFr: 'Technologie (spécialité)', coeff: 7 },
+                    { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 5 },
+                    { name: 'العلوم الفيزيائية', nameFr: 'Sciences Physiques', coeff: 4 },
+                    { name: 'الإعلام الآلي', nameFr: 'Informatique', coeff: 3 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 3 },
+                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
+                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
+                ],
+                total: 27
+            },
+            'adab': {
+                subjects: [
+                    { name: 'اللغة العربية وآدابها', nameFr: 'Langue Arabe et Littérature', coeff: 7 },
+                    { name: 'الفلسفة', nameFr: 'Philosophie', coeff: 6 },
+                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 4 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 3 },
+                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
+                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 3, optional: true }
+                ],
+                total: 25
+            },
+            'languages': {
+                subjects: [
+                    { name: 'اللغة الأجنبية الثالثة', nameFr: '3ème langue étrangère', coeff: 6 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 4 },
+                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 4 },
+                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 2 },
+                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
+                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
+                ],
+                total: 21
+            },
+            'economy': {
+                subjects: [
+                    { name: 'التسيير المحاسبي والمالي', nameFr: 'Gestion comptable et financière', coeff: 6 },
+                    { name: 'الاقتصاد والمناجمنت', nameFr: 'Économie et management', coeff: 4 },
+                    { name: 'الرياضيات', nameFr: 'Mathématiques', coeff: 3 },
+                    { name: 'القانون', nameFr: 'Droit', coeff: 2 },
+                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 3 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 3 },
+                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
+                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
+                ],
+                total: 26
+            },
+            'arts': {
+                subjects: [
+                    { name: 'الفنون (مواد التخصص 1)', nameFr: 'Arts (matières spécialité 1)', coeff: 6 },
+                    { name: 'الفنون (مواد التخصص 2)', nameFr: 'Arts (matières spécialité 2)', coeff: 5 },
+                    { name: 'اللغة العربية', nameFr: 'Arabe', coeff: 4 },
+                    { name: 'اللغة الإنجليزية', nameFr: 'Anglais', coeff: 3 },
+                    { name: 'التاريخ والجغرافيا', nameFr: 'Histoire-Géo', coeff: 2 },
+                    { name: 'العلوم الإسلامية', nameFr: 'Sciences islamiques', coeff: 2 },
+                    { name: 'اللغة الفرنسية', nameFr: 'Français', coeff: 2 },
+                    { name: 'التربية البدنية', nameFr: 'EPS', coeff: 1 },
+                    { name: 'الأمازيغية (اختيارية)', nameFr: 'Tamazight (optionnel)', coeff: 2, optional: true }
+                ],
+                total: 25
             }
         };
 
@@ -5178,6 +5643,7 @@
             const dict = translations[currentLang];
             let totalWeighted = 0,
                 totalCoeff = 0,
+                bonusPoints = 0,
                 hasAnyGrade = false;
 
             rows.forEach(row => {
@@ -5197,11 +5663,18 @@
                 }
 
                 if (!isNaN(grade) && grade >= 0 && grade <= 20) {
-                    const weighted = coeff * grade;
-                    totalWeighted += weighted;
-                    totalCoeff += coeff;
-                    partialCell.textContent = weighted.toFixed(2);
-                    hasAnyGrade = true;
+                    if (isOptional) {
+                        const bonus = Math.max(0, grade - 10) * coeff;
+                        bonusPoints += bonus;
+                        hasAnyGrade = true;
+                        partialCell.innerHTML = (bonus > 0 ? '+' : '') + bonus.toFixed(2) + ' <span style="font-size:11px;opacity:.6;">بونص</span>';
+                    } else {
+                        const weighted = coeff * grade;
+                        totalWeighted += weighted;
+                        totalCoeff += coeff;
+                        partialCell.textContent = weighted.toFixed(2);
+                        hasAnyGrade = true;
+                    }
                 } else {
                     partialCell.textContent = '—';
                 }
@@ -5215,7 +5688,7 @@
                 return;
             }
 
-            const avg = totalWeighted / totalCoeff;
+            const avg = (totalWeighted + bonusPoints) / totalCoeff;
             box.textContent = dict.calc_avg_result + ' ' + avg.toFixed(2) + ' / 20';
             box.className = avg >= 10 ? 'average-box success' : 'average-box fail';
             if (avg >= 10) box.textContent += dict.calc_pass;
@@ -6895,6 +7368,570 @@
             container.innerHTML = html;
         }
 
+        // ============================================================
+        //  صفحة قناة الأستاذ (teacherData + teacherVideos + renderTeacher)
+        //  كل فيديو يُضمّن بمعرّفه المحدد (embed/ID) ليعمل مباشرة داخل الموقع
+        // ============================================================
+        const teacherData = {
+            'teacher-math': {
+                subject: 'الرياضيات',
+                name: 'أ. نور الدين',
+                desc: 'شروحات مفصلة وتمارين متنوعة في الرياضيات لشعبتي العلوم التجريبية والتقني رياضي.',
+                image: 'https://yt3.googleusercontent.com/mib4wLwXhdH7lo8_iHNJ6qcv0Y0P0TpqnByjWqwrhd8ohutlM9Zp652ER8hE2gNZZNJcE_tqAA=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@noureddine2013',
+                channelId: 'UCqNApt8CUzeR92CKm4nYuMg'
+            },
+            'teacher-physics': {
+                subject: 'الفيزياء',
+                name: 'أ. عبد اللطيف',
+                desc: 'تبسيط الظواهر الفيزيائية وحلول مفصلة للتمارين.',
+                image: 'https://yt3.googleusercontent.com/mib4wLwXhdH7lo8_iHNJ6qcv0Y0P0TpqnByjWqwrhd8ohutlM9Zp652ER8hE2gNZZNJcE_tqAA=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@abdelatif_phyDZ',
+                channelId: 'UChwRLvVhjOMQKo8d7_iJ6tQ'
+            },
+            'teacher-sciences': {
+                subject: 'العلوم الطبيعية',
+                name: 'أ. كتفي شريف زينة',
+                desc: 'المنهج العلمي، الاستدلال، وسلاسل تمارين البكالوريا.',
+                image: 'https://yt3.googleusercontent.com/5lwS_4qUOyPvOVbwwIU-woXGx8b98JZ7S5UoM1xLTiKFf4f5e0wtjBGOAsmzR51w8jC9dzhs=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@prof-ketfi.cherif-zina',
+                channelId: 'UCuJqXbrblfKeO9fa82a7KHQ'
+            },
+            'teacher-arabic': {
+                subject: 'اللغة العربية',
+                name: 'أ. حيقون أسامة',
+                desc: 'البناء اللغوي والنقدي وأساليب الإجابة في البكالوريا.',
+                image: 'https://yt3.googleusercontent.com/ytc/AIdro_mkbWFKIFCqwgGqUDuMqr0q5Bej6u2Zk5V4hajw7u5cHfI=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@prof_haigoune',
+                channelId: 'UCTiFoJXhyBE1QYL4ClQVprQ'
+            },
+            'teacher-islamic': {
+                subject: 'العلوم الإسلامية',
+                name: 'أ. بوسعادي',
+                desc: 'خرائط ذهنية ومذكرات لحفظ الدروس وأساليب الإجابة.',
+                image: 'https://yt3.googleusercontent.com/YglUl6oRj9zROfuh6schcTKtOMcDhGmeePJgICmufSabTNGHWTrZqKT0LGznqpx5bcFMVAcC=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@BOUSSAADI',
+                channelId: 'UC1aEULeoYOKR4r3_4yangQw'
+            },
+            'teacher-history': {
+                subject: 'التاريخ',
+                name: 'أ. بورنان',
+                desc: 'طرق حفظ التواريخ والمصطلحات مع مراجعات شاملة.',
+                image: 'https://yt3.googleusercontent.com/-F6XxaYamNERayRZjkA4ptjkNQFUxD8ZsBOONW3VCkS-7YrwQs_OaxjIqvlDuQvgHZfZDayr_g=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@profbournane',
+                channelId: 'UCeyN7ipOQs6Ld4jEIMFAaKw'
+            },
+            'teacher-geography': {
+                subject: 'الجغرافيا',
+                name: 'أ. بورنان',
+                desc: 'طرق حفظ الخرائط والمصطلحات مع مراجعات شاملة.',
+                image: 'https://yt3.googleusercontent.com/-F6XxaYamNERayRZjkA4ptjkNQFUxD8ZsBOONW3VCkS-7YrwQs_OaxjIqvlDuQvgHZfZDayr_g=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@profbournane',
+                channelId: 'UCeyN7ipOQs6Ld4jEIMFAaKw'
+            },
+            'teacher-philosophy': {
+                subject: 'الفلسفة',
+                name: 'أ. عادل مقرود',
+                desc: 'تبسيط المقالات وخطوات الجدل والإستقصاء بالوضع.',
+                image: 'https://yt3.googleusercontent.com/cG2G4FHl_CjP5FW-9i5420xpJAMFYe8hjO3f2xSMsX4cz3nAmnzqNidAA3Xh2bSG1AqbXtuJ=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@%D8%A3%D8%B3%D8%AA%D8%A7%D8%B0%D8%A7%D9%84%D9%81%D9%84%D8%B3%D9%81%D8%A9%D9%85%D8%B9%D8%A7%D8%AF%D9%84%D9%85%D9%82%D8%B1%D9%88%D8%AF',
+                channelId: 'UCEpjYCJ4YJNRCbbe2y5E_tQ'
+            },
+            'teacher-english': {
+                subject: 'الإنجليزية',
+                name: 'أ. منصوري',
+                desc: 'قواعد اللغة والوضعيات الإدماجية للبكالوريا.',
+                image: 'https://yt3.googleusercontent.com/ytc/AIdro_nhtNA9-MEK7y0kBPg3vQPQiNiXWTICAWXU7HFnV0No44g=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@mr.mansouri-english.fran%C3%A7ais',
+                channelId: 'UC1OxQheqDv1l0l7sj3HHqQQ'
+            },
+            'teacher-french': {
+                subject: 'الفرنسية',
+                name: 'أ. منصوري',
+                desc: 'تفكيك النصوص و compte rendu للشعب العلمية.',
+                image: 'https://yt3.googleusercontent.com/ytc/AIdro_nhtNA9-MEK7y0kBPg3vQPQiNiXWTICAWXU7HFnV0No44g=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@mr.mansouri-english.fran%C3%A7ais',
+                channelId: 'UC1OxQheqDv1l0l7sj3HHqQQ'
+            },
+            'teacher-process': {
+                subject: 'هندسة الطرائق',
+                name: 'أ. رهواني سفيان',
+                desc: 'دروس وملخصات وتمارين محلولة ومواضيع مقترحة لبكالوريا 2026.',
+                image: 'https://yt3.googleusercontent.com/ombDEfAtmgbZpQryJGFXNFlV_-a_oexeNnl8Mrm5LRjfLy-IzMHpz4O434-s3TwH8nrNjlMc=s160-c-k-c0x00ffffff-no-rj',
+                channelUrl: 'https://www.youtube.com/@RAHOUANI-SOFIANE-GP',
+                channelId: 'UCEodnxv5tYQrmJAeDgX6XzA'
+            }
+        };
+
+        // ============================================================
+        //  سلاسل فيديوهات كل أستاذ (مجموعة مختارة تُشغَّل داخل الموقع)
+        //  كل فيديو يُضمّن بمعرّفه المحدد ليعمل مباشرة بدون مغادرة الموقع
+        // ============================================================
+// ============================================================
+        //  سلاسل فيديوهات كل أستاذ (30 فيديو لكل مادة) - تُشغَّل داخل الموقع
+        //  كل فيديو يُضمّن بمعرّفه المحدد ليعمل مباشرة بدون مغادرة الموقع
+        // ============================================================
+        const teacherVideos = {
+            'teacher-arabic': [
+                { id: 'Jm_dPwxIdCE', title: '#بكالوريا_2024 | البناء الفكري 7 | الرمز في الشعر العربي المعاصر | جميع الشعب | شرح مفصل' },
+                { id: 'O3FEYYo8uGA', title: '#بكالوريا_2024 | البناء الفكري 6: الشعر السياسي | الجزء الثاني | النزعات والقيم #جميع_الشعب' },
+                { id: 'NPv1o_iVv4I', title: '#بكالوريا_2024 | البناء الفكري5 : الشعر السياسي | الجزء الأول | الالتزام #جميع_الشعب' },
+                { id: 'ysUo4mxUF9w', title: '#بكالوريا_2024 | البناء الفكري 4: الشعر المهجري | الجزء الثاني | الرومانسي #جميع_الشعب' },
+                { id: 'FNpBqSGYj80', title: 'البناء الفكري 6 | الشعر السياسي | الالتزام | جميع الشعب | الجزء 1 | شرح مفصل' },
+                { id: '7a0TmUw6b5U', title: 'البناء الفكري 3 | الشعر المهجري |  الرومانسي ( شرح مفصل ) الجزء 1' },
+                { id: 'xsnc2L8RJTc', title: '#بكالوريا_2024 |  الشعر الحر | شعر التفعيلة | الشعر العربي المعاصر ( جميع الشعب )' },
+                { id: 'CDseZJNQDjA', title: '#بكالوريا| البناء الفكري5 : الشعر السياسي | الجزء الثالث و الاخير | الالتزام ومظاهره  #جميع_الشعب' },
+                { id: 'cAfh6xUDSUs', title: '#بكالوريا| البناء الفكري3: الشعر المهجري | الجزء الأول | الرومانسي #جميع_الشعب' },
+                { id: 'wRriW2oL8S0', title: '#بكالوريا_2024 | البناء الفكري 8 | فن المقال | جميع الشعب | الجزء 1 | شرح مفصل' },
+                { id: 'OjHAvmcou1w', title: 'الدرس 43 : حل نموذجي مفصل 1 : بكالوريا 2016 _ #الشعر_السياسي _  الجزء 1' },
+                { id: '9sq04Hx1yzk', title: 'الدرس 44 : حل نموذجي مفصل 1 : بكالوريا 2016 _ #الشعر_السياسي _  الجزء 2' },
+                { id: '56dXe-rjB6U', title: '#بكالوريا | حل موضوع مقترح 3 | الشعر الرومانسي | احترافية عالية |#تحفيز #أدب | جميع الشعب' },
+                { id: '6HeXaSdTx4M', title: '#بكالوريا | حل موضوع مقترح 2 | الشعر الرومانسي | احترافية عالية |#تحفيز #أدب | جميع الشعب' },
+                { id: '6QZI5Upu2OQ', title: '#بكالوريا | حل موضوع مقترح 1 | الشعر الرومانسي | احترافية عالية |#تحفيز #أدب | جميع الشعب' },
+                { id: '3L4337a2He0', title: '#بكالوريا | حل موضوع مقترح 3 في الشعر الديني باحترافية | جميع الشعب' },
+                { id: 'BrR-PzxWxwg', title: '#بكالوريا |حل موضوع مقترح 2 في الشعر الديني باحترافية | جميع الشعب' },
+                { id: 'BCaMcoSkZKs', title: 'البناء الفكري 4 | الشعر المهجري | الرومانسي | الجزء 2' },
+                { id: '6M01cKzT1TE', title: 'البناء الفكري 1 |  الشعر الديني / التعليمي / المديح / الزهد( كل ما تحتاجه لنيل العلامة الكاملة )' },
+                { id: 'zIy4eJoyU_M', title: '#بكالوريا | حل موضوع مقترح 5 | الشعر الرومانسي |' },
+                { id: 'GU81DUenBN0', title: '#بكالوريا | حل موضوع مقترح 4 | الشعر الرومانسي | احترافية عالية |#تحفيز #أدب | جميع الشعب' },
+                { id: 'Q3pm86BywJ0', title: 'مظاهر التقليد و التجديد في الشعر العربي | الحديث| المعاصر ( أدب / لغات )' },
+                { id: '-4kuw4EhAcc', title: 'المراجعة النهائية 11 : موضوع مقترح في الشعر الحر | الثورة الجزائرية | مقترح بقوة | أفكار رائعة' },
+                { id: 'Nkthbdq65kc', title: 'المراجعة النهائية 11 : موضوع مقترح في الشعر الحر | الثورة الجزائرية | مقترح بقوة | أفكار رائعة' },
+                { id: 'dv2WZjfrw1k', title: '#بكالوريا_2024 | البناء الفكري 2: النثر العلمي المتأدب | #جميع_الشعب' },
+                { id: 'l48V64P74p0', title: '#بكالوريا | حل موضوع 1 في الشعر الديني | طريقة احترافية جدا | جميع الشعب' },
+                { id: 'EZB_9fGnFMM', title: 'البناء الفكري 8 | فن المقال | جميع الشعب | الجزء 2 | شرح مفصل' },
+                { id: 'CHiGWTF7eFU', title: 'البناء الفكري 6 | شعر المنفى | لغ / أ.ف ( شرح مفصل بكفاءة عالية )' },
+                { id: 'D8s6AzstBf0', title: 'البناء الفكري 2 | النثر العلمي المتأدب ( شرح مفصل)' },
+                { id: 'aftyNe39cUQ', title: 'الشعر المهجري التأملي 7 || نموذج بكالوريا 2019 ||  الشعب العلمية ( الأسئلة المفخخة😍) مفصل' },
+            ],
+            'teacher-english': [
+                { id: 'FanZWt6NGaw', title: 'English 01 (BAC 2024): (جميع شعب) TENSES أهم الأزمنة عام البكالوريا وفي أي درس نحتاجها' },
+                { id: 'Jr8Ty6iD_Dg', title: 'ENGLISH 01 BAC 2026:TENSES أهم درس مع أمثلة جميع الشعب' },
+                { id: '9NTLEBKSHtk', title: 'ENGLISH 00 BAC2026:  ANCIENT CIVILIZATIONSملخص الوحدة الأولى شعبة لغات و فلسفة' },
+                { id: '7d9OGwjNFIE', title: 'English 03 (BAC 2024): (جميع شعب)how to ask a qst ❓ من أهم الدروس عام البكالوريا' },
+                { id: '8egn6AK26TY', title: 'ENGLISH 03 BAC2026: Expressing Advice for All Streams' },
+                { id: 'ZixF4mME2WU', title: 'ENGLISH 02 BAC2026: active and passive voice خاص بجميع الشعب' },
+                { id: 'oo1fAzNLGo0', title: 'English 08 BAC 2025: Advice (جميع الشعب)' },
+                { id: 'Stu6eBftYZw', title: 'English 04 BAC 2025: how to ask a Qst BACs and exercises(جميع الشعب)' },
+                { id: '0ZYGiuKC1ko', title: 'English 03 BAC 2025: how to ask a Qst (جميع الشعب)' },
+                { id: 'kbvnSU8WgIU', title: 'English and French Vocabulary for Baccalaureate 2022 | Part 6 (All Streams)' },
+                { id: 'OqQ0ijsyZec', title: 'الدرس الخامس إنجليزية باك جميع الشعب: tenses part 4' },
+                { id: 'i91QACez7hc', title: 'ENGLISH 00 BAC2026:  ETHICS IN BUSINESSملخص وحدة (جميع الشعب)' },
+                { id: 'Gx65qZjbhfE', title: 'أقوى مراجعة لاختبارات الثلاثي الأول BAC 2026 ENGLISH MR.MANSOURI' },
+                { id: '9J2llQ_CFlc', title: 'English 10 BAC 2025: فقرة مرشحة لشهادة البكالوريا لجميع الشعب' },
+                { id: 'ViLPxfoeVnw', title: 'English 07: BAC 2025 حل الاختبار (جميع الشعب)' },
+                { id: 'caPqvq_K2Ok', title: 'BAC 2025 English 01: كل مايجب معرفته حول موضوع البكالوريا' },
+                { id: 'pFRlWDLyJyg', title: 'English 04 (BAC 2024): (جميع شعب) مراجعة شاملة لامتحانات الثلاثي الثاني جميع الشعب' },
+                { id: '6jeKYvyae54', title: 'English 02 (BAC 2024): (جميع شعب) مراجعة شاملة لامتحانات الثلاثي الأول جميع الشعب' },
+                { id: 'Ozu3fRNVcNc', title: 'ENGLISH 04 BAC2026: كيفية كتابة فقرة من الصفر للاحتراف(جميع الشعب)' },
+                { id: 'pjdtkzsuysw', title: 'ENGLISH 01 BAC2026: its high time خاص بجميع الشعب' },
+                { id: '9Ujhm08AZuU', title: 'ENGLISH 01 BAC2026: AFTER & BEFORE خاص بالشعب الأدبية' },
+                { id: 'fvNJHCKM5vM', title: 'English 09 BAC 2025: past simple-irregular verbs (جميع الشعب)' },
+                { id: 'u-QfwOXY9CE', title: 'English 06: BAC 2025 (اختبار جميع الشعب)' },
+                { id: 'UgEDNxxZVbw', title: 'English 05: BAC 2025(كيفية كتابة فقرة من 0 جميع الشعب)' },
+                { id: 'WgWcZ3AwRSc', title: 'English 02 BAC 2025: so…that/such…that (جميع الشعب)' },
+                { id: 'CebUP7opVdw', title: 'English 01 BAC 2025: It’s high time (جميع الشعب)' },
+                { id: 'hnA11w8t3yM', title: 'ENGLISH 07-08-09-10: المراجعة الشاملة لاختبارات الثلاثي الثاني (أدبيين)' },
+                { id: 'rRSnIMfYUR4', title: 'ENGLISH 07-08-09-10: المراجعة الشاملة لاختبارات الثلاثي الثاني (علميين)' },
+                { id: 'o3X72Su9KS8', title: 'English and French Baccalaureate Terminology 2022 | Part 5 (All Streams)' },
+                { id: 'm5A-AnYj3xM', title: 'ENGLISH 06: concession جميع الشعب' },
+            ],
+            'teacher-french': [
+                { id: 'XYYPhj3l3iU', title: 'BAC 2025 Français 01: Texte d’Histoire (sujet de bac - objectivité & subjectivité )' },
+                { id: 'KgtWJUm448s', title: 'FRANÇAIS 01 (BAC 2024): (جميع شعب) l\'objectivité et la subjectivité' },
+                { id: 'flvuKUaTFcg', title: 'Français 00 BAC2026: le texte d’Histoire ملخص' },
+                { id: 'uCNE7mmwVz0', title: 'Français 10 BAC 2025 le compte rendu: أفضل شرح راح تصادفو فحياتك (جميع الشعب)' },
+                { id: 'qrJnGNRsWRE', title: 'Français 08 BAC 2025: la nominalisation 2 حل الاختبار' },
+                { id: 'Ie27x2TsRIk', title: 'FRANÇAIS 03 BAC2026: la visée communicative جميع الشعب' },
+                { id: 'NV1ZeGDJWIg', title: 'FRANÇAIS 02 BAC2026: La nominalisation جميع الشعب' },
+                { id: 'rTDnH8ndrPw', title: 'Français 09 BAC 2025: le discours direct & indirect (جميع الشعب)' },
+                { id: 'F2Mwie7hhDQ', title: 'Français 07 BAC 2025: la nominalisation 2 (جميع الشعب)' },
+                { id: 'oNLFNHlokd4', title: 'Français 05 BAC 2025: la nominalisation 2 (جميع الشعب)' },
+                { id: 'e3axeOcg1Lg', title: 'Français 04 BAC 2025: la nominalisation 1 exercice (جميع الشعب)' },
+                { id: '0TjFHEtccCU', title: 'Français 03 BAC 2025: la nominalisation 1 (جميع الشعب)' },
+                { id: 'xeV2hGgMv5I', title: 'Français 02 BAC 2025: La visée communicative (جميع الشعب)' },
+                { id: 'Zics2WkMOSg', title: 'Français 01 BAC 2025: les types d’auteurs (جميع الشعب)' },
+                { id: 'JBXxOnjVPUc', title: 'français 04 (BAC 2024): le compte rendu objectif & critique بالتفصيل(جميع شعب)' },
+                { id: '92K9Pal0ftw', title: 'FRANÇAIS 02 (BAC 2024): (جميع شعب) la visée communicative de l\'auteur' },
+                { id: 'QaHgUiJ7We4', title: 'الدرس الخامس فرنسية باك جميع الشعب: TEXTE HISTORIQUE "les marques de la subjectivité de lauteur"' },
+                { id: 'wbZcjPCKjVU', title: 'FRANÇAIS 05: le compte rendu جميع الشعب' },
+                { id: 'aD16866u_x4', title: 'FRANÇAIS 04: le discours direct et indirect جميع الشعب' },
+                { id: 'yHkRHz4HaQU', title: 'أقوى مراجعة لاختبارات الثلاثي الأول BAC 2026 FRANÇAIS MR.MANSOURI' },
+                { id: '1Ix4IWZqbcU', title: 'FRANÇAIS 01 BAC 2026:OBJECTIVITE ET SUBJECTIVITE أهم درس مع أمثلة جميع الشعب' },
+                { id: '88jrHXCRa9E', title: 'français 05 (BAC 2024): (جميع شعب) مراجعة شاملة لامتحانات الثلاثي الثاني جميع الشعب' },
+                { id: 'VoI2Jid1wJE', title: 'français 03 (BAC 2024): (جميع شعب) مراجعة شاملة لامتحانات الثلاثي الأول جميع الشعب' },
+                { id: 'xk6sD6NgFDU', title: 'FRANÇAIS 01 BAC2026: la voix active et passive جميع الشعب ' },
+                { id: 'MAZ1DZP_ZRY', title: 'هام‼️ أقوى شرح لدرس compte rendu جميع الشعب الجمعة 20:00' },
+                { id: 'UrmKeoPjS9M', title: 'Français 06 BAC 2025: la voix active & passive (جميع الشعب)' },
+                { id: 'V2OENaY5Edc', title: 'الدرس الأول فرنسية باك جميع الشعب: TEXTE HISTORIQUE PART 1 (مايجب أن تعرفه قبل الدخول في هذه الوحدة)' },
+                { id: 'oodB7VjVjFg', title: 'FRANÇAIS 07-08-09-10: المراجعة الشاملة لاختبارات الثلاثي الثاني (جميع الشعب)' },
+                { id: 'GZnDJVfHdFc', title: 'أقوى مراجعة لاختبارات الثلاثي الأول جميع الشعب(4 دروس في 15 دقيقة) اضافة الى compte rendu' },
+                { id: 'GbVhUq0tDsY', title: 'الدرس الرابع فرنسية باك جميع الشعب: TEXTE HISTORIQUE LA VISEE COMMUNICATIVE' },
+            ],
+            'teacher-geography': [
+                { id: 'sPTcrdVCevU', title: 'الدرس 02 جغرافيا المبادلات والتنقلات منظمة الأوبك، حركة رؤوس الأموال (جميع الشعب )بكالوريا 2024' },
+                { id: 'LMT5mk7kUZE', title: 'الدرس الثاني : المبادلات والتنقلات ( منظمة الأوبك ، حركة رؤوس الأموال ) بكالوريا 2023 جميع الشعب' },
+                { id: 'NpIdemLYwsY', title: 'الدرس الأول جغرافيا  | إشكالية التقدم والتخلف | بكالوريا 2026 جميع الشعب | شرح مبسط ومفهوم 🔥' },
+                { id: 'XzOmzP4UY7g', title: 'درس المبادلات والتنقلات - حركة رؤوس الأموال - الجزء 3 جميع الشعب بكالوريا 2025' },
+                { id: '88BJS4yo2aM', title: 'درس المبادلات والتنقلات في العالم مادة الجغرافيا بكالوريا 2025 جميع الشعب-الجزء 2-' },
+                { id: 'lY_jiivM2iY', title: 'درس المبادلات والتنقلات الجغرافيا بكالوريا 2025 جميع الشعب' },
+                { id: 'x4JY5-C8CS0', title: 'الدرس الأول جغرافيا: اشكالية التقدم والتخلف بكالوريا 2025 (جميع الشعب) الجزء 2' },
+                { id: 'sDgHKjs7eJ4', title: 'الدرس الأول جغرافيا: اشكالية التقدم والتخلف بكالوريا 2025 (جميع الشعب)' },
+                { id: '5OtYfHqCc5U', title: 'الدرس 2 جغرافيا : درس المبادلات والتنقلات في العالم جميع الشعب بكالوريا 2024' },
+                { id: 'aW7HfEHSv84', title: 'الدرس الأول جغرافيا: اشكالية التقدم والتخلف بكالوريا 2024 (جميع الشعب)- مشروع عكاشة' },
+                { id: 'ZzdcP__Jcb4', title: 'الدرس الأول جغرافيا: اشكالية التقدم والتخلف بكالوريا 2024 (جميع الشعب)' },
+                { id: '_erTobc41n0', title: 'الدرس 2 جغرافيا : درس المبادلات والتنقلات في العالم جميع الشعب بكالوريا 2023 - مشروع عكاشة' },
+                { id: 'g1cB53vsFpQ', title: 'الدرس 2 جغرافيا : درس المبادلات والتنقلات في العالم جميع الشعب بكالوريا 2023' },
+                { id: 'gI5upfYnvik', title: 'الدرس الأول جغرافيا: اشكالية التقدم والتخلف بكالوريا 2023 (جميع الشعب)' },
+                { id: '-baZyckmQSs', title: 'الدرس 01 جغرافيا: اشكالية التقدم والتخلف بكالوريا 2022  بطريقة مختصرة ورائعة -الجزء 1- (جميع الشعب)' },
+                { id: 'toM4aJUetVk', title: 'الدرس الأول جغرافيا: اشكالية التقدم والتخلف بكالوريا 2022  (جميع الشعب)' },
+                { id: 'FYPVfPZWPj8', title: 'أفضل شرح لدرس المبادلات والتنقلات | لجميع الشعب | بكالوريا 2026 -الجزء الثاني-' },
+                { id: 'r08nSSpiY2Q', title: 'أفضل شرح لدرس المبادلات والتنقلات | لجميع الشعب | بكالوريا 2026 -الجزء الأول-' },
+                { id: 'txHcM8c2sU4', title: 'أسئلة مهمة مقترحة في درس المبادلات والتنقلات بكالوريا 2025 جميع الشعب 🔥' },
+                { id: 'oqSegn4vT20', title: 'ملخص درس مصادر القوة الاقتصادية الامريكية جغرافيا بكالوريا 2025 جميع الشعب ( الجزء 1 )' },
+                { id: 'a-BIgXX9ZxM', title: 'ملخص درس مصادر القوة الاقتصادية الامريكية جغرافيا بكالوريا 2024 جميع الشعب ( الجزء 1 )' },
+                { id: '8_jhuR59QgY', title: 'جميع الخرائط المقترحة في الجغرافيا لتلاميذ البكالوريا 2025 جميع الشعب' },
+                { id: 'KZODsfo7n2w', title: 'الدرس 05 جغرافيا:  التحولات الاقتصادية الكبرى في الجزائر ثانية ثانوي 2024' },
+                { id: 'iWzegr276gA', title: 'الدرس 02 جغرافيا ج2   العلاقة بين السكان والوسط الطبيعي ثانية ثانوي 2024' },
+                { id: 'kjFowS3oKFI', title: 'الدرس 01 جغرافيا رابعة متوسط: المجال الجغرافي للجزائر 2024 - مشروع عكاشة' },
+                { id: 'w8WhLUeknHI', title: 'ملخص درس مصادر القوة الاقتصادية الامريكية جغرافيا بكالوريا 2023 جميع الشعب ( الجزء 1 )' },
+                { id: 'ouPHpapuMC0', title: 'ملخص درس مصادر القوة الاقتصادية الامريكية جغرافيا بكالوريا 2022 جميع الشعب ( الجزء الثاني)' },
+                { id: 'IUGcdZBD0Og', title: 'ملخص درس مصادر القوة الاقتصادية الامريكية جغرافيا بكالوريا 2022 جميع الشعب ( الجزء 1 )' },
+                { id: 'AuYvpqZYy94', title: 'أقوى مراجعة للفصل الثالث جغرافيا بكالوريا 2026 | ملخص شامل وسهل الحفظ لكل الشعبج' },
+                { id: 'vbnoQELm1Y8', title: 'الدرس 01 في الجغرافيا الثانية ثانوى:  المجال الجغرافي للجزائر -مشروع عكاشة' },
+            ],
+            'teacher-history': [
+                { id: 'dzsVJ9591Mo', title: 'أقوى ملخص في مادة التاريخ الثورة الجزائرية:عناصر مقترحة لباك مؤتمر الصومام-هجومات الشمال القسنطيني' },
+                { id: 'qVz6D9C4ybY', title: 'الدرس 05 تاريخ: من تبلور الوعي الوطني الجزائري الى الثورة التحريرية الشعب الأدبية بكالوريا 2024' },
+                { id: 'XezxAEoJamk', title: 'أقوى ملخصات الثورة الجزائرية ( هجومات الشمال القسنطيني+ مؤتمر الصومام) مقترح هذه السنة جميع الشعب' },
+                { id: 'zmZB63buhR0', title: 'ملخصات الثورة الجزائرية : درس تبلور الوعي الوطني للشعب الأدبية بكالوريا 2025' },
+                { id: 'MIeFdi5PtLY', title: 'الدرس 06 تاريخ : ( الثورة الجزائرية ) العمل المسلح ورد فعل الاستعمار جميع الشعب بكالوريا 2024 ج 1' },
+                { id: 'rb7gGLhfuMY', title: 'الدرس 05 تاريخ: من تبلور الوعي الوطني الجزائري إلى الثّورة التّحريريّة - الشعب الأدبية- بكالوريا2024' },
+                { id: '4SoWrLC9q_U', title: 'مراجعة عامة في الاجتماعيات : درس من تبلور الوعي الوطني الجزائري إلى الثورة (ملخص الثورة الجزائرية)' },
+                { id: 'q-5sCJ12dKU', title: 'تبلور الوعي الوطني الجزائري | ملخص كامل باك 2026 آداب وفلسفة تسيير واقتصاد | الثورة الجزائرية"' },
+                { id: 'bo5Zt8byZtI', title: 'المقاومة الوطنية للاحتلال الفرنسي للجزائر| تاريخ 2 ثانوي | الدرس الثالث للثلاثي الثاني جميع الشعب' },
+                { id: 'YIpQPUgKy9g', title: 'الدرس 06 تاريخ : العمل المسلّح وردّ فعل الاستعمار( الثورة الجزائرية) جميع الشعب الجزء 2 باك 2024' },
+                { id: '-iG0NfQVioo', title: 'أفضل ملخص لدرس تبلور الوعي الوطني الجزائري ( الثورة الجزائرية) شعبة اداب وفلسفة+ تسيير واقتصاد' },
+                { id: 'uxEthdeu4Qw', title: 'الثورة الجزائرية : درس تبلور الوعي الوطني بكالوريا 2022' },
+                { id: '7CZrRsQfgSE', title: 'اقوى ملخص في الاجتماعيات : درس من تبلور الوعي الوطني الجزائري إلى الثورة (ملخص الثورة الجزائرية)' },
+                { id: 'y9p-C0Xdrf0', title: 'مراجعة عامة في الاجتماعيات : مراجعة الثورة الجزائرية ( مؤتمر الصومام الجزء الثاني )' },
+                { id: 'SzDIJ3k-VPI', title: 'الدرس 07 تاريخ: استعادة السّيادة الوطنيّة وبناء الدّولة الجزائريّة جميع الشعب بكالوريا 2025' },
+                { id: 'fr5qVmqAY2Y', title: 'الدرس 06 تاريخ: المقاومة الجزائرية للوجود الفرنسي ومظاهرها ثانية ثانوي 2024' },
+                { id: 'rJ5C2wMrcYk', title: 'الدرس 05 تاريخ: السياسة الاستعمارية في الجزائر ومظاهرها ثانية ثانوي 2024' },
+                { id: 'jX2_A44K52Y', title: 'الدرس 07 تاريخ: استعادة السّيادة الوطنيّة وبناء الدّولة الجزائريّة| جميع الشعب| بكالوريا 2024' },
+                { id: 'DgN2FSTiL4U', title: 'الدرس 04 تاريخ: الاستعمار الفرنسي في الجزائر الأسباب والأهداف ثانية ثانوي 2024' },
+                { id: 'epRCl_1EWcY', title: ' السياسة الاستعمارية في الجزائر | درس التاريخ للسنة الثانية ثانوي | جميع الشعب 👌' },
+                { id: 'qMj3s4StZCk', title: 'السياسية الاستعمارية في الجزائر | تاريخ 2 ثانوي | الدرس الثاني للثلاثي الثاني الشعب الأدبية' },
+                { id: 'AW9iWf46-PE', title: 'ملخص الثورة الجزائرية  ( درس استعادة السيادة الوطنية وبناء الدولة الجزائرية) باك 2023  جميع الشعب' },
+                { id: '5_NGKY37QNU', title: 'أقوى ملخصات الثورة الجزائرية  ( درس استعادة السيادة الوطنية وبناء الدولة الجزائرية)  جميع الشعب' },
+                { id: 'ZMpn7zc05hw', title: 'أقوى ملخصات الثورة الجزائرية ( استراتيجيات الاستعمار أو رد فعل الاستعمار) جميع الشعب بكالوريا 2022' },
+                { id: '9iHgWhlTyWY', title: 'احفظ شخصيات الثورة الجزائرية في 10 دقائق فقط بكالوريا 2021 جميع الشعب' },
+                { id: 'alJ7qHKdhMY', title: 'شخصيات  التاريخ بطريقة مبسطة | شرح سهل وسريع للبكالوريا 2026 جميع الشعب 🔥' },
+                { id: '9O3ZdcXc7wM', title: 'مراجعة شاملة للثورة الجزائرية بكالوريا 2026 جميع الشعب 🔥' },
+                { id: '4Medhe-fPLM', title: 'بكالوريا 2026: الثورة الجزائرية بطريقة مبسطة | أفضل ملخص لكل الشعب ⚡' },
+                { id: 'CswzzlCmsk0', title: 'الدرس الأول تاريخ: بروز الصراع وتشكل العالم 🌍 | الحرب الباردة 🔥 | بكالوريا 2026 جميع الشعب_الجزء 2_' },
+                { id: 'VnfpX8jINOQ', title: 'الدرس الأول تاريخ: بروز الصراع وتشكل العالم 🌍 | الحرب الباردة 🔥 | بكالوريا 2026 جميع الشعب' },
+            ],
+            'teacher-islamic': [
+                { id: 'sbyxlsgHRlQ', title: 'الدرس2:من مصادر التشريع الاسلامي "القرآن الكريم "' },
+                { id: 'fxYM3gDgdZs', title: 'الدرس 2: وسائل القرآن في تثبيت العقيدة الاسلامية' },
+                { id: 'PzHHZnvulFM', title: 'الدرس4: العقل في القرآن الكريم #بوسعادي _باك_2026#' },
+                { id: '3_pF-gP_slI', title: 'الدرس4:العقل في القرآن#الاستاذة_بوسعادي_باك2024' },
+                { id: 'ENcw_0TlF0I', title: 'المراجعة النهائية الدرس 6: أساليب القرآن تثبيت العقيدة' },
+                { id: 'G7ynjfipRwU', title: 'مراجعة درس أساليب القرآن في تثبيت العقيدة الإسلامية. #باك#2020' },
+                { id: 'SDMvppi4SnA', title: 'الدرس8: الصحة النفسية والجسمية في القرآن الكريم #باك_شريعة_بوسعادي#' },
+                { id: 'LckJvHpIT1E', title: 'الدرس2: وسائل القرآن في تثبيت العقيدة الإسلامية #شريعة_باك_بوسعادي#' },
+                { id: '0jbZLad5AYo', title: 'الدرس9: مصادر التشريع الاسلامي (الاجماع/القياس /المصلحة )' },
+                { id: '2piOrDNrKfU', title: 'الدرس 8: الصحة النفسية والجسمية في القرآن 🚑🤧' },
+                { id: 'yqcvXOXuS68', title: 'الدرس2:وسائل القرآن الكريم في تثبيت العقيدة الإسلامية' },
+                { id: 'UrZxO7Thh6c', title: 'الدرس9:مصادر التشريع الاسلامي' },
+                { id: 'cSkMavLQ5Ic', title: 'الدرس8:الصحة النفسية والجسمية في القرآن' },
+                { id: 'BpcyYzp_Tto', title: 'الدرس4: العقل في القرآن الكريم' },
+                { id: 'TX3BNRVtfIk', title: 'الدرس2:وسائل القرآن في تثبيت العقيدة الإسلامية.' },
+                { id: 'AoyRoorEljg', title: 'الدرس 9: مصادر التشريع الاسلامي' },
+                { id: 'yFo8TyuxPMw', title: 'الدرس1: اثر العقيدة الاسلامية على الفرد والمجتمع' },
+                { id: 'PFwVQGerezA', title: 'الدرس4: العقل في القرآن ومنزلته .#باك_2021#' },
+                { id: 'Q4qgpz4wNps', title: 'الدرس2:وسائل القرآن في تثبيت العقيدة الإسلامية' },
+                { id: '10_TgPR1eHM', title: 'الوحدة1: العقيدة الاسلامية واثرها #بوسعادي_ باك_ 2021#' },
+                { id: 'qjeVmkoOExo', title: 'الدرس6: أساليب القرآن في تثبيت العقيدة الإسلامية' },
+                { id: 'Mzlux_dPm2Y', title: 'تطبيقات حول وسائل القرآن في تثبيت العقيدة' },
+                { id: 'AMt0hkHeC1Y', title: 'تطبيقات حول وسائل القرآن في تثبيت العقيدة الإسلامية  😊' },
+                { id: 'kw0JuxWQpF4', title: '#الأستاذة _بوسعادي #اك2020 : مصادر التشريع الاسلامي.' },
+                { id: 'mvCdPGG9gfE', title: 'باك2020: العقل وموقف القرآن منه #الأستاذة _بوسعادي #' },
+                { id: 'mFi5lHJwtF0', title: 'الدرس 1: أثر العقيدة الإسلامية على الفرد والمجتمع#باك_2026_الأستاذة_بوسعادي#' },
+                { id: '8vWKzJXs0l0', title: 'تطبيقات  لدرس الزكاة#السنة_الثانية_ثانوي_بوسعادي' },
+                { id: 'NrCXEvB08xI', title: 'درس الزكاة #السنة_الثانية_ثانوي_بوسعادي.' },
+                { id: 'EgskifriwOg', title: 'الدرس1:أثر العقيدة الإسلامية على الفرد والمجتمع #بوسعادي_باك2025' },
+                { id: 'vbLiRfTGqVM', title: 'مراجعة الدرس2العقل باك2020' },
+            ],
+            'teacher-math': [
+                { id: 'mMiX4PjeVoI', title: 'سلسلة المواضيع المقترحة🎁| الموضوع الثالث3️⃣| ✅الاحتمالات - المتتاليات - الدوال | بكالوريا🥇' },
+                { id: 'A2iC1GhlTwU', title: 'سلسلة المواضيع المقترحة🎁| الموضوع الرابع4️⃣| ✅الاحتمالات - المتتاليات + الجبر - الدوال | بكالوريا🥇' },
+                { id: 'JNBRE7IB-YU', title: 'سلسلة المواضيع المقترحة🎁| الموضوع الأول 1️⃣ | ✅المتتاليات - الاحتمالات - الدوال والمساحات| بكالوريا🥇' },
+                { id: '77vXPjMGKQ8', title: 'اختبار الفصل الثالث في الرياضيات  للثانية ثانوي (النهايات مع الدوال العددية )' },
+                { id: 'M7wDSzkLx1I', title: 'اختبار الفصل الثاني في الرياضيات للثانية ثانوي (مزج بين الاحتمالات و الدوال و المرجح)🤩🤩' },
+                { id: 'mLy_d2dGmo0', title: 'حقيبة عكاشة 🧳| الدوال الأسية🔥(شعبة تقني رياضي)| حلول جميع البكالوريات من 2019 - 2025 ✅ | 06 تمارين🔥' },
+                { id: 'V7JrHtM2x8o', title: 'حقيبة عكاشة 🧳| الدوال الأسية🔥(شعبة رياضيات)| حلول جميع البكالوريات من 2019 - 2025 ✅ | 08 تمارين🔥' },
+                { id: 'WMGO-nVzfMM', title: 'دالة لوغاريتمية باك 2025 تقني رياضي' },
+                { id: 'WL67U1qnIJ4', title: 'دالة لوغاريتمية باك 2025  شعبة رياضيات' },
+                { id: 'k3m-e0swZck', title: 'دالة لوغاريتمية باك 2024 تقني رياضي (تستهل المشاهدة)' },
+                { id: 'kTC8gOsRNx8', title: 'حقيبة عكاشة 🧳 | الاحتمالات ✅ | شعبة تقني رياضي 🔥| حلول جميع البكالوريا 2019 - 2025' },
+                { id: 'uFDphwlVRRE', title: 'حقيبة عكاشة 🧳 | المتتاليات✅ | شعبة تقني رياضي 🔥| حلول جميع البكالوريا 2019 - 2025' },
+                { id: '63EQTlcZVYQ', title: 'حقيبة عكاشة🧳| المتتاليات🔥 | شعبة رياضيات 💪| حلول جميع البكالوريات 2019 -2025' },
+                { id: 'bCW1x1geiR0', title: 'نهايات الدالة الاسية من 2008 الى 2025 بالشرح المفصل الجزء الثاني' },
+                { id: 'nSNyWLDUW4Y', title: 'نهايات الدالة الاسية من 2008 الى 2025 بالشرح المفصل الجزء الاول ' },
+                { id: 'CG0q0qvHPCo', title: 'الدالة العددية و الاسية و اللوغاريتمية و اهم القوانين التي تحتاجها في الباك (علمي تقني، رياضي تسيير)' },
+                { id: '6zzH5ixJV84', title: 'سلسلة المواضيع المقترحة🎁| الموضوع الثاني2️⃣| ✅اختر الإجابة الصحيحة - الاحتمالات - الدوال | بكالوريا🥇' },
+                { id: 'sQMmP96GZBs', title: 'الدوال المرجعية للاول ثانوي (درس دالة مربع مع تطبيقات محلولة و وضعية ادماجية)' },
+                { id: 'X8b7yvtZOkI', title: 'معالجة النقائص في الدالة اللوغاريتمية رقم 3 ( المشاهدة للنهاية)❤🏋️‍♂️🏋️‍♂️❤' },
+                { id: 'RNJPq-yP-Kk', title: 'معالجة النقائص في الدالة اللوغاريتمية رقم 2 (تستهل المشاهدة للنهاية)❤🏋️‍♂️🏋️‍♂️❤' },
+                { id: 'dWSMfx216aY', title: 'درس الدالة اللوغاريتمية من الالف الى الياء (الجزء الاول) (7 تمارين محلولة بالتفصيل لكل عنصر)' },
+                { id: 'KkIW530a-6M', title: 'مراجعة شاملة في المتتاليات و الدوال للثالثة ثانوي تسيير و اقتصاد (اختبار الفصل الاول)' },
+                { id: 'HqhuKx4jZzQ', title: 'مواضيع مقترحة في الرياضيات( المتتاليات) لباك 2026  رقم 14' },
+                { id: 'mnzCJJlivm4', title: 'مواضيع مقترحة في الرياضيات( دالة اشبال الامة) لباك 2026  رقم 12' },
+                { id: 'lP0P42wAOgk', title: 'مواضيع مقترحة في الرياضيات(الدوال) لباك 2026  رقم 9' },
+                { id: 'iUQj5rQbp4o', title: 'مواضيع مقترحة في الرياضيات(مقترح بقوة في الاحتمالات) لباك 2026  رقم 8' },
+                { id: '85HAJ16jLrc', title: 'مواضيع مقترحة في الرياضيات(المتتاليات) لباك 2026  رقم 7' },
+                { id: 'Buw5tLOKU58', title: 'مواضيع مقترحة في الرياضيات(الاحتمالات) لباك 2026  رقم 6' },
+                { id: '95SJuzkn-i4', title: 'مواضيع مقترحة في الرياضيات(المتتاليات) لباك 2026  رقم 5' },
+                { id: '1yar6XZIHhc', title: 'مواضيع مقترحة في الرياضيات(الاحتمالات) لباك 2026  رقم 4' },
+            ],
+            'teacher-philosophy': [
+                { id: '1gTb3Pa5jag', title: 'مقال الحقيقة بين النسبي والمطلق موجه إلى شعبة آداب وفلسفة' },
+                { id: 'P5IU3LFRT8o', title: 'درس اللغة والفكر بمقالاته الثلاثة: اللغة والفكر، الدال والمدلول ، وظائف اللغة شعلاي: فلسفة، ولغات.' },
+                { id: 'bhZBoVSq6Vw', title: 'مقال الأخلاق بين النسبي والمطلق الجزء الثاني(2) موجه إلى شعبة آداب وفلسفة' },
+                { id: 'lJv-4_lunzw', title: 'مقال الأخلاق بين النسبية والمطلق الجزء الأول(1) موجه إلى شعبية آداب وفلسفة' },
+                { id: 'c2BVaGdyp8M', title: 'مقال العلاقة بين اللغة والفكر موجه لشعبة آداب وفلسفة ولغات أجنبية' },
+                { id: '5I3KjrURlok', title: 'مقال وظائف اللغة موجه لشعبتي لغات أجنبية وآداب وفلسفة عن' },
+                { id: 'HRoidEXVSGo', title: 'من هذا الفيديو سيكون سؤال في البكالوريا لشعبة آداب وفلسفة، شرح لكل مقالات الفصل الثاني' },
+                { id: 'Dretrl-eHJo', title: 'مقال عوامل الادراك بين الذاتية والموضوعية المقال 2 للإحساس والإدراك. موجه لشعبة آداب وفلسفة.' },
+                { id: '3lUZm8XUdZU', title: 'مقال الحرية والمسؤولية حسب التدرج الجديد 2024 إلى شعبة لغات وعلوم تجريبية ورياضيات و السنة الثانية.' },
+                { id: 'zpyitRmOvKw', title: 'مقال الفصل بين الإحساس والإدراك الجزء الثالث من درس الاحساس والإدراك' },
+                { id: 'dUQQ5zVUQjs', title: 'مقال البيولوجيا (تطبيق المنتج التجريبي على المادة الحية) لكل الشعب' },
+                { id: 'LCLiTTEF1Ns', title: 'درس الرياضيات كاملا بمقالاته الثلاثة: أصل الرياضيات، نتائج الرياضيات، مقارنة بين الكلاسيكة والمعاصرة' },
+                { id: 'JfAw3lK9zMo', title: '.مقال ايجابيات وسلبيات العنف موجه إلى الشعب: علوم تجريبية ورياضيات ولغات أجنبية والثانية آداب وفلسفة' },
+                { id: '1_9YBM1Jfds', title: 'مقال المقارنة بين العلم والفلسفة موجه لعلوم تجريبية و رياضيات وتقني وتسيير ولغات والسنة الثانية آداب' },
+                { id: 'DmMNmcLzfCk', title: 'الفلسفة من الصفر، كل المنهجيات، ومقالات المحور الأول، لكل الشعب.' },
+                { id: 'XqvSXThH57o', title: 'مقال أبعاد الشغل(أضمن العلامة الكاملة) موجه إلى شعبة آداب وفلسفة' },
+                { id: 'QiT5ffo1plA', title: 'مقال سلبيات وإيجابيات العادة موجه إلى شعبة آداب وفلسفة' },
+                { id: 'ORNve22S72g', title: 'مقال نتائج الرياضيات (اليقين الرياضي) موجه لكل الشعب' },
+                { id: 'npGGFRmyvhM', title: 'مقالي الأنظمة السياسية بين الحكم الفردي والجماعي + مقال الديمقراطية موجه إلى شعبة آداب وفلسفة هو' },
+                { id: 'PeyAdtY4k2Y', title: 'مقال الأخلاق في السياسة موجه إلى شعبة آداب وفلسفة' },
+                { id: 'UgFLCk9_kYI', title: 'مقال الحتمية واللاحتمية تسمى أيضا بنتائج العلم موجه لكل الشعب' },
+                { id: 'ZqSMLM5MfU8', title: 'مقال العدالة بين الحق والواجب مقال موجه لشعبة آداب وفلسفة' },
+                { id: 'q07BqgZHeDM', title: 'مقال قيمة الفلسفة في ظل تقدم العلم موجه لكل الشعب عدا شعبة آداب وفلسفة' },
+                { id: 'DJwOKKFxSAs', title: 'مقال التكيف بين العادة و الارادة موجه إلى شعبة آداب وفلسفة' },
+                { id: 'NUGXyMP1N08', title: 'مقال عوامل الإبداع الفردية و الاجتماعية موجه لشعبة آداب وفلسفة' },
+                { id: 'Bttkh-S5kgs', title: 'مقال طبيعة الادراك بين العقل والحواس' },
+                { id: 'hKSsOE8W4LQ', title: 'عرض كل مقالات برنامج الفلسفة لشعبة آداب وفلسفة' },
+                { id: 'LniruIoRbTs', title: 'هدية العطلة، كيف أغير المقال الجدلي إلى استقصاء بالوضع. ومن أين أبدأ الفلسفة' },
+                { id: '1XTEsAneT44', title: 'مراجعة لكل المنهجيات + درس الإحساس والإدراك في فيديو واحد ' },
+                { id: '7f3TbkYeY9w', title: 'احتمالات الفلسفة لبكالوريا 2025 إن شاء الله' },
+            ],
+            'teacher-physics': [
+                { id: 'Td24vTWHM5o', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي||الدرس (06): مفهوم سرعة التفاعل' },
+                { id: 'agUL4h9ijAs', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي II تمرين تطبيقي شامل حول سرعة التفاعل' },
+                { id: '5Ng63-XZw9A', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي II استخراج علاقة سرعة التفاعل من بيانات مختلفة' },
+                { id: '51LDWK-IaCU', title: 'حل تمرين شامل في الوحدة الأولى II المتابعة الزمنية لتحول كيميائي في وسط مائي' },
+                { id: 'tyM7vQ4Lt7Y', title: 'حل تمرين شامل في الوحدة الأولى II المتابعة الزمنية لتحول كيميائي في وسط مائي' },
+                { id: 'c0TJc_YqZNU', title: 'الوحدة 01 : المتابعة الزمنية لتحول كيميائي في وسط مائي' },
+                { id: 'UyWR1RyXXqQ', title: 'تمارين المتابعة الزمنية لتحول كيميائي II الدرجة الكلورومترية ⭐⭐' },
+                { id: 'fnVDFn4eWao', title: 'تمارين حول المتابعة الزمنية لتحول كيميائي 3 ثانوي II بكالوريا علوم تجريبية 2016⭐⭐' },
+                { id: 'UNB0PCXJcVM', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي || الدرس (02): المعايرة اللونية' },
+                { id: 'erVTEu441KI', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي || الدرس (03): قياس الناقلية' },
+                { id: 'K1s99aKucCQ', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي || تطبيق (02): المتابعة الزمنية عن طريق قياس الناقلية' },
+                { id: '9e9m0LxdIvQ', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي || تطبيق (01): المتابعة الزمنية عن طريق المعايرة اللونية' },
+                { id: 'qYBcnXAUeLY', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي|| اشتقاق عبارة السرعة' },
+                { id: 'uXoxt95D1Dc', title: 'تطور جملة ميكانيكية بكالوريا 2024 ( مميزات الحركة: الموضع - السرعة - التسارع)' },
+                { id: 'xRL0-z0bvDY', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي II الدرس(01): المدة المستغرقة لتحول كيميائي BAC' },
+                { id: 'U6KHUu7DeJ8', title: 'تمارين حول المتابعة الزمنية لتحول كيميائي 3 ثانوي II التمرين5' },
+                { id: 'uEwVtf2531U', title: 'تمارين حول المتابعة الزمنية لتحول كيميائي 3 ثانوي II التمرين4' },
+                { id: '_nxnQZQaYDo', title: 'تمارين حول المتابعة الزمنية لتحول كيميائي 3 ثانوي II التمرين1' },
+                { id: '2IeeFLFY4Rw', title: 'تمارين حول المتابعة الزمنية لتحول كيميائي 3 ثانوي II التمرين2' },
+                { id: '8DOXy3_jXGE', title: 'تمارين الكيمياء العضوية 2 ثانوي I تمرين التفاعلات الكيميائية' },
+                { id: 't9ZtGLfjxr0', title: '02 ثانوي : المركبة الكيميائية للطاقة الداخلية مع تطبيقات' },
+                { id: '5U5YnxgNJrg', title: 'تطور جملة ميكانيكية II تقديم الوحدة' },
+                { id: 'FmYHAYX3g6A', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي II ملخص شامل حول السرعات' },
+                { id: 'LMdidxAJ418', title: 'الأحماض و الأسس في 150 دقيقة II الوحدة04: تطور جملة كيميائية نحو التوازن' },
+                { id: 'ElX7H7Km4z8', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي||الدرس (04): المتابعة الزمنية عن طريق قياس حجم أو ضغط غاز' },
+                { id: 'B8fmXN56KAw', title: 'المتابعة الزمنية لتحول كيميائي في وسط مائي II طرق المتابعة الزمنية لتحول كيميائي BAC' },
+                { id: 'hDA-CETvW6I', title: 'الطاقة الداخلية 2 ثانوي: طاقة التماسك و طاقة الرابطة التفكك للرابطة الكيميائية' },
+                { id: '-5kjN-P_sAU', title: '#معسكر_الانقاذ II التمرين 02: المتابعة الزمنية لتحول كيميائي' },
+                { id: 'DbAG2Jr661g', title: '#معسكر_الانقاذ II التمرين 01: المتابعة الزمنية لتحول كيميائي' },
+                { id: 'YsfSMan-pJ4', title: '02 ثانوي : مراجعة اختبار الفصل الثاني ( الطاقة الداخلية + المعايرة اللونية )' },
+            ],
+            'teacher-process': [
+                { id: 'QDwxjEvd_6U', title: 'التماكب في الكيمياء العضوية سنة ثانية ثانوي هندسة الطرائق' },
+                { id: '5o9bp9BZhzg', title: 'تحضير حمض البنزويك عملي رقم 02 مجال الكيمياء العضوية سنة ثالثة ثانوي' },
+                { id: 'BNTZs-sVmzw', title: 'حلول تمارين سلسلة الرائد مجال الكيمياء العضوية التمرين رقم 03 صفحة 13' },
+                { id: 'eyG4bzD6a74', title: 'الخواص الكيميائية للاحماض الامينية الدرس رقم 08 مجال الكيمياء الحيوية سنة ثالثة ثانوي' },
+                { id: 'y73SoaCKb50', title: 'الغليسيريدات ( الثلاثية- الثنائية -الإحادية) الدرس رقم 02 مجال الكيمياء الحيوية سنة 3 ثانوي' },
+                { id: 'nFtb8UmI30I', title: 'حل تمرين رقم 3 حول تفاعلات كيميائية سنة ثانية ثانوي هندسة الطرائق' },
+                { id: 'VWvLcShmwD8', title: 'التمرين التجريبي رقم 15 مجال الكيمياء حيوية (تمرين رائع عملي قرينة التصبن)' },
+                { id: 'YZjBp6YSMLA', title: 'حل تمرين بكالوريا 2019 غليسريدات والقرائن -الاحماض الامينية وبروتينات' },
+                { id: 'aXvPoDnGvkM', title: 'اجابة تمرين ممتاز رقم 10 من سلسلة الرائد لمجال الكيمياء الحيوية' },
+                { id: '2OG4wLgvJuc', title: 'العملي رقم 02 قرينة التصبن Is المجال الثاني كيمياء حيوية سنة ثاثلة ثانوي' },
+                { id: 'M-wvDpTdcic', title: 'العملي 01 تقدير قرينة الحموضة Ia لزيت الزيتون المجال الثاني الكيمياء الحيوية سنة ثالثة ثانوي' },
+                { id: 'fZewy_FcJpY', title: 'الهجرة الكهربائية للأحماض الامينية الدرس رقم 07 الكيمياء الحيوية سنة ثالثة ثانوي' },
+                { id: 'VYXGGhmjtmk', title: 'حل  تمرين بكالوريا 2025 مجال الكيمياء العضوية الموضوع 2' },
+                { id: 'sfT-EygqC5U', title: 'حل تمرين حول الغليسريدات وحساب قرينة اليود' },
+                { id: 'P5SBpsvIcuY', title: 'الدرس رقم 02 انواع التفاعلات العضوية تابع لمدخل الكيمياء العضوية' },
+                { id: 'EfFr9O5pLGQ', title: 'تمرين بكالوريا 2020 الموضوع الاول الغليسريدات به قرينة التصبن عملي' },
+                { id: 'PKGlFIjx6_c', title: 'درس الكحولات مستوى سنة ثانية هندسة الطرائق' },
+                { id: 'hX1ojt43AjE', title: 'سلسلة تمارين متنوعة حول المجال الثاني الكيمياء الحيوية للتحضير الجيد لبكالوريا 2020' },
+                { id: 'mUgUGG3rXho', title: 'الاحماض الدهنية ( مراجعة) الدرس رقم 01 مجال الكيمياء الحيوية سنة ثالثة ثانوي' },
+                { id: 'N41_UpiHcbI', title: 'حل تمرين بكالوريا 2025 جزء الغليسريدات والقرائن' },
+                { id: 'JG2j35WJbwI', title: 'حل تمرين كيمياء عضوية اختبار الفصل الاول 2026' },
+                { id: 'lHnVGgNQDeY', title: 'حل تمرين بكالوريا 2024 كيمياء حيوية الموضوع 1' },
+                { id: 'WM0zUM_e0_M', title: 'حل تمرين تجريبي رقم 20 لمجال الكيمياء عضوية' },
+                { id: 'xt83REMC-kc', title: 'حل تمرين تجريبي رقم 11 من مجال الكيمياء العضوية' },
+                { id: '6k2uwkWRev8', title: 'حل تمرين بكالوريا 2017  من موضوع احتياطي مجال الكيمياء الحيوية' },
+                { id: 'gY6pG8Z_lf8', title: 'حل تمرين  سنة الثانية ثانوي هندسة الطرائق رقم 7 صفحة 82 من الكتاب المدرسي' },
+                { id: 'RoPPoB0f9Xo', title: 'البيبتيدات والبروتينات الدرس رقم 09 مجال الكيمياء الحيوية سنة ثالثة ثانوي' },
+                { id: 'UeaPw_OH1PA', title: 'كتابة الصيغ الايونية للأحماض الأمينية الدرس رقم 06 مجال الكيمياء الحيوية سنة ثالثة ثانوي' },
+                { id: 'ss53s8FKZws', title: 'الخواص الفيزيائية للأحماض الأمينية الدرس رقم 05 مجال الكيمياء الحيوية سنة ثالثة ثانوي' },
+                { id: 'o2Yie-dWpIY', title: 'الأحماض الأمينية الدرس رقم 04 مجال الكيمياء الحيوية سنة ثالثة ثانوي' },
+            ],
+            'teacher-sciences': [
+                { id: '4W6Iie9pMdM', title: 'فكرة تتردد كثيرا في تمارين المناعة👌الاستمصال 🦠واللقاح💊| بكالوريا | علوم تجريبية + رياضيات' },
+                { id: 'PeAIWH9604U', title: '🌛مراجعة لاختبار الفصل الثاني في العلوم مناعة واتصال عصبي🏅 بكالوريا 2025' },
+                { id: '6Swh7g8MOLU', title: 'على بركة الله اول درس من برنامج البكالوريا في العلوم| مقر تركيب البروتين | BAC2025' },
+                { id: 'J_7NkvSEnh8', title: '💫الكنز 🎖أفكار التمارين لجميع الوحدات في العلوم | بكالوريا 2026 | من تركيب البروتين الى التنفس ' },
+                { id: 'cOts0U81Dmo', title: 'ليلة الرعد⚡️بكالوريا2026🔥مراجعة قوية لاختبار الفصل الاول في العلوم + حل موضوع مقترح ممتاز ' },
+                { id: '8BPEE8mvUf8', title: '🤌الدرس 2: انتقال المعلومة الوراثية -الجزء الاول✍️تركيب البروتين |بكالوريا 2025' },
+                { id: 'l5PNM8oX-GU', title: 'وأخييييراً 🤩| مراجعة شاملة لجميع الوحدات في العلوم |القصة الكاملة من الالف الى الياء💫 بكالوريا ' },
+                { id: 'zUGNVR93H7E', title: 'ليلة الرعد⚡️بكالوريا 2026 مراجعة قوية في العلوم للفصل الثاني+ اختبار مقترح🏅' },
+                { id: 'NE9xqSApqs4', title: 'مونديال العلوم🏆 | المراجعة الختامية 🏅بكالوريا 2026|⚡️ليلة الرعد|علوم تجريبية + رياضيات' },
+                { id: 'pzvxp3npLo4', title: 'المراجعة الشاملة في العلوم 🏅 ليلة الرعد⚡️ بكالوريا 2026|علوم تجريبية+رياضيات' },
+                { id: 'i4QMr6kZlzs', title: 'اولى ثانوي🎁المراجعة القوية  لاختبار الفصل الثاني في العلوم%التهجين وجميع افكار التمارين🔥كل ماتحتاجه' },
+                { id: 'bNDU5pcs9nM', title: 'ثانية ثانوي 🔥مراجعة قوية لاختبار الفصل الثاني في العلوم |مقترحة بقوة🤌🏻|' },
+                { id: '7iW1-94at-s', title: 'ليلة الرعد⚡️ سنة أولى ثانوي 🔥 اختبار مقترح للفصل الاول في مادة العلوم💥مراجعة قوية ' },
+                { id: 'OWGi3YrxDAs', title: 'ليلة الرعد⚡️ثانية ثانوي 🏅 اختبار مقترح للفصل الاول في مادة العلوم شعبة علوم تجريبية ' },
+                { id: '2jSwRfqVnPg', title: 'المراجعة الشاملة في العلوم 🏅ايس كريم🍨 ليلة الرعد ⚡️ بكالوريا 2025 |علوم تجريبية+رياضيات' },
+                { id: 'jRYM_7Wdt3E', title: 'سنة اولى ثانوي🔥 ليلة الرعد⚡️ اختبار مقترح للفصل الثالث في العلوم | مراجعة شاملة بذكاء🎖استاذة الخفاء' },
+                { id: 'd0Nm5W_bzTg', title: 'البذرة 🫒 بكالوريا 2027🏅 المكتسبات القبلية في العلوم ➕المنهجية 📔كل ما تحتاجه ✅علوم تجريبية ورياضيات ' },
+                { id: 'wzJGfSVEMDQ', title: '😌موعدها بقوة المراجعة الاستثنائية في العلوم BAC2026 مراجعة كل الوحدات×افكار×اختيار الموضوع× منهجية' },
+                { id: 'i3FLp7TGZ48', title: 'ثانية ثانوي  اداب وفلسفة🎖🎖 مراجعة قوية لاختبار الفصل الثالث في العلوم🔥كل ماتحتاجه⏳️' },
+                { id: 'ZcIT4r--lTY', title: 'ليلة الرعد⚡️ثانية ثانوي☆☆ اختبار الفصل الثالث في العلوم🍓 مراجعة قوية  ' },
+                { id: '0tjvxqv77nk', title: 'اختبار مقترح بقوة 🏃🏻‍♂️للفصل الثالث في العلوم🔥سنة اولى ثانوي |التحكم العصبي' },
+                { id: 'R0aq66F-sv8', title: '🔥المراجعة الشاملة في العلوم ⚡️لاختبار الفصل الثالث | سنة اولى ثانوي علمي👌واش تحتاج كامل للنجاح بقوة ' },
+                { id: 'G1Cifhs5NiM', title: '🔥فرض مقترح بقوة للفصل الثالث في العلوم 🏅سنة اولى ثانوي ' },
+                { id: 'T0rpbUEZYHg', title: 'ثانية ثانوي🔥فرض الفصل الثالث في العلوم *مراجعة ذكية ' },
+                { id: 'iR5sxaBFFMU', title: 'ثانية ثانوي اداب وفلسفة 🔥مراجعة قوية لاختبار الفصل الثاني في العلوم ' },
+                { id: 'Ok7bWooUR_E', title: 'سنة اولى ثانوي 🍃فرض مقترح للفصل الثاني في العلوم| التركيب الضوئي | فطر الميكوريز ' },
+                { id: '9rZ9jHbQh1M', title: 'سنة اولى ثانوي ادبي 🔥مراجعة قوية لاختبار الفصل الاول في مادة العلوم' },
+                { id: 'Qf_iaIym3d4', title: 'سنة ثانية ثانوي اداب وفلسفة 💥مراجعة قوية لاختبار الفصل الاول في العلوم✅ ' },
+                { id: 'Icnk2fEruxI', title: 'سنة ثانية  ثانوي ⚡️شعبة رياضيات| اختبار مقترح للفصل الاول في العلوم ' },
+                { id: 'tD2gC5YhrFc', title: '🔥اختبار مقترح  لاختبار الفصل الأول في العلوم | سنة  اولى ثانوي1AS' },
+            ],
+        };
+
+        function renderTeacher(pageId) {
+            const data = teacherData[pageId];
+            if (!data) return;
+            const container = document.getElementById('teacherContent');
+            if (!container) return;
+            if (container.dataset.rendered === pageId) return;
+            container.dataset.rendered = pageId;
+            const dict = translations[currentLang];
+            const videos = teacherVideos[pageId] || [];
+            const firstId = videos.length ? videos[0].id : '';
+
+            let html = `
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                    <h1 style="font-family:'Amiri',serif;color:var(--primary-mid);font-size:28px;"><i class="fab fa-youtube" style="color:#ff0000;"></i> قناة ${data.subject}</h1>
+                    <a href="#home" class="btn btn-ghost" onclick="navigateTo('home');return false;" style="padding:8px 20px;font-size:13px;"><i class="fas fa-arrow-right"></i> ${dict.btn_back}</a>
+                </div>`;
+
+            html += `
+                <div class="ticket-card" style="margin-bottom:24px;">
+                    <div class="ticket-main">
+                        <div class="teacher-header">
+                            <img src="${data.image}" class="teacher-img">
+                            <div class="teacher-info">
+                                <h3>${data.subject}</h3>
+                                <span>${data.name}</span>
+                            </div>
+                        </div>
+                        <p class="ticket-desc">${data.desc}</p>
+                    </div>
+                    <div class="ticket-perf"></div>
+                    <div class="ticket-stub">
+                        <a href="${data.channelUrl}" target="_blank" class="btn-channel" style="background:#ff0000;color:#fff;"><i class="fab fa-youtube"></i> فتح القناة مباشرة</a>
+                    </div>
+                </div>`;
+
+            html += `<style>
+                .teacher-videos-grid{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start;margin-bottom:10px;}
+                .teacher-videos-grid .series-player{min-width:0;}
+                .teacher-videos-grid .tv-item{display:flex;gap:10px;width:100%;text-align:right;padding:10px 12px;border:0;background:transparent;cursor:pointer;border-radius:10px;align-items:center;transition:background .15s;}
+                .teacher-videos-grid .tv-item:hover{background:rgba(0,0,0,.05);}
+                .teacher-videos-grid .tv-item.active{background:var(--accent-gold, #edb93c) !important;color:#13221d;}
+                .teacher-videos-grid .tv-item .tv-num{flex:0 0 26px;height:26px;border-radius:6px;background:#ff0000;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+                .teacher-videos-grid .tv-item.active .tv-num{background:#13221d;}
+                .teacher-videos-grid .tv-item .tv-txt{font-size:13px;line-height:1.55;font-weight:600;}
+                @media (max-width:860px){.teacher-videos-grid{grid-template-columns:1fr;}.teacher-videos-grid .series-list .tv-list{max-height:none !important;}}
+            </style>`;
+
+            html += `
+                <div class="teacher-videos-grid">
+                    <div class="series-player">
+                        <div style="background:var(--card-bg, #fff);border:1px solid var(--border-soft, rgba(0,0,0,.08));border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.06);">
+                            <div style="padding:16px 20px;border-bottom:1px solid var(--border-soft, rgba(0,0,0,.08));display:flex;align-items:center;gap:10px;">
+                                <i class="fab fa-youtube" style="color:#ff0000;font-size:20px;"></i>
+                                <h2 class="section-title" style="font-size:20px;margin:0;"><i class="fas fa-circle-play" style="color:var(--accent-gold);"></i> سلسلة فيديوهات ${data.name}</h2>
+                            </div>
+                            <div style="padding:16px;">
+                                <div style="position:relative;width:100%;aspect-ratio:16/9;">
+                                    <iframe id="teacherPlayerFrame" width="100%" height="100%" src="https://www.youtube.com/embed/${firstId}?rel=0" title="قناة ${data.subject}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;border:0;"></iframe>
+                                </div>
+                            </div>
+                            <div style="padding:12px 16px;border-top:1px solid var(--border-soft, rgba(0,0,0,.08));display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+                                <span id="teacherNowPlaying" style="font-size:13px;font-weight:600;color:var(--primary-mid);text-align:right;">${videos.length ? videos[0].title : ''}</span>
+                                <a id="teacherWatchLink" href="https://www.youtube.com/watch?v=${firstId}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:#ff0000;color:#fff !important;text-decoration:none;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;"><i class="fab fa-youtube"></i> فتح على يوتيوب</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="series-list">
+                        <div style="background:var(--card-bg, #fff);border:1px solid var(--border-soft, rgba(0,0,0,.08));border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.06);">
+                            <div style="padding:14px 16px;border-bottom:1px solid var(--border-soft, rgba(0,0,0,.08));display:flex;align-items:center;gap:10px;">
+                                <i class="fas fa-list" style="color:var(--accent-gold);"></i>
+                                <h3 class="section-title" style="font-size:16px;margin:0;">قائمة الفيديوهات (${videos.length})</h3>
+                            </div>
+                            <div class="tv-list" style="max-height:360px;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:2px;">
+                                ${videos.map((v, i) => `
+                                    <button type="button" class="tv-item ${i === 0 ? 'active' : ''}" id="tvbtn-${pageId}-${i}" onclick="playTeacherVideo('${pageId}', ${i});return false;">
+                                        <span class="tv-num">${i === 0 ? '<i class="fas fa-play" style="font-size:10px;"></i>' : i + 1}</span>
+                                        <span class="tv-txt">${v.title}</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+            html += `<p style="color:var(--ink-soft);font-size:13px;margin-top:8px;text-align:center;"><i class="fas fa-info-circle"></i> اضغط على أي فيديو في القائمة لتشغيله مباشرة داخل الموقع.</p>`;
+
+            container.innerHTML = html;
+        }
+
+        function playTeacherVideo(pageId, index) {
+            const videos = teacherVideos[pageId] || [];
+            const video = videos[index];
+            if (!video) return;
+            const frame = document.getElementById('teacherPlayerFrame');
+            if (frame) frame.src = 'https://www.youtube.com/embed/' + video.id + '?rel=0&autoplay=1';
+            const title = document.getElementById('teacherNowPlaying');
+            if (title && video.title) title.textContent = video.title;
+            const link = document.getElementById('teacherWatchLink');
+            if (link) link.href = 'https://www.youtube.com/watch?v=' + video.id;
+            for (let i = 0; i < videos.length; i++) {
+                const btn = document.getElementById('tvbtn-' + pageId + '-' + i);
+                if (btn) btn.classList.toggle('active', i === index);
+            }
+        }
+        window.playTeacherVideo = playTeacherVideo;
+
         // تهيئة أولية
         window.addEventListener('load', () => {
             setTimeout(initReveal, 300);
@@ -7872,11 +8909,11 @@
                 sec_calculator: 'حاسبة المعدل العام', sec_bac_exams: 'بكالوريات سابقة',
                 sec_bac_exams_sub: 'اختر المادة للاطلاع على امتحانات السنوات السابقة',
                 // Streams
-                stream_tech_math: 'تقني رياضي', stream_sciences_exp: 'علوم تجريبية', stream_math: 'شعبة رياضيات',
+                stream_sciences_exp: 'علوم تجريبية', stream_math: 'رياضيات', stream_engineering: 'هندسة', stream_adab: 'آداب وفلسفة', stream_languages: 'لغات أجنبية', stream_economy: 'تسيير واقتصاد', stream_arts: 'فنون',
                 // Table headers
                 th_subject: 'المادة', th_coeff: 'المعامل', th_exam_type: 'طبيعة الامتحان',
                 th_grade: 'العلامة (0-20)', th_partial: 'المعدل الجزئي',
-                coeff_note: 'المعاملات حسب المنهاج الرسمي. الأمازيغية اختيارية.',
+                coeff_note: 'المعاملات حسب القرار الوزاري 28 جويلية 2026 (بكالوريا 2027). الأمازيغية اختيارية (بونص فقط).',
                 // Calculator
                 btn_calculate: 'احسب المعدل', calc_placeholder: 'أدخل العلامات ثم اضغط زر الحساب',
                 calc_result: 'المعدل العام', calc_enter_grades: '⚠️ أدخل العلامات أولاً',
@@ -8047,11 +9084,11 @@
                 sec_calculator: 'Calculatrice de moyenne générale', sec_bac_exams: 'Bacs précédents',
                 sec_bac_exams_sub: 'Choisissez la matière pour consulter les examens des années précédentes',
                 // Streams
-                stream_tech_math: 'Tech. Math', stream_sciences_exp: 'Sciences Expérimentales', stream_math: 'Mathématiques',
+                stream_sciences_exp: 'Sciences Expérimentales', stream_math: 'Mathématiques', stream_engineering: 'Ingénierie', stream_adab: 'Lettres et Philosophie', stream_languages: 'Langues Étrangères', stream_economy: 'Gestion et Économie', stream_arts: 'Arts',
                 // Table headers
                 th_subject: 'Matière', th_coeff: 'Coef.', th_exam_type: 'Type d\'examen',
                 th_grade: 'Note (0-20)', th_partial: 'Moyenne partielle',
-                coeff_note: 'Coefficients selon le programme officiel. Le tamazight est optionnel.',
+                coeff_note: 'Coefficients selon la décision ministérielle du 28 juillet 2026 (Bac 2027). Le tamazight est optionnel (bonus uniquement).',
                 // Calculator
                 btn_calculate: 'Calculer la moyenne', calc_placeholder: 'Entrez les notes puis cliquez sur calculer',
                 calc_result: 'Moyenne générale', calc_enter_grades: '⚠️ Entrez les notes d\'abord',
